@@ -16,24 +16,25 @@ concurrency:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 45
 
     steps:
       - name: Ambil kode
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Pasang JDK 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: 17
 
-      - name: Pasang Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Pasang platform SDK 37 (compileSdk proyek ini)
-        run: sdkmanager "platforms;android-37" || echo "Dilewati, Gradle akan mengunduh sendiri jika perlu"
+      - name: Terima lisensi dan pasang platform SDK 37 (Android SDK sudah ada di runner)
+        run: |
+          SDK_ROOT="${ANDROID_HOME:-/usr/local/lib/android/sdk}"
+          SDKM="$SDK_ROOT/cmdline-tools/latest/bin/sdkmanager"
+          yes | "$SDKM" --licenses > /dev/null || true
+          "$SDKM" "platforms;android-37" || echo "Platform 37 tidak terpasang manual, Gradle akan mengunduh sendiri"
 
       - name: Siapkan kunci tanda tangan tetap
         run: |
