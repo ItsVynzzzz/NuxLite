@@ -61,7 +61,7 @@ class MainActivity : ComponentActivity() {
             val launcherUser by AccountManager.launcherUser.collectAsState()
 
             // Pengguna yang sudah login (baik Free maupun Premium) langsung masuk ke Dashboard
-            val isLoggedIn = launcherUser != null
+            val isLoggedIn = true
 
             NuxResponsiveTheme {
                 MaterialTheme {
