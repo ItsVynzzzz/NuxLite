@@ -22,7 +22,7 @@ android {
     compileSdk = 37
 
     defaultConfig {
-        applicationId = "com.israadev.nuxlauncher"
+        applicationId = "com.itsvynzzzz.nuxlite"
         minSdk = 26
         targetSdk = 34
         versionCode = 10
