@@ -137,8 +137,8 @@ fun NuxCrashDialog(
                 .background(
                     Brush.verticalGradient(
                         colors = listOf(
-                            Color(0xFF181014),
-                            Color(0xFF0F0B0E)
+                            NuxColors.SurfaceInput,
+                            NuxColors.Background
                         )
                     )
                 )
@@ -157,13 +157,13 @@ fun NuxCrashDialog(
                         Box(
                             modifier = Modifier
                                 .size(8.dp)
-                                .background(Color(0xFFF43F5E), CircleShape)
+                                .background(NuxColors.ErrorRed, CircleShape)
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Column {
                             Text(
                                 text = "INCIDENT DIAGNOSTICS · JVM TERMINATION",
-                                color = Color(0xFFF43F5E).copy(alpha = 0.85f),
+                                color = NuxColors.ErrorRed.copy(alpha = 0.85f),
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 8.5.sp,
                                 letterSpacing = 1.2.sp
@@ -171,7 +171,7 @@ fun NuxCrashDialog(
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 Text(
                                     text = crashInfo.getDisplayTitle(),
-                                    color = Color.White,
+                                    color = NuxColors.DarkGray,
                                     fontWeight = FontWeight.Black,
                                     fontSize = 16.sp,
                                     letterSpacing = (-0.3).sp
@@ -180,13 +180,13 @@ fun NuxCrashDialog(
                                 Box(
                                     modifier = Modifier
                                         .clip(RoundedCornerShape(6.dp))
-                                        .background(Color(0xFFF43F5E).copy(alpha = 0.2f))
-                                        .border(1.dp, Color(0xFFF43F5E).copy(alpha = 0.6f), RoundedCornerShape(6.dp))
+                                        .background(NuxColors.ErrorRed.copy(alpha = 0.2f))
+                                        .border(1.dp, NuxColors.ErrorRed.copy(alpha = 0.6f), RoundedCornerShape(6.dp))
                                         .padding(horizontal = 7.dp, vertical = 2.dp)
                                 ) {
                                     Text(
                                         text = statusBadge,
-                                        color = Color(0xFFFDA4AF),
+                                        color = NuxColors.ErrorRed,
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 9.sp
                                     )
@@ -200,15 +200,15 @@ fun NuxCrashDialog(
                         modifier = Modifier
                             .size(28.dp)
                             .clip(CircleShape)
-                            .background(Color(0xFF26191E))
-                            .border(1.dp, Color(0x33FFFFFF), CircleShape)
+                            .background(NuxColors.ErrorRed.copy(alpha = 0.12f))
+                            .border(1.dp, NuxColors.DarkGray.copy(alpha = 0.40f), CircleShape)
                             .clickable { onDismiss() },
                         contentAlignment = Alignment.Center
                     ) {
                         Icon(
                             imageVector = Icons.Default.Close,
                             contentDescription = "Close",
-                            tint = Color(0xFFFDA4AF),
+                            tint = NuxColors.ErrorRed,
                             modifier = Modifier.size(14.dp)
                         )
                     }
@@ -229,8 +229,8 @@ fun NuxCrashDialog(
                             .weight(1f)
                             .fillMaxHeight()
                             .clip(cardShape)
-                            .background(Color(0xFF140D11))
-                            .border(1.dp, Color(0x26F43F5E), cardShape)
+                            .background(NuxColors.SurfaceInput)
+                            .border(1.dp, NuxColors.ErrorRed.copy(alpha = 0.15f), cardShape)
                             .padding(10.dp)
                     ) {
                         Column(
@@ -249,13 +249,13 @@ fun NuxCrashDialog(
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .clip(innerShape)
-                                        .background(Color(0xFF1C1318))
-                                        .border(1.dp, Color(0x1AFFFFFF), innerShape)
+                                        .background(NuxColors.ErrorRed.copy(alpha = 0.12f))
+                                        .border(1.dp, NuxColors.DarkGray.copy(alpha = 0.20f), innerShape)
                                         .padding(10.dp)
                                 ) {
                                     Text(
                                         text = if (crashInfo.isLauncherCrash) "STATUS PELUNCUR" else "INFORMASI SESI GAME",
-                                        color = Color(0xFFA1A1AA),
+                                        color = NuxColors.GrayNeutral,
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 8.5.sp,
                                         letterSpacing = 0.8.sp
@@ -263,7 +263,7 @@ fun NuxCrashDialog(
                                     Spacer(modifier = Modifier.height(3.dp))
                                     Text(
                                         text = if (crashInfo.isLauncherCrash) "NUX Launcher Android Engine" else "${crashInfo.instanceName} (MC ${crashInfo.mcVersion})",
-                                        color = Color.White,
+                                        color = NuxColors.DarkGray,
                                         fontWeight = FontWeight.Black,
                                         fontSize = 12.5.sp
                                     )
@@ -275,12 +275,12 @@ fun NuxCrashDialog(
                                         Box(
                                             modifier = Modifier
                                                 .clip(RoundedCornerShape(4.dp))
-                                                .background(Color(0xFF2E1C24))
+                                                .background(NuxColors.ErrorRed.copy(alpha = 0.12f))
                                                 .padding(horizontal = 5.dp, vertical = 1.5.dp)
                                         ) {
                                             Text(
                                                 text = "${crashInfo.loader.uppercase()} ${crashInfo.loaderVersion?.let { "v$it" } ?: ""}".trim(),
-                                                color = Color(0xFF38BDF8),
+                                                color = NuxColors.SkyBlueDark,
                                                 fontWeight = FontWeight.Bold,
                                                 fontSize = 8.sp
                                             )
@@ -288,12 +288,12 @@ fun NuxCrashDialog(
                                         Box(
                                             modifier = Modifier
                                                 .clip(RoundedCornerShape(4.dp))
-                                                .background(Color(0xFF2E1C24))
+                                                .background(NuxColors.ErrorRed.copy(alpha = 0.12f))
                                                 .padding(horizontal = 5.dp, vertical = 1.5.dp)
                                         ) {
                                             Text(
                                                 text = "${crashInfo.installedMods.size} Mod",
-                                                color = Color(0xFFA1A1AA),
+                                                color = NuxColors.GrayNeutral,
                                                 fontWeight = FontWeight.Bold,
                                                 fontSize = 8.sp
                                             )
@@ -302,7 +302,7 @@ fun NuxCrashDialog(
                                     Spacer(modifier = Modifier.height(2.dp))
                                     Text(
                                         text = mainMessage,
-                                        color = Color(0xFFFDA4AF),
+                                        color = NuxColors.ErrorRed,
                                         fontWeight = FontWeight.SemiBold,
                                         fontSize = 11.sp
                                     )
@@ -311,12 +311,12 @@ fun NuxCrashDialog(
                                         Box(
                                             modifier = Modifier
                                                 .clip(RoundedCornerShape(4.dp))
-                                                .background(Color(0xFF0F0A0D))
+                                                .background(NuxColors.Background)
                                                 .padding(horizontal = 6.dp, vertical = 2.dp)
                                         ) {
                                             Text(
                                                 text = "Log: ${File(crashInfo.fullLogPath).name}",
-                                                color = Color(0xFF9CA3AF),
+                                                color = NuxColors.GrayNeutral,
                                                 fontSize = 9.sp,
                                                 fontFamily = FontFamily.Monospace
                                             )
@@ -329,8 +329,8 @@ fun NuxCrashDialog(
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .clip(innerShape)
-                                        .background(Color(0xFF261017))
-                                        .border(1.dp, Color(0xFFF43F5E).copy(alpha = 0.45f), innerShape)
+                                        .background(NuxColors.ErrorRed.copy(alpha = 0.12f))
+                                        .border(1.dp, NuxColors.ErrorRed.copy(alpha = 0.45f), innerShape)
                                         .padding(10.dp)
                                 ) {
                                     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -338,7 +338,7 @@ fun NuxCrashDialog(
                                         Spacer(modifier = Modifier.width(6.dp))
                                         Text(
                                             text = "DIAGNOSA KELUAR SISTEM",
-                                            color = Color(0xFFFDA4AF),
+                                            color = NuxColors.ErrorRed,
                                             fontWeight = FontWeight.Black,
                                             fontSize = 9.sp,
                                             letterSpacing = 0.8.sp
@@ -347,7 +347,7 @@ fun NuxCrashDialog(
                                     Spacer(modifier = Modifier.height(4.dp))
                                     Text(
                                         text = exitDetailMessage,
-                                        color = Color(0xFFF4F4F5),
+                                        color = NuxColors.GrayNeutral,
                                         fontSize = 11.sp,
                                         lineHeight = 15.sp,
                                         fontWeight = FontWeight.Medium
@@ -359,8 +359,8 @@ fun NuxCrashDialog(
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .clip(innerShape)
-                                        .background(Color(0xFF140E13))
-                                        .border(1.dp, Color(0x1AFFFFFF), innerShape)
+                                        .background(NuxColors.SurfaceInput)
+                                        .border(1.dp, NuxColors.DarkGray.copy(alpha = 0.20f), innerShape)
                                         .padding(9.dp)
                                 ) {
                                     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -368,7 +368,7 @@ fun NuxCrashDialog(
                                         Spacer(modifier = Modifier.width(6.dp))
                                         Text(
                                             text = "SOLUSI & SARAN PEMULIHAN",
-                                            color = Color(0xFFA1A1AA),
+                                            color = NuxColors.GrayNeutral,
                                             fontWeight = FontWeight.Bold,
                                             fontSize = 8.5.sp,
                                             letterSpacing = 0.8.sp
@@ -377,7 +377,7 @@ fun NuxCrashDialog(
                                     Spacer(modifier = Modifier.height(4.dp))
                                     Text(
                                         text = CrashUtils.CRASH_LOG_NOTE,
-                                        color = Color(0xFF71717A),
+                                        color = NuxColors.GrayNeutral,
                                         fontSize = 9.sp,
                                         lineHeight = 13.sp
                                     )
@@ -396,14 +396,14 @@ fun NuxCrashDialog(
                                         .clip(RoundedCornerShape(10.dp))
                                         .background(
                                             if (uploadSuccessUrl != null) Brush.horizontalGradient(
-                                                listOf(Color(0xFF059669), Color(0xFF10B981))
+                                                listOf(NuxColors.ForestGreen, NuxColors.ForestGreen)
                                             ) else Brush.horizontalGradient(
-                                                listOf(Color(0xFFBE123C), Color(0xFFE11D48))
+                                                listOf(NuxColors.ErrorRed, NuxColors.ErrorRed)
                                             )
                                         )
                                         .border(
                                             1.dp,
-                                            if (uploadSuccessUrl != null) Color(0x6634D399) else Color(0x66FDA4AF),
+                                            if (uploadSuccessUrl != null) NuxColors.ForestGreen.copy(alpha = 0.40f) else NuxColors.ErrorRed.copy(alpha = 0.40f),
                                             RoundedCornerShape(10.dp)
                                         )
                                         .clickable {
@@ -455,31 +455,31 @@ fun NuxCrashDialog(
                                         if (isUploading) {
                                             CircularProgressIndicator(
                                                 modifier = Modifier.size(13.dp),
-                                                color = Color.White,
+                                                color = NuxColors.DarkGray,
                                                 strokeWidth = 1.5.dp
                                             )
                                             Spacer(modifier = Modifier.width(6.dp))
                                             Text(
                                                 text = "MENGUNGGAH LOG...",
-                                                color = Color.White,
+                                                color = NuxColors.DarkGray,
                                                 fontWeight = FontWeight.Black,
                                                 fontSize = 11.sp
                                             )
                                         } else if (uploadSuccessUrl != null) {
-                                            Icon(imageVector = Icons.Default.OpenInNew, contentDescription = null, tint = Color.White, modifier = Modifier.size(13.dp))
+                                            Icon(imageVector = Icons.Default.OpenInNew, contentDescription = null, tint = NuxColors.DarkGray, modifier = Modifier.size(13.dp))
                                             Spacer(modifier = Modifier.width(6.dp))
                                             Text(
                                                 text = "BUKA TAUTAN MCLO.GS",
-                                                color = Color.White,
+                                                color = NuxColors.DarkGray,
                                                 fontWeight = FontWeight.Black,
                                                 fontSize = 11.sp
                                             )
                                         } else {
-                                            Icon(imageVector = Icons.Default.CloudUpload, contentDescription = null, tint = Color.White, modifier = Modifier.size(14.dp))
+                                            Icon(imageVector = Icons.Default.CloudUpload, contentDescription = null, tint = NuxColors.DarkGray, modifier = Modifier.size(14.dp))
                                             Spacer(modifier = Modifier.width(6.dp))
                                             Text(
                                                 text = "UNGGAH TAUTAN LOG (MCLO.GS)",
-                                                color = Color.White,
+                                                color = NuxColors.DarkGray,
                                                 fontWeight = FontWeight.Black,
                                                 fontSize = 11.sp
                                             )
@@ -498,17 +498,17 @@ fun NuxCrashDialog(
                                             .weight(1f)
                                             .height(34.dp)
                                             .clip(RoundedCornerShape(8.dp))
-                                            .background(Color(0xFF1E1419))
-                                            .border(1.dp, Color(0x2EFFFFFF), RoundedCornerShape(8.dp))
+                                            .background(NuxColors.ErrorRed.copy(alpha = 0.12f))
+                                            .border(1.dp, NuxColors.DarkGray.copy(alpha = 0.36f), RoundedCornerShape(8.dp))
                                             .clickable { CrashUtils.shareLogFile(context, logFile) },
                                         contentAlignment = Alignment.Center
                                     ) {
                                         Row(verticalAlignment = Alignment.CenterVertically) {
-                                            Icon(imageVector = Icons.Default.Share, contentDescription = null, tint = Color(0xFFA1A1AA), modifier = Modifier.size(12.dp))
+                                            Icon(imageVector = Icons.Default.Share, contentDescription = null, tint = NuxColors.GrayNeutral, modifier = Modifier.size(12.dp))
                                             Spacer(modifier = Modifier.width(4.dp))
                                             Text(
                                                 text = "BAGIKAN",
-                                                color = Color.White,
+                                                color = NuxColors.DarkGray,
                                                 fontWeight = FontWeight.Bold,
                                                 fontSize = 10.sp
                                             )
@@ -521,8 +521,8 @@ fun NuxCrashDialog(
                                             .weight(1f)
                                             .height(34.dp)
                                             .clip(RoundedCornerShape(8.dp))
-                                            .background(Color(0xFF1E1419))
-                                            .border(1.dp, Color(0x2EFFFFFF), RoundedCornerShape(8.dp))
+                                            .background(NuxColors.ErrorRed.copy(alpha = 0.12f))
+                                            .border(1.dp, NuxColors.DarkGray.copy(alpha = 0.36f), RoundedCornerShape(8.dp))
                                             .clickable {
                                                 val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                                                 clipboard.setPrimaryClip(ClipData.newPlainText("Crash Log", crashInfo.logSnippet))
@@ -531,11 +531,11 @@ fun NuxCrashDialog(
                                         contentAlignment = Alignment.Center
                                     ) {
                                         Row(verticalAlignment = Alignment.CenterVertically) {
-                                            Icon(imageVector = Icons.Default.ContentCopy, contentDescription = null, tint = Color(0xFFA1A1AA), modifier = Modifier.size(12.dp))
+                                            Icon(imageVector = Icons.Default.ContentCopy, contentDescription = null, tint = NuxColors.GrayNeutral, modifier = Modifier.size(12.dp))
                                             Spacer(modifier = Modifier.width(4.dp))
                                             Text(
                                                 text = "SALIN",
-                                                color = Color.White,
+                                                color = NuxColors.DarkGray,
                                                 fontWeight = FontWeight.Bold,
                                                 fontSize = 10.sp
                                             )
@@ -548,14 +548,14 @@ fun NuxCrashDialog(
                                             .weight(0.9f)
                                             .height(34.dp)
                                             .clip(RoundedCornerShape(8.dp))
-                                            .background(Color(0xFF27272A))
-                                            .border(1.dp, Color(0x33FFFFFF), RoundedCornerShape(8.dp))
+                                            .background(NuxColors.SurfaceElevated)
+                                            .border(1.dp, NuxColors.DarkGray.copy(alpha = 0.40f), RoundedCornerShape(8.dp))
                                             .clickable { onDismiss() },
                                         contentAlignment = Alignment.Center
                                     ) {
                                         Text(
                                             text = "TUTUP",
-                                            color = Color.White,
+                                            color = NuxColors.DarkGray,
                                             fontWeight = FontWeight.Black,
                                             fontSize = 10.sp
                                         )
@@ -580,14 +580,14 @@ fun NuxCrashDialog(
                             .weight(1.2f)
                             .fillMaxHeight()
                             .clip(cardShape)
-                            .background(Color(0xFF080B11))
+                            .background(NuxColors.Background)
                             .border(
                                 1.dp,
                                 Brush.linearGradient(
                                     listOf(
-                                        Color(0x3310B981),
-                                        Color(0x2238BDF8),
-                                        Color(0x1410B981)
+                                        NuxColors.ForestGreen.copy(alpha = 0.20f),
+                                        NuxColors.SkyBlue.copy(alpha = 0.13f),
+                                        NuxColors.ForestGreen.copy(alpha = 0.08f)
                                     )
                                 ),
                                 cardShape
@@ -607,14 +607,14 @@ fun NuxCrashDialog(
                                     verticalAlignment = Alignment.CenterVertically,
                                     horizontalArrangement = Arrangement.spacedBy(5.dp)
                                 ) {
-                                    Box(modifier = Modifier.size(7.dp).background(Color(0xFFEF4444), CircleShape))
-                                    Box(modifier = Modifier.size(7.dp).background(Color(0xFFF59E0B), CircleShape))
-                                    Box(modifier = Modifier.size(7.dp).background(Color(0xFF10B981), CircleShape))
+                                    Box(modifier = Modifier.size(7.dp).background(NuxColors.ErrorRed, CircleShape))
+                                    Box(modifier = Modifier.size(7.dp).background(NuxColors.Amber, CircleShape))
+                                    Box(modifier = Modifier.size(7.dp).background(NuxColors.ForestGreen, CircleShape))
                                     Spacer(modifier = Modifier.width(4.dp))
 
                                     Text(
                                         text = "AI CRASH ANALYST",
-                                        color = Color(0xFF38BDF8),
+                                        color = NuxColors.SkyBlueDark,
                                         fontWeight = FontWeight.Black,
                                         fontSize = 9.sp,
                                         letterSpacing = 0.8.sp
@@ -622,12 +622,12 @@ fun NuxCrashDialog(
 
                                     // Status Pill
                                     val (badgeText, badgeBg, badgeColor) = when (aiState) {
-                                        is com.israadev.nuxlauncher.core.crash.AIStreamState.Idle -> Triple("STANDBY", Color(0x2294A3B8), Color(0xFF94A3B8))
-                                        is com.israadev.nuxlauncher.core.crash.AIStreamState.Connecting -> Triple("CONNECTING...", Color(0x33F59E0B), Color(0xFFFBBF24))
-                                        is com.israadev.nuxlauncher.core.crash.AIStreamState.Streaming -> Triple("LIVE STREAMING", Color(0x3310B981), Color(0xFF34D399))
-                                        is com.israadev.nuxlauncher.core.crash.AIStreamState.Completed -> Triple("SELESAI", Color(0x2610B981), Color(0xFF4ADE80))
-                                        is com.israadev.nuxlauncher.core.crash.AIStreamState.Error -> Triple("ERROR", Color(0x33EF4444), Color(0xFFF87171))
-                                        is com.israadev.nuxlauncher.core.crash.AIStreamState.QuotaExceeded -> Triple("LIMIT HABIS", Color(0x33F43F5E), Color(0xFFF43F5E))
+                                        is com.israadev.nuxlauncher.core.crash.AIStreamState.Idle -> Triple("STANDBY", NuxColors.LightGray, NuxColors.LightGray)
+                                        is com.israadev.nuxlauncher.core.crash.AIStreamState.Connecting -> Triple("CONNECTING...", NuxColors.Amber.copy(alpha = 0.20f), NuxColors.Amber)
+                                        is com.israadev.nuxlauncher.core.crash.AIStreamState.Streaming -> Triple("LIVE STREAMING", NuxColors.ForestGreen.copy(alpha = 0.20f), NuxColors.ForestGreen)
+                                        is com.israadev.nuxlauncher.core.crash.AIStreamState.Completed -> Triple("SELESAI", NuxColors.ForestGreen.copy(alpha = 0.15f), NuxColors.MintGreen)
+                                        is com.israadev.nuxlauncher.core.crash.AIStreamState.Error -> Triple("ERROR", NuxColors.ErrorRed.copy(alpha = 0.20f), NuxColors.ErrorRed)
+                                        is com.israadev.nuxlauncher.core.crash.AIStreamState.QuotaExceeded -> Triple("LIMIT HABIS", NuxColors.ErrorRed.copy(alpha = 0.20f), NuxColors.ErrorRed)
                                     }
 
                                     Box(
@@ -647,10 +647,10 @@ fun NuxCrashDialog(
                                     // Quota Badge
                                     val quotaText = if (remainingQuota < 0) "UNLIMITED" else "$remainingQuota/5"
                                     val quotaColor = when {
-                                        remainingQuota < 0 -> Color(0xFF38BDF8)
-                                        remainingQuota > 1 -> Color(0xFF10B981)
-                                        remainingQuota == 1 -> Color(0xFFFBBF24)
-                                        else -> Color(0xFFF43F5E)
+                                        remainingQuota < 0 -> NuxColors.SkyBlue
+                                        remainingQuota > 1 -> NuxColors.ForestGreen
+                                        remainingQuota == 1 -> NuxColors.Amber
+                                        else -> NuxColors.ErrorRed
                                     }
                                     Box(
                                         modifier = Modifier
@@ -676,7 +676,7 @@ fun NuxCrashDialog(
                                     Box(
                                         modifier = Modifier
                                             .clip(RoundedCornerShape(4.dp))
-                                            .background(Color(0xFF1E293B))
+                                            .background(NuxColors.SurfaceElevated)
                                             .clickable {
                                                 rightViewMode = if (rightViewMode == "ai") "raw" else "ai"
                                             }
@@ -684,7 +684,7 @@ fun NuxCrashDialog(
                                     ) {
                                         Text(
                                             text = if (rightViewMode == "ai") "LOG MENTAH" else "AI ANALISIS",
-                                            color = if (rightViewMode == "ai") Color(0xFF94A3B8) else Color(0xFF38BDF8),
+                                            color = if (rightViewMode == "ai") NuxColors.GrayNeutral else NuxColors.SkyBlueDark,
                                             fontSize = 8.sp,
                                             fontWeight = FontWeight.Bold
                                         )
@@ -695,14 +695,14 @@ fun NuxCrashDialog(
                                         modifier = Modifier
                                             .size(20.dp)
                                             .clip(RoundedCornerShape(4.dp))
-                                            .background(Color(0xFF1E293B))
+                                            .background(NuxColors.SurfaceElevated)
                                             .clickable { runAiAnalysis() },
                                         contentAlignment = Alignment.Center
                                     ) {
                                         Icon(
                                             imageVector = Icons.Default.Refresh,
                                             contentDescription = "Analisis Ulang",
-                                            tint = Color(0xFF38BDF8),
+                                            tint = NuxColors.SkyBlueDark,
                                             modifier = Modifier.size(11.dp)
                                         )
                                     }
@@ -712,7 +712,7 @@ fun NuxCrashDialog(
                                         modifier = Modifier
                                             .size(20.dp)
                                             .clip(RoundedCornerShape(4.dp))
-                                            .background(Color(0xFF1E293B))
+                                            .background(NuxColors.SurfaceElevated)
                                             .clickable {
                                                 val textToCopy = if (rightViewMode == "ai" && activeAiText.isNotBlank()) activeAiText else crashInfo.logSnippet
                                                 val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -724,7 +724,7 @@ fun NuxCrashDialog(
                                         Icon(
                                             imageVector = Icons.Default.ContentCopy,
                                             contentDescription = "Salin",
-                                            tint = Color(0xFFA1A1AA),
+                                            tint = NuxColors.GrayNeutral,
                                             modifier = Modifier.size(11.dp)
                                         )
                                     }
@@ -739,8 +739,8 @@ fun NuxCrashDialog(
                                     .fillMaxWidth()
                                     .weight(1f)
                                     .clip(innerShape)
-                                    .background(Color(0xFF040608))
-                                    .border(1.dp, Color(0x1AFFFFFF), innerShape)
+                                    .background(NuxColors.Background)
+                                    .border(1.dp, NuxColors.DarkGray.copy(alpha = 0.20f), innerShape)
                                     .padding(8.dp)
                             ) {
                                 if (rightViewMode == "raw") {
@@ -749,7 +749,7 @@ fun NuxCrashDialog(
                                     val horizontalScroll = rememberScrollState()
                                     Text(
                                         text = crashInfo.logSnippet,
-                                        color = Color(0xFFCBD5E1),
+                                        color = NuxColors.GrayNeutral,
                                         fontFamily = FontFamily.Monospace,
                                         fontSize = 9.5.sp,
                                         lineHeight = 13.5.sp,
@@ -773,8 +773,8 @@ fun NuxCrashDialog(
                                                     modifier = Modifier
                                                         .size(36.dp)
                                                         .clip(CircleShape)
-                                                        .background(if (remainingQuota == 0) Color(0x22F43F5E) else Color(0x2210B981))
-                                                        .border(1.dp, if (remainingQuota == 0) Color(0x44F43F5E) else Color(0x4410B981), CircleShape),
+                                                        .background(if (remainingQuota == 0) NuxColors.ErrorRed.copy(alpha = 0.13f) else NuxColors.ForestGreen.copy(alpha = 0.13f))
+                                                        .border(1.dp, if (remainingQuota == 0) NuxColors.ErrorRed.copy(alpha = 0.27f) else NuxColors.ForestGreen.copy(alpha = 0.27f), CircleShape),
                                                     contentAlignment = Alignment.Center
                                                 ) {
                                                     Text(if (remainingQuota == 0) "⏱️" else "⚡", fontSize = 16.sp)
@@ -784,7 +784,7 @@ fun NuxCrashDialog(
                                                     text = if (remainingQuota == 0) "KUOTA HARIAN AI HABIS" else "DIAGNOSA CRASH OTOMATIS",
                                                     fontWeight = FontWeight.Black,
                                                     fontSize = 11.sp,
-                                                    color = Color.White
+                                                    color = NuxColors.DarkGray
                                                 )
                                                 Spacer(modifier = Modifier.height(4.dp))
                                                 Text(
@@ -792,7 +792,7 @@ fun NuxCrashDialog(
                                                         "Batas 5 kali penggunaan AI hari ini telah tercapai. Kuota di-reset besok atau salin log ke Discord kami."
                                                     else
                                                         "AI akan menganalisis cuplikan error game untuk mendeteksi penyebab pasti & solusi perbaikan.",
-                                                    color = Color(0xFF94A3B8),
+                                                    color = NuxColors.GrayNeutral,
                                                     fontSize = 9.sp,
                                                     textAlign = androidx.compose.ui.text.style.TextAlign.Center,
                                                     lineHeight = 12.sp
@@ -800,8 +800,8 @@ fun NuxCrashDialog(
                                                 Spacer(modifier = Modifier.height(10.dp))
                                                 NuxButton(
                                                     onClick = { runAiAnalysis() },
-                                                    backgroundColor = if (remainingQuota == 0) Color(0xFFF43F5E) else Color(0xFF10B981),
-                                                    contentColor = if (remainingQuota == 0) Color.White else Color.Black,
+                                                    backgroundColor = if (remainingQuota == 0) NuxColors.ErrorRed else NuxColors.ForestGreen,
+                                                    contentColor = if (remainingQuota == 0) NuxColors.DarkGray else Color.Black,
                                                     cornerRadius = 6.dp,
                                                     modifier = Modifier.height(30.dp)
                                                 ) {
@@ -830,20 +830,20 @@ fun NuxCrashDialog(
                                             ) {
                                                 CircularProgressIndicator(
                                                     modifier = Modifier.size(24.dp),
-                                                    color = Color(0xFF38BDF8),
+                                                    color = NuxColors.SkyBlueDark,
                                                     strokeWidth = 2.dp
                                                 )
                                                 Spacer(modifier = Modifier.height(10.dp))
                                                 Text(
                                                     text = "AI sedang menganalisis crash...",
-                                                    color = Color.White,
+                                                    color = NuxColors.DarkGray,
                                                     fontWeight = FontWeight.Bold,
                                                     fontSize = 10.sp
                                                 )
                                                 Spacer(modifier = Modifier.height(3.dp))
                                                 Text(
                                                     text = "Membedah log error dan metadata instance ($effectiveModel)",
-                                                    color = Color(0xFF64748B),
+                                                    color = NuxColors.GrayNeutral,
                                                     fontSize = 8.5.sp
                                                 )
                                             }
@@ -892,13 +892,13 @@ fun NuxCrashDialog(
                                                     Text(
                                                         text = "• Model: $effectiveModel",
                                                         fontSize = 8.sp,
-                                                        color = Color(0xFF64748B)
+                                                        color = NuxColors.GrayNeutral
                                                     )
                                                     Text(
                                                         text = "Analisis Selesai ✓",
                                                         fontSize = 8.sp,
                                                         fontWeight = FontWeight.Bold,
-                                                        color = Color(0xFF10B981)
+                                                        color = NuxColors.SageGreen
                                                     )
                                                 }
                                             }
@@ -916,7 +916,7 @@ fun NuxCrashDialog(
                                                     modifier = Modifier
                                                         .size(32.dp)
                                                         .clip(CircleShape)
-                                                        .background(Color(0x33EF4444)),
+                                                        .background(NuxColors.ErrorRed.copy(alpha = 0.20f)),
                                                     contentAlignment = Alignment.Center
                                                 ) {
                                                     Text("⚠️", fontSize = 14.sp)
@@ -926,12 +926,12 @@ fun NuxCrashDialog(
                                                     text = "Gagal Menganalisis Log",
                                                     fontWeight = FontWeight.Black,
                                                     fontSize = 11.sp,
-                                                    color = Color(0xFFF87171)
+                                                    color = NuxColors.ErrorRed
                                                 )
                                                 Spacer(modifier = Modifier.height(4.dp))
                                                 Text(
                                                     text = state.errorMessage,
-                                                    color = Color(0xFFCBD5E1),
+                                                    color = NuxColors.GrayNeutral,
                                                     fontSize = 8.5.sp,
                                                     textAlign = androidx.compose.ui.text.style.TextAlign.Center,
                                                     lineHeight = 11.5.sp
@@ -939,8 +939,8 @@ fun NuxCrashDialog(
                                                 Spacer(modifier = Modifier.height(10.dp))
                                                 NuxButton(
                                                     onClick = { runAiAnalysis() },
-                                                    backgroundColor = Color(0xFF334155),
-                                                    contentColor = Color.White,
+                                                    backgroundColor = NuxColors.SurfaceElevated,
+                                                    contentColor = NuxColors.DarkGray,
                                                     cornerRadius = 6.dp,
                                                     modifier = Modifier.height(28.dp)
                                                 ) {
@@ -963,8 +963,8 @@ fun NuxCrashDialog(
                                                     modifier = Modifier
                                                         .size(36.dp)
                                                         .clip(CircleShape)
-                                                        .background(Color(0x22F43F5E))
-                                                        .border(1.dp, Color(0x55F43F5E), CircleShape),
+                                                        .background(NuxColors.ErrorRed.copy(alpha = 0.13f))
+                                                        .border(1.dp, NuxColors.ErrorRed.copy(alpha = 0.33f), CircleShape),
                                                     contentAlignment = Alignment.Center
                                                 ) {
                                                     Text("⏱️", fontSize = 16.sp)
@@ -974,13 +974,13 @@ fun NuxCrashDialog(
                                                     text = "KUOTA HARIAN AI TELAH HABIS",
                                                     fontWeight = FontWeight.Black,
                                                     fontSize = 11.sp,
-                                                    color = Color(0xFFF43F5E),
+                                                    color = NuxColors.ErrorRed,
                                                     letterSpacing = 0.5.sp
                                                 )
                                                 Spacer(modifier = Modifier.height(4.dp))
                                                 Text(
                                                     text = "Batas penggunaan analisis AI gratis adalah 5 kali per hari. Kuota harian Anda akan di-reset otomatis besok.",
-                                                    color = Color(0xFFCBD5E1),
+                                                    color = NuxColors.GrayNeutral,
                                                     fontSize = 9.sp,
                                                     textAlign = androidx.compose.ui.text.style.TextAlign.Center,
                                                     lineHeight = 12.5.sp
@@ -990,8 +990,8 @@ fun NuxCrashDialog(
                                                     modifier = Modifier
                                                         .fillMaxWidth()
                                                         .clip(RoundedCornerShape(8.dp))
-                                                        .background(Color(0xFF0F172A))
-                                                        .border(1.dp, Color(0x3338BDF8), RoundedCornerShape(8.dp))
+                                                        .background(NuxColors.SurfaceWhite)
+                                                        .border(1.dp, NuxColors.SkyBlue.copy(alpha = 0.20f), RoundedCornerShape(8.dp))
                                                         .padding(10.dp)
                                                 ) {
                                                     Text(
@@ -1019,8 +1019,8 @@ fun NuxCrashDialog(
                                                             cm.setPrimaryClip(ClipData.newPlainText("Crash Log", textToCopy))
                                                             Toast.makeText(context, "Log crash berhasil disalin ke papan klip!", Toast.LENGTH_SHORT).show()
                                                         },
-                                                        backgroundColor = Color(0xFF334155),
-                                                        contentColor = Color.White,
+                                                        backgroundColor = NuxColors.SurfaceElevated,
+                                                        contentColor = NuxColors.DarkGray,
                                                         cornerRadius = 6.dp,
                                                         modifier = Modifier.height(30.dp)
                                                     ) {
@@ -1032,7 +1032,7 @@ fun NuxCrashDialog(
                                                                 imageVector = Icons.Default.ContentCopy,
                                                                 contentDescription = null,
                                                                 modifier = Modifier.size(11.dp),
-                                                                tint = Color.White
+                                                                tint = NuxColors.DarkGray
                                                             )
                                                             Text("SALIN LOG", fontWeight = FontWeight.Bold, fontSize = 8.5.sp)
                                                         }
@@ -1045,7 +1045,7 @@ fun NuxCrashDialog(
                                                             context.startActivity(intent)
                                                         },
                                                         backgroundColor = Color(0xFF5865F2),
-                                                        contentColor = Color.White,
+                                                        contentColor = NuxColors.DarkGray,
                                                         cornerRadius = 6.dp,
                                                         modifier = Modifier.height(30.dp)
                                                     ) {
@@ -1057,7 +1057,7 @@ fun NuxCrashDialog(
                                                                 imageVector = Icons.Default.OpenInNew,
                                                                 contentDescription = null,
                                                                 modifier = Modifier.size(11.dp),
-                                                                tint = Color.White
+                                                                tint = NuxColors.DarkGray
                                                             )
                                                             Text("OPEN TICKET DISCORD", fontWeight = FontWeight.Black, fontSize = 8.5.sp)
                                                         }
@@ -1068,7 +1068,7 @@ fun NuxCrashDialog(
                                                 Text(
                                                     text = "💡 Tips: Anda dapat memasukkan API Key pribadi (OpenRouter / Gemini) di Pengaturan > Integrasi AI untuk penggunaan tanpa batas.",
                                                     fontSize = 7.5.sp,
-                                                    color = Color(0xFF64748B),
+                                                    color = NuxColors.GrayNeutral,
                                                     textAlign = androidx.compose.ui.text.style.TextAlign.Center
                                                 )
                                             }

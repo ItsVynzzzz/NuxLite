@@ -47,6 +47,7 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import com.israadev.nuxlauncher.ui.theme.NuxSizes
 
 /**
  * In-App Dialog WebView untuk Login Microsoft / Xbox Live.
@@ -244,7 +245,7 @@ fun NuxMicrosoftAuthDialog(
                         modifier = Modifier
                             .size(30.dp)
                             .background(NuxColors.SurfaceInput, RoundedCornerShape(8.dp))
-                            .border(1.dp, NuxColors.CardBorder, RoundedCornerShape(8.dp))
+                            .border(NuxSizes.BorderWidth, NuxColors.CardBorder, RoundedCornerShape(8.dp))
                             .clickable {
                                 runCatching {
                                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(currentWebUrl))
@@ -267,7 +268,7 @@ fun NuxMicrosoftAuthDialog(
                         modifier = Modifier
                             .size(30.dp)
                             .background(NuxColors.SurfaceInput, CircleShape)
-                            .border(1.dp, NuxColors.CardBorder, CircleShape)
+                            .border(NuxSizes.BorderWidth, NuxColors.CardBorder, CircleShape)
                             .clickable {
                                 isCancelled = true
                                 onDismiss()
@@ -300,8 +301,8 @@ fun NuxMicrosoftAuthDialog(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f)
-                    .background(Color(0xFF1E1E1E), RoundedCornerShape(10.dp))
-                    .border(1.dp, NuxColors.CardBorder, RoundedCornerShape(10.dp))
+                    .background(NuxColors.SurfaceElevated, RoundedCornerShape(10.dp))
+                    .border(NuxSizes.BorderWidth, NuxColors.CardBorder, RoundedCornerShape(10.dp))
             ) {
                 AndroidView(
                     modifier = Modifier.fillMaxSize(),

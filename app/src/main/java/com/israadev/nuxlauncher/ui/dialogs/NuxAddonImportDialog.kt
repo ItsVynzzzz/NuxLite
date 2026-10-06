@@ -104,7 +104,7 @@ fun NuxAddonImportDialog(
                     .width(520.dp)
                     .fillMaxHeight(0.92f),
                 backgroundColor = NuxColors.SurfaceElevated,
-                borderColor = Color(0x3310B981),
+                borderColor = NuxColors.ForestGreen.copy(alpha = 0.20f),
                 cornerRadius = NuxSizes.CornerRadiusLarge,
                 fillMaxHeight = false
             ) {
@@ -134,14 +134,14 @@ fun NuxAddonImportDialog(
                             Column {
                                 Text(
                                     text = "PASANG ADDON EKSTERNAL",
-                                    color = Color.White,
+                                    color = NuxColors.DarkGray,
                                     fontWeight = FontWeight.Black,
                                     fontSize = 15.sp,
                                     letterSpacing = 0.5.sp
                                 )
                                 Text(
                                     text = "NUX Addon Installer",
-                                    color = NuxColors.MintGreen,
+                                    color = NuxColors.SageGreen,
                                     fontSize = 10.sp,
                                     fontWeight = FontWeight.SemiBold
                                 )
@@ -155,7 +155,7 @@ fun NuxAddonImportDialog(
                                     .size(28.dp)
                                     .clip(closeShape)
                                     .background(NuxColors.SurfaceInput, closeShape)
-                                    .border(1.dp, NuxColors.CardBorder, closeShape)
+                                    .border(NuxSizes.BorderWidth, NuxColors.CardBorder, closeShape)
                                     .clickable {
                                         NuxAddonImportManager.clearPendingImport()
                                         onDismiss()
@@ -164,7 +164,7 @@ fun NuxAddonImportDialog(
                             ) {
                                 Text(
                                     text = "✕",
-                                    color = Color.White,
+                                    color = NuxColors.DarkGray,
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 12.sp
                                 )
@@ -187,8 +187,8 @@ fun NuxAddonImportDialog(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .clip(fileCardShape)
-                                .background(Color(0xFF12141A), fileCardShape)
-                                .border(1.dp, Color(0x22FFFFFF), fileCardShape)
+                                .background(NuxColors.SurfaceWhite, fileCardShape)
+                                .border(1.dp, NuxColors.DarkGray.copy(alpha = 0.27f), fileCardShape)
                                 .padding(12.dp)
                         ) {
                             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -196,7 +196,7 @@ fun NuxAddonImportDialog(
                                     modifier = Modifier
                                         .size(38.dp)
                                         .clip(RoundedCornerShape(8.dp))
-                                        .background(Color(0xFF1E222D)),
+                                        .background(NuxColors.SurfaceElevated),
                                     contentAlignment = Alignment.Center
                                 ) {
                                     val icon = when (selectedType) {
@@ -214,7 +214,7 @@ fun NuxAddonImportDialog(
                                 Column(modifier = Modifier.weight(1f)) {
                                     Text(
                                         text = pendingImport.fileName,
-                                        color = Color.White,
+                                        color = NuxColors.DarkGray,
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 13.sp,
                                         maxLines = 1,
@@ -223,7 +223,7 @@ fun NuxAddonImportDialog(
                                     Spacer(modifier = Modifier.height(3.dp))
                                     Text(
                                         text = "Tipe file: ${selectedType.uppercase()} · Siap dipasang",
-                                        color = Color(0xFFA1A1AA),
+                                        color = NuxColors.GrayNeutral,
                                         fontSize = 10.5.sp
                                     )
                                 }
@@ -235,7 +235,7 @@ fun NuxAddonImportDialog(
                         // Type Selector Chips
                         Text(
                             text = "KATEGORI ADDON",
-                            color = Color(0xFF71717A),
+                            color = NuxColors.GrayNeutral,
                             fontSize = 10.sp,
                             fontWeight = FontWeight.Bold,
                             letterSpacing = 0.5.sp
@@ -252,12 +252,12 @@ fun NuxAddonImportDialog(
                                     modifier = Modifier
                                         .clip(chipShape)
                                         .background(
-                                            if (isSelected) NuxColors.ForestGreen.copy(alpha = 0.2f) else Color(0xFF161922),
+                                            if (isSelected) NuxColors.ForestGreen.copy(alpha = 0.2f) else NuxColors.SurfaceElevated,
                                             chipShape
                                         )
                                         .border(
                                             width = 1.dp,
-                                            color = if (isSelected) NuxColors.ForestGreen else Color(0x18FFFFFF),
+                                            color = if (isSelected) NuxColors.ForestGreen else NuxColors.DarkGray.copy(alpha = 0.19f),
                                             shape = chipShape
                                         )
                                         .clickable(enabled = !isImporting) {
@@ -271,7 +271,7 @@ fun NuxAddonImportDialog(
                                         Spacer(modifier = Modifier.width(5.dp))
                                         Text(
                                             text = option.label,
-                                            color = if (isSelected) Color.White else Color(0xFFA1A1AA),
+                                            color = if (isSelected) NuxColors.DarkGray else NuxColors.GrayNeutral,
                                             fontSize = 11.sp,
                                             fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
                                         )
@@ -285,7 +285,7 @@ fun NuxAddonImportDialog(
                         // Instance Selector
                         Text(
                             text = "TARGET INSTANCE MINECRAFT",
-                            color = Color(0xFF71717A),
+                            color = NuxColors.GrayNeutral,
                             fontSize = 10.sp,
                             fontWeight = FontWeight.Bold,
                             letterSpacing = 0.5.sp
@@ -297,13 +297,13 @@ fun NuxAddonImportDialog(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .clip(RoundedCornerShape(8.dp))
-                                    .background(Color(0xFF271318))
-                                    .border(1.dp, Color(0xFFF43F5E).copy(alpha = 0.4f), RoundedCornerShape(8.dp))
+                                    .background(NuxColors.ErrorRed.copy(alpha = 0.12f))
+                                    .border(1.dp, NuxColors.ErrorRed.copy(alpha = 0.4f), RoundedCornerShape(8.dp))
                                     .padding(10.dp)
                             ) {
                                 Text(
                                     text = "⚠️ Belum ada instance Minecraft yang dibuat! Buat instance terlebih dahulu di Dashboard.",
-                                    color = Color(0xFFFECDD3),
+                                    color = NuxColors.ErrorRed,
                                     fontSize = 11.sp
                                 )
                             }
@@ -319,12 +319,12 @@ fun NuxAddonImportDialog(
                                         modifier = Modifier
                                             .clip(cardShape)
                                             .background(
-                                            if (isSelected) NuxColors.ForestGreen.copy(alpha = 0.18f) else Color(0xFF161922),
+                                            if (isSelected) NuxColors.ForestGreen.copy(alpha = 0.18f) else NuxColors.SurfaceElevated,
                                                 cardShape
                                             )
                                             .border(
                                                 width = 1.dp,
-                                                color = if (isSelected) NuxColors.ForestGreen else Color(0x18FFFFFF),
+                                                color = if (isSelected) NuxColors.ForestGreen else NuxColors.DarkGray.copy(alpha = 0.19f),
                                                 shape = cardShape
                                             )
                                             .clickable(enabled = !isImporting) {
@@ -336,14 +336,14 @@ fun NuxAddonImportDialog(
                                             Column {
                                                 Text(
                                                     text = inst.name,
-                                                    color = Color.White,
+                                                    color = NuxColors.DarkGray,
                                                     fontWeight = FontWeight.Bold,
                                                     fontSize = 12.sp
                                                 )
                                                 Spacer(modifier = Modifier.height(2.dp))
                                                 Text(
                                                     text = "v${inst.mcVersion} · ${inst.loader.uppercase()}",
-                                                    color = if (isSelected) NuxColors.MintGreen else Color(0xFF71717A),
+                                                    color = if (isSelected) NuxColors.SageGreen else NuxColors.GrayNeutral,
                                                     fontSize = 10.sp
                                                 )
                                             }
@@ -377,7 +377,7 @@ fun NuxAddonImportDialog(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .clip(progressShape)
-                                    .background(Color(0xFF101C19), progressShape)
+                                    .background(NuxColors.SoftLime, progressShape)
                                     .border(1.dp, NuxColors.ForestGreen.copy(alpha = 0.3f), progressShape)
                                     .padding(12.dp)
                             ) {
@@ -389,14 +389,14 @@ fun NuxAddonImportDialog(
                                     ) {
                                         Text(
                                             text = if (importStatusText.isNotBlank()) importStatusText else "Memasang addon...",
-                                            color = NuxColors.MintGreen,
+                                            color = NuxColors.SageGreen,
                                             fontSize = 11.sp,
                                             fontWeight = FontWeight.SemiBold
                                         )
                                         if (importTotal > 0) {
                                             Text(
                                                 text = "$importCurrent / $importTotal",
-                                                color = Color.White,
+                                                color = NuxColors.DarkGray,
                                                 fontSize = 11.sp,
                                                 fontWeight = FontWeight.Bold
                                             )
@@ -412,8 +412,8 @@ fun NuxAddonImportDialog(
                                                 .fillMaxWidth()
                                                 .height(6.dp)
                                                 .clip(RoundedCornerShape(3.dp)),
-                                            color = NuxColors.ForestGreen,
-                                            trackColor = Color(0xFF1E2A27)
+                                            color = NuxColors.SageGreen,
+                                            trackColor = NuxColors.SoftLime
                                         )
                                     } else {
                                         LinearProgressIndicator(
@@ -421,8 +421,8 @@ fun NuxAddonImportDialog(
                                                 .fillMaxWidth()
                                                 .height(6.dp)
                                                 .clip(RoundedCornerShape(3.dp)),
-                                            color = NuxColors.ForestGreen,
-                                            trackColor = Color(0xFF1E2A27)
+                                            color = NuxColors.SageGreen,
+                                            trackColor = NuxColors.SoftLime
                                         )
                                     }
                                 }
@@ -436,13 +436,13 @@ fun NuxAddonImportDialog(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .clip(RoundedCornerShape(8.dp))
-                                    .background(Color(0xFF271318))
-                                    .border(1.dp, Color(0xFFF43F5E).copy(alpha = 0.4f), RoundedCornerShape(8.dp))
+                                    .background(NuxColors.ErrorRed.copy(alpha = 0.12f))
+                                    .border(1.dp, NuxColors.ErrorRed.copy(alpha = 0.4f), RoundedCornerShape(8.dp))
                                     .padding(10.dp)
                             ) {
                                 Text(
                                     text = "Gagal: $err",
-                                    color = Color(0xFFFECDD3),
+                                    color = NuxColors.ErrorRed,
                                     fontSize = 11.sp
                                 )
                             }
@@ -469,7 +469,7 @@ fun NuxAddonImportDialog(
                             ) {
                                 Text(
                                     text = "BATAL",
-                                    color = Color(0xFFA1A1AA),
+                                    color = NuxColors.GrayNeutral,
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 11.sp
                                 )
@@ -522,7 +522,7 @@ fun NuxAddonImportDialog(
                             },
                             enabled = canInstall,
                             backgroundColor = NuxColors.ForestGreen,
-                            contentColor = Color.White,
+                            contentColor = NuxColors.DarkGray,
                             cornerRadius = 8.dp,
                             modifier = Modifier.height(36.dp)
                         ) {
@@ -530,13 +530,13 @@ fun NuxAddonImportDialog(
                                 Row(verticalAlignment = Alignment.CenterVertically) {
                                     CircularProgressIndicator(
                                         modifier = Modifier.size(16.dp),
-                                        color = Color.White,
+                                        color = NuxColors.DarkGray,
                                         strokeWidth = 2.dp
                                     )
                                     Spacer(modifier = Modifier.width(8.dp))
                                     Text(
                                         text = "MEMASANG...",
-                                        color = Color.White,
+                                        color = NuxColors.DarkGray,
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 11.sp
                                     )
@@ -544,7 +544,7 @@ fun NuxAddonImportDialog(
                             } else {
                                 Text(
                                     text = "PASANG SEKARANG",
-                                    color = Color.White,
+                                    color = NuxColors.DarkGray,
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 11.sp
                                 )

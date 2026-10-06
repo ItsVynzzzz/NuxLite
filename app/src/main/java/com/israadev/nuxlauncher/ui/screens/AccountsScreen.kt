@@ -122,7 +122,7 @@ fun AccountsScreen(
                         .height(26.dp)
                         .clip(RoundedCornerShape(6.dp))
                         .background(NuxColors.SurfaceElevated, RoundedCornerShape(6.dp))
-                        .border(1.dp, NuxColors.CardBorder, RoundedCornerShape(6.dp))
+                        .border(NuxSizes.BorderWidth, NuxColors.CardBorder, RoundedCornerShape(6.dp))
                         .clickable { onNavigateBack() }
                         .padding(horizontal = 8.dp),
                     contentAlignment = Alignment.Center
@@ -131,13 +131,13 @@ fun AccountsScreen(
                         Icon(
                             imageVector = Icons.Outlined.ArrowBack,
                             contentDescription = "Kembali",
-                            tint = NuxColors.ForestGreen,
+                            tint = NuxColors.SageGreen,
                             modifier = Modifier.size(12.dp)
                         )
                         Spacer(modifier = Modifier.width(4.dp))
                         Text(
                             text = "DASHBOARD",
-                            color = Color.White,
+                            color = NuxColors.DarkGray,
                             fontWeight = FontWeight.Bold,
                             fontSize = 9.sp,
                             letterSpacing = 0.5.sp
@@ -149,7 +149,7 @@ fun AccountsScreen(
 
                 Text(
                     text = "PROFIL MINECRAFT",
-                    color = Color.White,
+                    color = NuxColors.DarkGray,
                     fontWeight = FontWeight.Black,
                     fontSize = 14.sp,
                     letterSpacing = 0.8.sp
@@ -177,7 +177,7 @@ fun AccountsScreen(
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
                         text = "+ TAMBAH AKUN",
-                        color = NuxColors.ForestGreen,
+                        color = NuxColors.SageGreen,
                         fontWeight = FontWeight.Bold,
                         fontSize = 9.5.sp,
                         letterSpacing = 0.5.sp
@@ -233,7 +233,7 @@ fun AccountsScreen(
                                 )
                                 Text(
                                     text = "PROFIL AKTIF",
-                                    color = NuxColors.ForestGreen,
+                                    color = NuxColors.SageGreen,
                                     fontSize = 10.sp,
                                     fontWeight = FontWeight.Bold,
                                     letterSpacing = 0.5.sp
@@ -299,7 +299,7 @@ fun AccountsScreen(
                         ) {
                             Text(
                                 text = acc.username,
-                                color = Color.White,
+                                color = NuxColors.DarkGray,
                                 fontWeight = FontWeight.Black,
                                 fontSize = 14.sp,
                                 letterSpacing = (-0.2).sp
@@ -335,7 +335,7 @@ fun AccountsScreen(
                         Spacer(modifier = Modifier.height(10.dp))
                         Text(
                             text = "Belum Ada Profil",
-                            color = Color.White,
+                            color = NuxColors.DarkGray,
                             fontWeight = FontWeight.Bold,
                             fontSize = 14.sp
                         )
@@ -373,7 +373,7 @@ fun AccountsScreen(
                     ) {
                         Text(
                             text = "DAFTAR AKUN (${accounts.size})",
-                            color = Color.White,
+                            color = NuxColors.DarkGray,
                             fontWeight = FontWeight.Bold,
                             fontSize = 11.sp,
                             letterSpacing = 0.5.sp
@@ -425,12 +425,12 @@ fun AccountsScreen(
                                         .fillMaxWidth()
                                         .clip(itemShape)
                                         .background(
-                                            if (isCurrent) Color(0xFF10B981).copy(alpha = 0.12f) else Color(0xFF12141A),
+                                            if (isCurrent) NuxColors.ForestGreen.copy(alpha = 0.12f) else NuxColors.SurfaceWhite,
                                             itemShape
                                         )
                                         .border(
                                             width = 1.dp,
-                                            color = if (isCurrent) Color(0xFF10B981).copy(alpha = 0.5f) else Color(0x12FFFFFF),
+                                            color = if (isCurrent) NuxColors.ForestGreen.copy(alpha = 0.5f) else NuxColors.DarkGray.copy(alpha = 0.14f),
                                             shape = itemShape
                                         )
                                         .clickable {
@@ -471,7 +471,7 @@ fun AccountsScreen(
                                             Row(verticalAlignment = Alignment.CenterVertically) {
                                                 Text(
                                                     text = acc.username,
-                                                    color = Color.White,
+                                                    color = NuxColors.DarkGray,
                                                     fontWeight = if (isCurrent) FontWeight.Black else FontWeight.SemiBold,
                                                     fontSize = 12.sp
                                                 )
@@ -495,7 +495,7 @@ fun AccountsScreen(
                                             val shortUuid = if (acc.uuid.length > 10) "${acc.uuid.take(6)}...${acc.uuid.takeLast(4)}" else acc.uuid
                                             Text(
                                                 text = shortUuid,
-                                                color = if (isCurrent) NuxColors.ForestGreen.copy(alpha = 0.85f) else Color(0xFF71717A),
+                                                color = if (isCurrent) NuxColors.SageGreen.copy(alpha = 0.85f) else NuxColors.GrayNeutral,
                                                 fontSize = 9.sp,
                                                 fontFamily = FontFamily.Monospace
                                             )
@@ -517,7 +517,7 @@ fun AccountsScreen(
                                                 Icon(
                                                     imageVector = Icons.Default.Check,
                                                     contentDescription = "Aktif",
-                                                    tint = Color(0xFF09090B),
+                                                    tint = NuxColors.DarkGray,
                                                     modifier = Modifier.size(13.dp)
                                                 )
                                             }
@@ -527,7 +527,7 @@ fun AccountsScreen(
                                                     .height(23.dp)
                                                     .clip(RoundedCornerShape(6.dp))
                                                     .background(NuxColors.SurfaceElevated, RoundedCornerShape(6.dp))
-                                                    .border(1.dp, NuxColors.CardBorder, RoundedCornerShape(6.dp))
+                                                    .border(NuxSizes.BorderWidth, NuxColors.CardBorder, RoundedCornerShape(6.dp))
                                                     .clickable {
                                                         AccountManager.selectAccount(acc)
                                                         coroutineScope.launch {
@@ -540,7 +540,7 @@ fun AccountsScreen(
                                             ) {
                                                 Text(
                                                     text = "GUNAKAN",
-                                                    color = Color.White,
+                                                    color = NuxColors.DarkGray,
                                                     fontSize = 8.5.sp,
                                                     fontWeight = FontWeight.Bold
                                                 )
@@ -569,7 +569,7 @@ fun AccountsScreen(
                                             Icon(
                                                 imageVector = Icons.Outlined.Checkroom,
                                                 contentDescription = "Skin & Cape",
-                                                tint = if (isSkinChangeAllowed) Color(0xFF71717A) else Color(0xFF3F3F46),
+                                                tint = if (isSkinChangeAllowed) NuxColors.GrayNeutral else NuxColors.DarkGray,
                                                 modifier = Modifier.size(14.dp)
                                             )
                                         }
@@ -585,7 +585,7 @@ fun AccountsScreen(
                                             Icon(
                                                 imageVector = Icons.Outlined.DeleteOutline,
                                                 contentDescription = "Hapus",
-                                                tint = Color(0xFF71717A),
+                                                tint = NuxColors.GrayNeutral,
                                                 modifier = Modifier.size(14.dp)
                                             )
                                         }
@@ -691,7 +691,7 @@ fun AccountsScreen(
                             accountToDelete = null
                         },
                         backgroundColor = NuxColors.ErrorRed,
-                        contentColor = Color.White,
+                        contentColor = NuxColors.DarkGray,
                         modifier = Modifier.weight(1f)
                     ) {
                         Text("HAPUS", fontWeight = FontWeight.Black, fontSize = 11.sp)
@@ -788,7 +788,7 @@ private fun AddAccountModal(
                     modifier = Modifier
                         .size(28.dp)
                         .background(NuxColors.SurfaceInput, CircleShape)
-                        .border(1.dp, NuxColors.CardBorder, CircleShape)
+                        .border(NuxSizes.BorderWidth, NuxColors.CardBorder, CircleShape)
                         .clickable {
                             onDismiss()
                         },
@@ -882,7 +882,7 @@ private fun AddAccountModal(
                                 Icon(
                                     imageVector = Icons.Outlined.Person,
                                     contentDescription = null,
-                                    tint = NuxColors.ForestGreen,
+                                    tint = NuxColors.SageGreen,
                                     modifier = Modifier.size(22.dp)
                                 )
                             }
@@ -919,7 +919,7 @@ private fun AddAccountModal(
                                 onAccountAdded(newAcc)
                             },
                             backgroundColor = NuxColors.ForestGreen,
-                            contentColor = Color.White,
+                            contentColor = NuxColors.DarkGray,
                             enabled = offlineName.trim().isNotBlank(),
                             cornerRadius = NuxSizes.CornerRadiusSmall,
                             modifier = Modifier.height(42.dp)
@@ -927,7 +927,7 @@ private fun AddAccountModal(
                             Icon(
                                 imageVector = Icons.Outlined.Check,
                                 contentDescription = null,
-                                tint = Color.White,
+                                tint = NuxColors.DarkGray,
                                 modifier = Modifier.size(15.dp)
                             )
                             Spacer(modifier = Modifier.width(6.dp))
@@ -994,17 +994,17 @@ private fun AddAccountModal(
                                 }
                             },
                             backgroundColor = Color(0xFF0078D4),
-                            contentColor = Color.White,
+                            contentColor = NuxColors.DarkGray,
                             enabled = !isMsLoading,
                             cornerRadius = NuxSizes.CornerRadiusSmall,
                             modifier = Modifier.height(40.dp)
                         ) {
                             if (isMsLoading) {
-                                CircularProgressIndicator(modifier = Modifier.size(12.dp), color = Color.White, strokeWidth = 2.dp)
+                                CircularProgressIndicator(modifier = Modifier.size(12.dp), color = NuxColors.DarkGray, strokeWidth = 2.dp)
                                 Spacer(modifier = Modifier.width(6.dp))
                                 Text("MENGHUBUNGI...", fontWeight = FontWeight.Bold, fontSize = 10.sp)
                             } else {
-                                Icon(imageVector = Icons.Outlined.Language, contentDescription = null, tint = Color.White, modifier = Modifier.size(15.dp))
+                                Icon(imageVector = Icons.Outlined.Language, contentDescription = null, tint = NuxColors.DarkGray, modifier = Modifier.size(15.dp))
                                 Spacer(modifier = Modifier.width(6.dp))
                                 Text("MASUK DENGAN MICROSOFT", fontWeight = FontWeight.Black, fontSize = 10.sp)
                             }
@@ -1028,7 +1028,7 @@ private fun AddAccountModal(
                                     Row(verticalAlignment = Alignment.CenterVertically) {
                                         CircularProgressIndicator(
                                             modifier = Modifier.size(12.dp),
-                                            color = Color(0xFFA855F7),
+                                            color = NuxColors.PurpleDark,
                                             strokeWidth = 1.5.dp
                                         )
                                         Spacer(modifier = Modifier.width(6.dp))
@@ -1043,7 +1043,7 @@ private fun AddAccountModal(
                                     Row(verticalAlignment = Alignment.CenterVertically) {
                                         Text(
                                             text = "Kode: ${dc.userCode}",
-                                            color = Color(0xFFA855F7),
+                                            color = NuxColors.PurpleDark,
                                             fontSize = 13.sp,
                                             fontFamily = FontFamily.Monospace,
                                             fontWeight = FontWeight.Black
@@ -1067,7 +1067,7 @@ private fun AddAccountModal(
                                             ElyByAuthService.openBrowser(context, dc.verificationUrlWithCode)
                                         },
                                         backgroundColor = Color(0xFFA855F7),
-                                        contentColor = Color.White,
+                                        contentColor = NuxColors.DarkGray,
                                         cornerRadius = NuxSizes.CornerRadiusSmall,
                                         modifier = Modifier.height(36.dp)
                                     ) {
@@ -1099,7 +1099,7 @@ private fun AddAccountModal(
                                 Column(modifier = Modifier.weight(1f)) {
                                     Text(
                                         text = "Otorisasi Akun Ely.by",
-                                        color = Color(0xFFA855F7),
+                                        color = NuxColors.PurpleDark,
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 12.sp
                                     )
@@ -1122,7 +1122,7 @@ private fun AddAccountModal(
                                         ElyByAuthService.startLogin(context)
                                     },
                                     backgroundColor = Color(0xFFA855F7),
-                                    contentColor = Color.White,
+                                    contentColor = NuxColors.DarkGray,
                                     enabled = !isStarting,
                                     cornerRadius = NuxSizes.CornerRadiusSmall,
                                     modifier = Modifier.height(40.dp)
@@ -1130,7 +1130,7 @@ private fun AddAccountModal(
                                     if (isStarting) {
                                         CircularProgressIndicator(
                                             modifier = Modifier.size(12.dp),
-                                            color = Color.White,
+                                            color = NuxColors.DarkGray,
                                             strokeWidth = 2.dp
                                         )
                                         Spacer(modifier = Modifier.width(6.dp))
@@ -1139,7 +1139,7 @@ private fun AddAccountModal(
                                         Icon(
                                             imageVector = Icons.Outlined.OpenInBrowser,
                                             contentDescription = null,
-                                            tint = Color.White,
+                                            tint = NuxColors.DarkGray,
                                             modifier = Modifier.size(15.dp)
                                         )
                                         Spacer(modifier = Modifier.width(6.dp))

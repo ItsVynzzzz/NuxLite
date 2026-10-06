@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.israadev.nuxlauncher.R
 import com.israadev.nuxlauncher.ui.theme.NuxColors
+import com.israadev.nuxlauncher.ui.theme.NuxSizes
 
 /**
  * Komponen Avatar Pengguna NUX Lintas Platform
@@ -49,7 +50,7 @@ fun NuxUserAvatar(
             shape = shape,
             modifier = Modifier
                 .fillMaxSize()
-                .border(1.dp, NuxColors.CardBorder, shape)
+                .border(NuxSizes.BorderWidth, NuxColors.CardBorder, shape)
         )
 
         // Status Dot (Online / In-game / Offline)
@@ -65,7 +66,7 @@ fun NuxUserAvatar(
                     .size(9.dp)
                     .clip(CircleShape)
                     .background(statusDotColor)
-                    .border(1.5.dp, Color(0xFF09090B), CircleShape)
+                    .border(1.5.dp, NuxColors.DarkGray.copy(alpha = 0.25f), CircleShape)
             )
         }
 
@@ -80,14 +81,14 @@ fun NuxUserAvatar(
                     .offset(x = 2.dp, y = 2.dp)
                     .size(badgeSize)
                     .clip(CircleShape)
-                    .background(Color(0xFF141722), CircleShape)
-                    .border(1.dp, Color(0x66FFFFFF), CircleShape),
+                    .background(NuxColors.SurfaceWhite, CircleShape)
+                    .border(1.dp, NuxColors.DarkGray.copy(alpha = 0.50f), CircleShape),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.nux_platform_windows),
                     contentDescription = "User Windows PC",
-                    tint = Color.White,
+                    tint = NuxColors.DarkGray,
                     modifier = Modifier.size(iconSize)
                 )
             }

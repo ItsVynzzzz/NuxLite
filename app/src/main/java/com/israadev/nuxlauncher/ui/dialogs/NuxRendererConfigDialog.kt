@@ -67,7 +67,7 @@ fun NuxRendererConfigDialog(
                     .width(520.dp)
                     .fillMaxHeight(0.92f),
                 backgroundColor = NuxColors.SurfaceElevated,
-                borderColor = Color(0x33FFFFFF),
+                borderColor = NuxColors.DarkGray.copy(alpha = 0.40f),
                 cornerRadius = NuxSizes.CornerRadiusLarge,
                 fillMaxHeight = false
             ) {
@@ -94,7 +94,7 @@ fun NuxRendererConfigDialog(
                                 Icon(
                                     imageVector = Icons.Default.Settings,
                                     contentDescription = "Renderer Config",
-                                    tint = NuxColors.MintGreen,
+                                    tint = NuxColors.SageGreen,
                                     modifier = Modifier.size(18.dp)
                                 )
                             }
@@ -102,14 +102,14 @@ fun NuxRendererConfigDialog(
                             Column {
                                 Text(
                                     text = "KONFIGURASI RENDERER",
-                                    color = Color.White,
+                                    color = NuxColors.DarkGray,
                                     fontWeight = FontWeight.Black,
                                     fontSize = 13.sp,
                                     letterSpacing = 0.5.sp
                                 )
                                 Text(
                                     text = renderer.displayName,
-                                    color = NuxColors.MintGreen,
+                                    color = NuxColors.SageGreen,
                                     fontWeight = FontWeight.SemiBold,
                                     fontSize = 10.sp
                                 )
@@ -123,13 +123,13 @@ fun NuxRendererConfigDialog(
                                 .size(28.dp)
                                 .clip(closeShape)
                                 .background(NuxColors.SurfaceInput, closeShape)
-                                .border(1.dp, NuxColors.CardBorder, closeShape)
+                                .border(NuxSizes.BorderWidth, NuxColors.CardBorder, closeShape)
                                 .clickable { onDismiss() },
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
                                 text = "✕",
-                                color = Color.White,
+                                color = NuxColors.DarkGray,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 12.sp
                             )
@@ -160,7 +160,7 @@ fun NuxRendererConfigDialog(
                                 text = "Buka Panel Aplikasi MobileGlues",
                                 fontSize = 11.sp,
                                 fontWeight = FontWeight.Bold,
-                                color = NuxColors.MintGreen
+                                color = NuxColors.SageGreen
                             )
                             Text(
                                 text = "Akses seluruh pengaturan grafis, GLSL cache, dan multi-draw",
@@ -171,7 +171,7 @@ fun NuxRendererConfigDialog(
                         Icon(
                             imageVector = Icons.Default.Launch,
                             contentDescription = "Buka App",
-                            tint = NuxColors.MintGreen,
+                            tint = NuxColors.SageGreen,
                             modifier = Modifier.size(16.dp)
                         )
                     }
@@ -232,7 +232,7 @@ fun NuxRendererConfigDialog(
                                 .fillMaxWidth()
                                 .clip(RoundedCornerShape(6.dp))
                                 .background(NuxColors.SurfaceInput)
-                                .border(1.dp, NuxColors.CardBorder, RoundedCornerShape(6.dp))
+                                .border(NuxSizes.BorderWidth, NuxColors.CardBorder, RoundedCornerShape(6.dp))
                                 .padding(10.dp)
                         ) {
                             Text(
@@ -257,7 +257,7 @@ fun NuxRendererConfigDialog(
                                 .weight(1f)
                                 .height(36.dp),
                             backgroundColor = NuxColors.SurfaceElevated,
-                            contentColor = Color.White,
+                            contentColor = NuxColors.DarkGray,
                             borderColor = NuxColors.CardBorder,
                             cornerRadius = 6.dp
                         ) {
@@ -286,7 +286,7 @@ fun NuxRendererConfigDialog(
                                 .weight(1.5f)
                                 .height(36.dp),
                             backgroundColor = NuxColors.ForestGreen,
-                            contentColor = Color.White,
+                            contentColor = NuxColors.DarkGray,
                             cornerRadius = 6.dp
                         ) {
                             Text("SIMPAN KONFIGURASI", fontWeight = FontWeight.Bold, fontSize = 11.sp)
@@ -310,7 +310,7 @@ private fun ConfigToggleItem(
             .fillMaxWidth()
             .clip(RoundedCornerShape(6.dp))
             .background(NuxColors.SurfaceInput)
-            .border(1.dp, NuxColors.CardBorder, RoundedCornerShape(6.dp))
+            .border(NuxSizes.BorderWidth, NuxColors.CardBorder, RoundedCornerShape(6.dp))
             .clickable { onCheckedChange(!checked) }
             .padding(horizontal = 12.dp, vertical = 8.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -321,7 +321,7 @@ private fun ConfigToggleItem(
                 text = title,
                 fontSize = 10.5.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.White
+                color = NuxColors.DarkGray
             )
             Spacer(modifier = Modifier.height(2.dp))
             Text(

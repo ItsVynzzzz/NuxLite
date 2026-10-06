@@ -29,6 +29,9 @@ object NuxColors {
     val CardBorder = Color(0xFF1F1B2E)      // Garis tepi cartoon (tinta penuh)
     val ErrorRed = Color(0xFFE11D48)        // Merah galat
     val Amber = Color(0xFFFFB400)           // Kuning peringatan
+    val AmberDark = Color(0xFFB45309)       // Amber gelap untuk teks di latar terang
+    val SkyBlueDark = Color(0xFF0369A1)     // Biru gelap untuk teks di latar terang
+    val PurpleDark = Color(0xFF7E22CE)      // Ungu gelap untuk teks di latar terang
     val TextPrimary = Color(0xFF1F1B2E)     // Sama dengan tinta
 
     // Alias lama (jangan dihapus, masih dipakai di kode lain)

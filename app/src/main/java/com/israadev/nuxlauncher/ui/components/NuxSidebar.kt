@@ -31,6 +31,7 @@ import com.israadev.nuxlauncher.core.models.UserAccount
 import com.israadev.nuxlauncher.core.social.NuxSocialManager
 import com.israadev.nuxlauncher.ui.theme.NuxColors
 import com.israadev.nuxlauncher.ui.theme.resp
+import com.israadev.nuxlauncher.ui.theme.NuxSizes
 
 data class NuxNavItem(
     val id: String,
@@ -82,7 +83,7 @@ fun NuxSidebar(
                     .size((32.dp).resp())
                     .clip(logoShape)
                     .background(NuxColors.SurfaceElevated)
-                    .border(1.dp, NuxColors.CardBorder, logoShape)
+                    .border(NuxSizes.BorderWidth, NuxColors.CardBorder, logoShape)
                     .clickable { onTabSelected("home") },
                 contentAlignment = Alignment.Center
             ) {
@@ -111,12 +112,12 @@ fun NuxSidebar(
                         modifier = Modifier
                             .size((34.dp).resp())
                             .background(
-                                color = if (isSelected) Color(0xFF10B981).copy(alpha = 0.15f) else Color.Transparent,
+                                color = if (isSelected) NuxColors.SageGreen.copy(alpha = 0.15f) else Color.Transparent,
                                 shape = shape
                             )
                             .border(
                                 width = 1.dp,
-                                color = if (isSelected) Color(0xFF10B981).copy(alpha = 0.55f) else Color.Transparent,
+                                color = if (isSelected) NuxColors.ForestGreen.copy(alpha = 0.55f) else Color.Transparent,
                                 shape = shape
                             )
                             .clip(shape)
@@ -126,7 +127,7 @@ fun NuxSidebar(
                         Icon(
                             imageVector = item.icon,
                             contentDescription = item.contentDescription,
-                            tint = if (isSelected) NuxColors.ForestGreen else Color(0xFF71717A),
+                            tint = if (isSelected) NuxColors.SageGreen else NuxColors.GrayNeutral,
                             modifier = Modifier.size((17.dp).resp())
                         )
 
@@ -141,7 +142,7 @@ fun NuxSidebar(
                                         .padding((2.5.dp).resp())
                                         .size((5.5.dp).resp())
                                         .clip(CircleShape)
-                                        .background(Color(0xFFF43F5E))
+                                        .background(NuxColors.ErrorRed)
                                 )
                             }
                         }
@@ -161,7 +162,7 @@ fun NuxSidebar(
                     .size((30.dp).resp())
                     .clip(shape)
                     .background(NuxColors.SurfaceElevated, shape)
-                    .border(1.dp, NuxColors.CardBorder, shape)
+                    .border(NuxSizes.BorderWidth, NuxColors.CardBorder, shape)
                     .clickable { onTabSelected("settings") },
                 contentAlignment = Alignment.Center
             ) {
@@ -177,7 +178,7 @@ fun NuxSidebar(
                     } else {
                         Text(
                             text = userName.take(2).uppercase(),
-                            color = NuxColors.ForestGreen,
+                            color = NuxColors.SageGreen,
                             fontWeight = FontWeight.Bold,
                             fontSize = (10.5.sp).resp()
                         )
@@ -186,7 +187,7 @@ fun NuxSidebar(
                     Icon(
                         imageVector = Icons.Outlined.Person,
                         contentDescription = "Settings",
-                        tint = NuxColors.ForestGreen,
+                        tint = NuxColors.SageGreen,
                         modifier = Modifier.size((17.dp).resp())
                     )
                 }
@@ -201,7 +202,7 @@ fun NuxSidebar(
                             if (launcherUser?.isActivated == true || currentAccount != null) NuxColors.ForestGreen else NuxColors.Amber,
                             CircleShape
                         )
-                        .border(1.dp, Color(0xFF09090B), CircleShape)
+                        .border(1.dp, NuxColors.DarkGray.copy(alpha = 0.25f), CircleShape)
                 )
             }
         }
@@ -211,7 +212,7 @@ fun NuxSidebar(
             modifier = Modifier
                 .width(1.dp)
                 .fillMaxHeight()
-                .background(Color(0x14FFFFFF))
+                .background(NuxColors.DarkGray.copy(alpha = 0.08f))
         )
     }
 }

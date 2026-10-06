@@ -48,9 +48,9 @@ enum class VersionCategory(
     val badgeBg: Color,
     val badgeText: Color
 ) {
-    RELEASE("Release", Color(0xFF10B981).copy(alpha = 0.15f), Color(0xFF10B981)),
+    RELEASE("Release", NuxColors.ForestGreen.copy(alpha = 0.15f), NuxColors.ForestGreen),
     SNAPSHOT("Snapshot / Beta", Color(0xFF8B5CF6).copy(alpha = 0.15f), Color(0xFFA78BFA)),
-    OLD_BETA("Old Beta", Color(0xFFF59E0B).copy(alpha = 0.15f), Color(0xFFFBBF24)),
+    OLD_BETA("Old Beta", NuxColors.Amber.copy(alpha = 0.15f), NuxColors.Amber),
     OLD_ALPHA("Old Alpha", Color(0xFFEC4899).copy(alpha = 0.15f), Color(0xFFF472B6)),
     ALL("Semua", Color(0xFF3B82F6).copy(alpha = 0.15f), Color(0xFF60A5FA))
 }
@@ -134,8 +134,8 @@ fun NuxAddInstanceDialog(
                 .background(
                     Brush.verticalGradient(
                         colors = listOf(
-                            Color(0xFF141720),
-                            Color(0xFF0F1117)
+                            NuxColors.SurfaceWhite,
+                            NuxColors.SurfaceInput
                         )
                     )
                 )
@@ -153,14 +153,14 @@ fun NuxAddInstanceDialog(
                     Column {
                         Text(
                             text = "INSTANCE ARCHITECT",
-                            color = Color(0xFF71717A),
+                            color = NuxColors.GrayNeutral,
                             fontWeight = FontWeight.Bold,
                             fontSize = 8.sp,
                             letterSpacing = 1.sp
                         )
                         Text(
                             text = "Buat Instance Baru",
-                            color = Color.White,
+                            color = NuxColors.DarkGray,
                             fontWeight = FontWeight.Black,
                             fontSize = 14.sp,
                             letterSpacing = (-0.3).sp
@@ -172,15 +172,15 @@ fun NuxAddInstanceDialog(
                         modifier = Modifier
                             .size(26.dp)
                             .clip(CircleShape)
-                            .background(Color(0xFF1E222D))
-                            .border(1.dp, Color(0x33FFFFFF), CircleShape)
+                            .background(NuxColors.SurfaceElevated)
+                            .border(1.dp, NuxColors.DarkGray.copy(alpha = 0.40f), CircleShape)
                             .clickable { onDismiss() },
                         contentAlignment = Alignment.Center
                     ) {
                         Icon(
                             imageVector = Icons.Default.Close,
                             contentDescription = "Close",
-                            tint = Color(0xFFA1A1AA),
+                            tint = NuxColors.GrayNeutral,
                             modifier = Modifier.size(13.dp)
                         )
                     }
@@ -204,8 +204,8 @@ fun NuxAddInstanceDialog(
                             .weight(1f)
                             .fillMaxHeight()
                             .clip(leftBezelShape)
-                            .background(Color(0xFF11141C))
-                            .border(1.dp, Color(0x1FFFFFFF), leftBezelShape)
+                            .background(NuxColors.SurfaceWhite)
+                            .border(1.dp, NuxColors.DarkGray.copy(alpha = 0.24f), leftBezelShape)
                             .padding(6.dp)
                     ) {
                         Column(
@@ -224,13 +224,13 @@ fun NuxAddInstanceDialog(
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .clip(innerBezelShape)
-                                        .background(Color(0xFF181C26))
-                                        .border(1.dp, Color(0x1AFFFFFF), innerBezelShape)
+                                        .background(NuxColors.SurfaceElevated)
+                                        .border(1.dp, NuxColors.DarkGray.copy(alpha = 0.20f), innerBezelShape)
                                         .padding(horizontal = 8.dp, vertical = 6.dp)
                                 ) {
                                     Text(
                                         text = "NAMA INSTANCE",
-                                        color = Color(0xFFA1A1AA),
+                                        color = NuxColors.GrayNeutral,
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 8.5.sp,
                                         letterSpacing = 0.8.sp
@@ -241,15 +241,15 @@ fun NuxAddInstanceDialog(
                                             .fillMaxWidth()
                                             .height(30.dp)
                                             .clip(RoundedCornerShape(6.dp))
-                                            .background(Color(0xFF0D0F15))
-                                            .border(1.dp, Color(0x2EFFFFFF), RoundedCornerShape(6.dp))
+                                            .background(NuxColors.SurfaceInput)
+                                            .border(1.dp, NuxColors.DarkGray.copy(alpha = 0.36f), RoundedCornerShape(6.dp))
                                             .padding(horizontal = 8.dp),
                                         contentAlignment = Alignment.CenterStart
                                     ) {
                                         if (instanceName.isEmpty()) {
                                             Text(
                                                 text = "Default: $selectedVersion ${selectedLoader.replaceFirstChar { it.uppercase() }}",
-                                                color = Color(0xFF52525B),
+                                                color = NuxColors.GrayNeutral,
                                                 fontSize = 11.sp,
                                                 fontWeight = FontWeight.Normal
                                             )
@@ -259,7 +259,7 @@ fun NuxAddInstanceDialog(
                                             onValueChange = { instanceName = it },
                                             singleLine = true,
                                             textStyle = TextStyle(
-                                                color = Color.White,
+                                                color = NuxColors.DarkGray,
                                                 fontSize = 11.5.sp,
                                                 fontWeight = FontWeight.SemiBold
                                             ),
@@ -274,13 +274,13 @@ fun NuxAddInstanceDialog(
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .clip(innerBezelShape)
-                                        .background(Color(0xFF181C26))
-                                        .border(1.dp, Color(0x1AFFFFFF), innerBezelShape)
+                                        .background(NuxColors.SurfaceElevated)
+                                        .border(1.dp, NuxColors.DarkGray.copy(alpha = 0.20f), innerBezelShape)
                                         .padding(horizontal = 8.dp, vertical = 6.dp)
                                 ) {
                                     Text(
                                         text = "MOD LOADER ENGINE",
-                                        color = Color(0xFFA1A1AA),
+                                        color = NuxColors.GrayNeutral,
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 8.5.sp,
                                         letterSpacing = 0.8.sp
@@ -293,11 +293,11 @@ fun NuxAddInstanceDialog(
                                         listOf("vanilla" to "Vanilla", "fabric" to "Fabric").forEach { (type, label) ->
                                             val isSelected = selectedLoader == type
                                             val btnBg by animateColorAsState(
-                                                targetValue = if (isSelected) Color(0xFF10B981).copy(alpha = 0.16f) else Color(0xFF0D0F15),
+                                                targetValue = if (isSelected) NuxColors.ForestGreen.copy(alpha = 0.16f) else NuxColors.SurfaceInput,
                                                 animationSpec = tween(200)
                                             )
                                             val btnBorder by animateColorAsState(
-                                                targetValue = if (isSelected) NuxColors.ForestGreen else Color(0x22FFFFFF),
+                                                targetValue = if (isSelected) NuxColors.ForestGreen else NuxColors.DarkGray.copy(alpha = 0.13f),
                                                 animationSpec = tween(200)
                                             )
 
@@ -322,7 +322,7 @@ fun NuxAddInstanceDialog(
                                                     }
                                                     Text(
                                                         text = label,
-                                                        color = if (isSelected) NuxColors.MintGreen else Color(0xFFA1A1AA),
+                                                        color = if (isSelected) NuxColors.SageGreen else NuxColors.GrayNeutral,
                                                         fontWeight = if (isSelected) FontWeight.Black else FontWeight.Bold,
                                                         fontSize = 10.5.sp
                                                     )
@@ -342,8 +342,8 @@ fun NuxAddInstanceDialog(
                                                     .fillMaxWidth()
                                                     .height(30.dp)
                                                     .clip(RoundedCornerShape(6.dp))
-                                                    .background(Color(0xFF0D0F15), RoundedCornerShape(6.dp))
-                                                    .border(1.dp, Color(0x2EFFFFFF), RoundedCornerShape(6.dp))
+                                                    .background(NuxColors.SurfaceInput, RoundedCornerShape(6.dp))
+                                                    .border(1.dp, NuxColors.DarkGray.copy(alpha = 0.36f), RoundedCornerShape(6.dp))
                                                     .clickable {
                                                         if (!isLoadingFabric && fabricVersionsList.isNotEmpty()) {
                                                             showFabricMenu = true
@@ -358,19 +358,19 @@ fun NuxAddInstanceDialog(
                                                         CircularProgressIndicator(
                                                             modifier = Modifier.size(11.dp),
                                                             strokeWidth = 1.5.dp,
-                                                            color = NuxColors.ForestGreen
+                                                            color = NuxColors.SageGreen
                                                         )
                                                         Spacer(modifier = Modifier.width(5.dp))
                                                         Text(
                                                             text = "Memuat loader Fabric...",
-                                                            color = Color(0xFFA1A1AA),
+                                                            color = NuxColors.GrayNeutral,
                                                             fontSize = 10.sp
                                                         )
                                                     }
                                                 } else if (fabricVersionsList.isEmpty()) {
                                                     Text(
                                                         text = "⚠️ Fabric belum tersedia untuk $selectedVersion",
-                                                        color = Color(0xFFFB7185),
+                                                        color = NuxColors.ErrorRed,
                                                         fontSize = 9.5.sp,
                                                         fontWeight = FontWeight.Medium
                                                     )
@@ -378,14 +378,14 @@ fun NuxAddInstanceDialog(
                                                     Row(verticalAlignment = Alignment.CenterVertically) {
                                                         Text(
                                                             text = "Fabric $selectedFabricVersion",
-                                                            color = Color.White,
+                                                            color = NuxColors.DarkGray,
                                                             fontWeight = FontWeight.Bold,
                                                             fontSize = 10.5.sp
                                                         )
                                                     }
                                                     Text(
                                                         text = "▼",
-                                                        color = Color(0xFF71717A),
+                                                        color = NuxColors.GrayNeutral,
                                                         fontSize = 8.sp
                                                     )
                                                 }
@@ -395,8 +395,8 @@ fun NuxAddInstanceDialog(
                                                 expanded = showFabricMenu,
                                                 onDismissRequest = { showFabricMenu = false },
                                                 modifier = Modifier
-                                                    .background(Color(0xFF181C26))
-                                                    .border(1.dp, Color(0x33FFFFFF), RoundedCornerShape(8.dp))
+                                                    .background(NuxColors.SurfaceElevated)
+                                                    .border(1.dp, NuxColors.DarkGray.copy(alpha = 0.40f), RoundedCornerShape(8.dp))
                                                     .heightIn(max = 200.dp)
                                             ) {
                                                 fabricVersionsList.take(30).forEach { ver ->
@@ -412,13 +412,13 @@ fun NuxAddInstanceDialog(
                                                                     text = ver,
                                                                     fontWeight = if (isPicked) FontWeight.Black else FontWeight.Normal,
                                                                     fontSize = 11.sp,
-                                                                    color = if (isPicked) NuxColors.MintGreen else Color.White
+                                                                    color = if (isPicked) NuxColors.SageGreen else NuxColors.DarkGray
                                                                 )
                                                                 if (isPicked) {
                                                                     Icon(
                                                                         imageVector = Icons.Default.Check,
                                                                         contentDescription = null,
-                                                                        tint = NuxColors.MintGreen,
+                                                                        tint = NuxColors.SageGreen,
                                                                         modifier = Modifier.size(13.dp)
                                                                     )
                                                                 }
@@ -440,7 +440,7 @@ fun NuxAddInstanceDialog(
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .clip(innerBezelShape)
-                                        .background(Color(0xFF0F221B))
+                                        .background(NuxColors.SoftLime)
                                         .border(1.dp, NuxColors.ForestGreen.copy(alpha = 0.4f), innerBezelShape)
                                         .padding(horizontal = 8.dp, vertical = 5.dp),
                                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -449,7 +449,7 @@ fun NuxAddInstanceDialog(
                                     Column {
                                         Text(
                                             text = "SPESIFIKASI TARGET",
-                                            color = NuxColors.MintGreen,
+                                            color = NuxColors.SageGreen,
                                             fontWeight = FontWeight.Bold,
                                             fontSize = 7.5.sp,
                                             letterSpacing = 0.8.sp
@@ -457,7 +457,7 @@ fun NuxAddInstanceDialog(
                                         Spacer(modifier = Modifier.height(1.dp))
                                         Text(
                                             text = "Minecraft $selectedVersion",
-                                            color = Color.White,
+                                            color = NuxColors.DarkGray,
                                             fontWeight = FontWeight.Black,
                                             fontSize = 11.sp
                                         )
@@ -468,19 +468,19 @@ fun NuxAddInstanceDialog(
                                             .clip(RoundedCornerShape(5.dp))
                                             .background(
                                                 if (selectedLoader == "fabric") Color(0xFF8B5CF6).copy(alpha = 0.2f)
-                                                else Color(0xFF10B981).copy(alpha = 0.2f)
+                                                else NuxColors.ForestGreen.copy(alpha = 0.2f)
                                             )
                                             .border(
                                                 1.dp,
                                                 if (selectedLoader == "fabric") Color(0xFF8B5CF6).copy(alpha = 0.5f)
-                                                else Color(0xFF10B981).copy(alpha = 0.5f),
+                                                else NuxColors.ForestGreen.copy(alpha = 0.5f),
                                                 RoundedCornerShape(5.dp)
                                             )
                                             .padding(horizontal = 7.dp, vertical = 3.dp)
                                     ) {
                                         Text(
                                             text = if (selectedLoader == "fabric") "FABRIC" else "VANILLA",
-                                            color = if (selectedLoader == "fabric") Color(0xFFA78BFA) else NuxColors.MintGreen,
+                                            color = if (selectedLoader == "fabric") NuxColors.PurpleDark else NuxColors.SageGreen,
                                             fontWeight = FontWeight.Black,
                                             fontSize = 8.5.sp
                                         )
@@ -498,14 +498,14 @@ fun NuxAddInstanceDialog(
                                     .clip(RoundedCornerShape(10.dp))
                                     .background(
                                         if (canCreate) Brush.horizontalGradient(
-                                            listOf(Color(0xFF059669), Color(0xFF10B981))
+                                            listOf(NuxColors.ForestGreen, NuxColors.ForestGreen)
                                         ) else Brush.horizontalGradient(
-                                            listOf(Color(0xFF27272A), Color(0xFF18181B))
+                                            listOf(NuxColors.SurfaceElevated, NuxColors.SurfaceWhite)
                                         )
                                     )
                                     .border(
                                         1.dp,
-                                        if (canCreate) Color(0x6634D399) else Color(0x1AFFFFFF),
+                                        if (canCreate) NuxColors.ForestGreen.copy(alpha = 0.40f) else NuxColors.DarkGray.copy(alpha = 0.20f),
                                         RoundedCornerShape(10.dp)
                                     )
                                     .clickable(enabled = canCreate) {
@@ -535,7 +535,7 @@ fun NuxAddInstanceDialog(
                                             selectedLoader == "fabric" && selectedFabricVersion.isBlank() -> "Fabric Tidak Tersedia"
                                             else -> "Buat Instance Sekarang"
                                         },
-                                        color = if (canCreate) Color.White else Color(0xFF71717A),
+                                        color = if (canCreate) NuxColors.DarkGray else NuxColors.GrayNeutral,
                                         fontWeight = FontWeight.Black,
                                         fontSize = 11.sp,
                                         letterSpacing = 0.2.sp
@@ -546,13 +546,13 @@ fun NuxAddInstanceDialog(
                                         modifier = Modifier
                                             .size(20.dp)
                                             .clip(CircleShape)
-                                            .background(if (canCreate) Color.White.copy(alpha = 0.2f) else Color.Transparent),
+                                            .background(if (canCreate) NuxColors.SurfaceWhite.copy(alpha = 0.2f) else Color.Transparent),
                                         contentAlignment = Alignment.Center
                                     ) {
                                         Icon(
                                             imageVector = Icons.Default.ArrowForward,
                                             contentDescription = null,
-                                            tint = if (canCreate) Color.White else Color(0xFF71717A),
+                                            tint = if (canCreate) NuxColors.DarkGray else NuxColors.GrayNeutral,
                                             modifier = Modifier.size(11.dp)
                                         )
                                     }
@@ -569,8 +569,8 @@ fun NuxAddInstanceDialog(
                             .weight(1.15f)
                             .fillMaxHeight()
                             .clip(leftBezelShape)
-                            .background(Color(0xFF11141C))
-                            .border(1.dp, Color(0x1FFFFFFF), leftBezelShape)
+                            .background(NuxColors.SurfaceWhite)
+                            .border(1.dp, NuxColors.DarkGray.copy(alpha = 0.24f), leftBezelShape)
                             .padding(6.dp)
                     ) {
                         Column(modifier = Modifier.fillMaxSize()) {
@@ -585,11 +585,11 @@ fun NuxAddInstanceDialog(
                                 VersionCategory.values().forEach { category ->
                                     val isCatSelected = selectedCategory == category
                                     val pillBg by animateColorAsState(
-                                        targetValue = if (isCatSelected) category.badgeBg else Color(0xFF181C26),
+                                        targetValue = if (isCatSelected) category.badgeBg else NuxColors.SurfaceElevated,
                                         animationSpec = tween(150)
                                     )
                                     val pillBorder by animateColorAsState(
-                                        targetValue = if (isCatSelected) category.badgeText.copy(alpha = 0.7f) else Color(0x1AFFFFFF),
+                                        targetValue = if (isCatSelected) category.badgeText.copy(alpha = 0.7f) else NuxColors.DarkGray.copy(alpha = 0.10f),
                                         animationSpec = tween(150)
                                     )
 
@@ -610,7 +610,7 @@ fun NuxAddInstanceDialog(
                                     ) {
                                         Text(
                                             text = category.label,
-                                            color = if (isCatSelected) category.badgeText else Color(0xFFA1A1AA),
+                                            color = if (isCatSelected) category.badgeText else NuxColors.GrayNeutral,
                                             fontWeight = if (isCatSelected) FontWeight.Black else FontWeight.SemiBold,
                                             fontSize = 9.sp
                                         )
@@ -626,8 +626,8 @@ fun NuxAddInstanceDialog(
                                     .fillMaxWidth()
                                     .height(28.dp)
                                     .clip(RoundedCornerShape(6.dp))
-                                    .background(Color(0xFF0D0F15))
-                                    .border(1.dp, Color(0x26FFFFFF), RoundedCornerShape(6.dp))
+                                    .background(NuxColors.SurfaceInput)
+                                    .border(1.dp, NuxColors.DarkGray.copy(alpha = 0.30f), RoundedCornerShape(6.dp))
                                     .padding(horizontal = 7.dp),
                                 contentAlignment = Alignment.CenterStart
                             ) {
@@ -638,7 +638,7 @@ fun NuxAddInstanceDialog(
                                     Icon(
                                         imageVector = Icons.Default.Search,
                                         contentDescription = "Search",
-                                        tint = Color(0xFF71717A),
+                                        tint = NuxColors.GrayNeutral,
                                         modifier = Modifier.size(12.dp)
                                     )
                                     Spacer(modifier = Modifier.width(5.dp))
@@ -647,7 +647,7 @@ fun NuxAddInstanceDialog(
                                         onValueChange = { searchQuery = it },
                                         singleLine = true,
                                         textStyle = TextStyle(
-                                            color = Color.White,
+                                            color = NuxColors.DarkGray,
                                             fontSize = 10.5.sp,
                                             fontWeight = FontWeight.Medium
                                         ),
@@ -657,7 +657,7 @@ fun NuxAddInstanceDialog(
                                             if (searchQuery.isEmpty()) {
                                                 Text(
                                                     text = "Cari versi (${selectedCategory.label})...",
-                                                    color = Color(0xFF52525B),
+                                                    color = NuxColors.GrayNeutral,
                                                     fontSize = 10.sp
                                                 )
                                             }
@@ -668,7 +668,7 @@ fun NuxAddInstanceDialog(
                                         Icon(
                                             imageVector = Icons.Default.Close,
                                             contentDescription = "Clear",
-                                            tint = Color(0xFFA1A1AA),
+                                            tint = NuxColors.GrayNeutral,
                                             modifier = Modifier
                                                 .size(13.dp)
                                                 .clickable { searchQuery = "" }
@@ -689,14 +689,14 @@ fun NuxAddInstanceDialog(
                             ) {
                                 Text(
                                     text = "DAFTAR VERSI",
-                                    color = Color(0xFF71717A),
+                                    color = NuxColors.GrayNeutral,
                                     fontSize = 8.sp,
                                     fontWeight = FontWeight.Bold,
                                     letterSpacing = 0.8.sp
                                 )
                                 Text(
                                     text = "${filteredVersions.size} versi ditemukan",
-                                    color = Color(0xFF52525B),
+                                    color = NuxColors.GrayNeutral,
                                     fontSize = 8.sp,
                                     fontWeight = FontWeight.Medium
                                 )
@@ -708,22 +708,22 @@ fun NuxAddInstanceDialog(
                                     .fillMaxWidth()
                                     .weight(1f)
                                     .clip(innerBezelShape)
-                                    .background(Color(0xFF0D0F15))
-                                    .border(1.dp, Color(0x1AFFFFFF), innerBezelShape)
+                                    .background(NuxColors.SurfaceInput)
+                                    .border(1.dp, NuxColors.DarkGray.copy(alpha = 0.20f), innerBezelShape)
                                     .padding(3.dp)
                             ) {
                                 if (isLoadingVersions) {
                                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
                                             CircularProgressIndicator(
-                                                color = NuxColors.ForestGreen,
+                                                color = NuxColors.SageGreen,
                                                 modifier = Modifier.size(20.dp),
                                                 strokeWidth = 2.dp
                                             )
                                             Spacer(modifier = Modifier.height(6.dp))
                                             Text(
                                                 text = "Memuat manifest Mojang...",
-                                                color = Color(0xFF71717A),
+                                                color = NuxColors.GrayNeutral,
                                                 fontSize = 10.sp
                                             )
                                         }
@@ -732,7 +732,7 @@ fun NuxAddInstanceDialog(
                                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                                         Text(
                                             text = "Tidak ada versi yang cocok",
-                                            color = Color(0xFF71717A),
+                                            color = NuxColors.GrayNeutral,
                                             fontSize = 10.5.sp,
                                             fontWeight = FontWeight.Medium
                                         )
@@ -748,9 +748,9 @@ fun NuxAddInstanceDialog(
 
                                             // Determine Badge Color & Label based on item type
                                             val (badgeText, badgeBg, badgeTextColor) = when {
-                                                item.type == "release" -> Triple("RELEASE", Color(0xFF10B981).copy(alpha = 0.15f), Color(0xFF10B981))
+                                                item.type == "release" -> Triple("RELEASE", NuxColors.ForestGreen.copy(alpha = 0.15f), NuxColors.ForestGreen)
                                                 item.type == "snapshot" -> Triple("SNAPSHOT", Color(0xFF8B5CF6).copy(alpha = 0.15f), Color(0xFFA78BFA))
-                                                item.type == "old_beta" || item.id.startsWith("b") -> Triple("BETA", Color(0xFFF59E0B).copy(alpha = 0.15f), Color(0xFFFBBF24))
+                                                item.type == "old_beta" || item.id.startsWith("b") -> Triple("BETA", NuxColors.Amber.copy(alpha = 0.15f), NuxColors.Amber)
                                                 item.type == "old_alpha" || item.id.startsWith("a") -> Triple("ALPHA", Color(0xFFEC4899).copy(alpha = 0.15f), Color(0xFFF472B6))
                                                 else -> Triple(item.type.uppercase(), Color(0xFF3B82F6).copy(alpha = 0.15f), Color(0xFF60A5FA))
                                             }
@@ -760,13 +760,13 @@ fun NuxAddInstanceDialog(
                                                     .fillMaxWidth()
                                                     .clip(itemShape)
                                                     .background(
-                                                        if (isSelected) Color(0xFF10B981).copy(alpha = 0.14f)
-                                                        else Color(0xFF141721),
+                                                        if (isSelected) NuxColors.ForestGreen.copy(alpha = 0.14f)
+                                                        else NuxColors.SurfaceWhite,
                                                         itemShape
                                                     )
                                                     .border(
                                                         width = 1.dp,
-                                                        color = if (isSelected) NuxColors.ForestGreen else Color(0x14FFFFFF),
+                                                        color = if (isSelected) NuxColors.ForestGreen else NuxColors.DarkGray.copy(alpha = 0.16f),
                                                         shape = itemShape
                                                     )
                                                     .clickable { selectedVersion = item.id }
@@ -777,7 +777,7 @@ fun NuxAddInstanceDialog(
                                                 Row(verticalAlignment = Alignment.CenterVertically) {
                                                     Text(
                                                         text = item.id,
-                                                        color = if (isSelected) Color.White else Color(0xFFE4E4E7),
+                                                        color = if (isSelected) NuxColors.DarkGray else NuxColors.GrayNeutral,
                                                         fontWeight = if (isSelected) FontWeight.Black else FontWeight.Bold,
                                                         fontSize = 11.sp
                                                     )
@@ -807,7 +807,7 @@ fun NuxAddInstanceDialog(
                                                         Icon(
                                                             imageVector = Icons.Default.Check,
                                                             contentDescription = "Selected",
-                                                            tint = Color(0xFF09090B),
+                                                            tint = NuxColors.DarkGray,
                                                             modifier = Modifier.size(11.dp)
                                                         )
                                                     }

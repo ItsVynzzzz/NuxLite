@@ -82,7 +82,7 @@ fun NuxEditInstanceDialog(
                     .widthIn(min = 360.dp, max = 520.dp)
                     .wrapContentHeight(),
                 backgroundColor = NuxColors.SurfaceElevated,
-                borderColor = Color(0x33FFFFFF),
+                borderColor = NuxColors.DarkGray.copy(alpha = 0.40f),
                 cornerRadius = 18.dp,
                 fillMaxHeight = false
             ) {
@@ -117,14 +117,14 @@ fun NuxEditInstanceDialog(
                                 Box(
                                     modifier = Modifier
                                         .fillMaxSize()
-                                        .background(Color(0xFF141822), CircleShape)
-                                        .border(1.dp, Color(0x33FFFFFF), CircleShape),
+                                        .background(NuxColors.SurfaceWhite, CircleShape)
+                                        .border(1.dp, NuxColors.DarkGray.copy(alpha = 0.40f), CircleShape),
                                     contentAlignment = Alignment.Center
                                 ) {
                                     Icon(
                                         imageVector = Icons.Outlined.Tune,
                                         contentDescription = null,
-                                        tint = NuxColors.MintGreen,
+                                        tint = NuxColors.SageGreen,
                                         modifier = Modifier.size(15.dp)
                                     )
                                 }
@@ -135,14 +135,14 @@ fun NuxEditInstanceDialog(
                             Column {
                                 Text(
                                     text = "INSTANCE CONFIGURATION",
-                                    color = Color(0xFFA1A1AA),
+                                    color = NuxColors.GrayNeutral,
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 7.5.sp,
                                     letterSpacing = 1.sp
                                 )
                                 Text(
                                     text = "Edit Instance: ${instance.name}",
-                                    color = Color.White,
+                                    color = NuxColors.DarkGray,
                                     fontWeight = FontWeight.Black,
                                     fontSize = 13.sp,
                                     letterSpacing = (-0.2).sp,
@@ -156,15 +156,15 @@ fun NuxEditInstanceDialog(
                             modifier = Modifier
                                 .size(26.dp)
                                 .clip(CircleShape)
-                                .background(Color(0xFF151821), CircleShape)
-                                .border(1.dp, Color(0x33FFFFFF), CircleShape)
+                                .background(NuxColors.SurfaceWhite, CircleShape)
+                                .border(1.dp, NuxColors.DarkGray.copy(alpha = 0.40f), CircleShape)
                                 .clickable { onDismiss() },
                             contentAlignment = Alignment.Center
                         ) {
                             Icon(
                                 imageVector = Icons.Outlined.Close,
                                 contentDescription = "Tutup",
-                                tint = Color(0xFFA1A1AA),
+                                tint = NuxColors.GrayNeutral,
                                 modifier = Modifier.size(13.dp)
                             )
                         }
@@ -187,13 +187,13 @@ fun NuxEditInstanceDialog(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .clip(RoundedCornerShape(10.dp))
-                                .background(Color(0xFF12151E))
-                                .border(1.dp, Color(0x24FFFFFF), RoundedCornerShape(10.dp))
+                                .background(NuxColors.SurfaceWhite)
+                                .border(1.dp, NuxColors.DarkGray.copy(alpha = 0.28f), RoundedCornerShape(10.dp))
                                 .padding(horizontal = 10.dp, vertical = 7.dp)
                         ) {
                             Text(
                                 text = "NAMA INSTANCE",
-                                color = Color(0xFFA1A1AA),
+                                color = NuxColors.GrayNeutral,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 8.sp,
                                 letterSpacing = 0.8.sp
@@ -204,8 +204,8 @@ fun NuxEditInstanceDialog(
                                     .fillMaxWidth()
                                     .height(30.dp)
                                     .clip(RoundedCornerShape(6.dp))
-                                    .background(Color(0xFF0C0E14))
-                                    .border(1.dp, Color(0x33FFFFFF), RoundedCornerShape(6.dp))
+                                    .background(NuxColors.SurfaceInput)
+                                    .border(1.dp, NuxColors.DarkGray.copy(alpha = 0.40f), RoundedCornerShape(6.dp))
                                     .padding(horizontal = 9.dp),
                                 contentAlignment = Alignment.CenterStart
                             ) {
@@ -214,7 +214,7 @@ fun NuxEditInstanceDialog(
                                     onValueChange = { editName = it },
                                     singleLine = true,
                                     textStyle = TextStyle(
-                                        color = Color.White,
+                                        color = NuxColors.DarkGray,
                                         fontSize = 11.5.sp,
                                         fontWeight = FontWeight.SemiBold
                                     ),
@@ -229,8 +229,8 @@ fun NuxEditInstanceDialog(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .clip(RoundedCornerShape(10.dp))
-                                .background(Color(0xFF12151E))
-                                .border(1.dp, Color(0x24FFFFFF), RoundedCornerShape(10.dp))
+                                .background(NuxColors.SurfaceWhite)
+                                .border(1.dp, NuxColors.DarkGray.copy(alpha = 0.28f), RoundedCornerShape(10.dp))
                                 .padding(horizontal = 10.dp, vertical = 7.dp)
                         ) {
                             Row(
@@ -240,7 +240,7 @@ fun NuxEditInstanceDialog(
                             ) {
                                 Text(
                                     text = "JAVA RUNTIME",
-                                    color = Color(0xFFA1A1AA),
+                                    color = NuxColors.GrayNeutral,
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 8.sp,
                                     letterSpacing = 0.8.sp
@@ -248,7 +248,7 @@ fun NuxEditInstanceDialog(
                                 NuxBadge(
                                     text = "Rekomendasi: ${JavaRuntimeManager.getRuntimeDisplayName(autoRecommendedRuntime)}",
                                     backgroundColor = NuxColors.ForestGreen.copy(alpha = 0.16f),
-                                    textColor = NuxColors.MintGreen,
+                                    textColor = NuxColors.SageGreen,
                                     borderColor = NuxColors.MintGreen.copy(alpha = 0.35f)
                                 )
                             }
@@ -273,12 +273,12 @@ fun NuxEditInstanceDialog(
                                 runtimeOptions.forEach { (key, label) ->
                                     val isSelected = selectedJavaRuntime == key
                                     val pillBg by animateColorAsState(
-                                        targetValue = if (isSelected) Color(0xFF10281F) else Color(0xFF0C0E14),
+                                        targetValue = if (isSelected) NuxColors.SoftLime else NuxColors.SurfaceInput,
                                         animationSpec = tween(150),
                                         label = "runtimeBg"
                                     )
                                     val pillBorder by animateColorAsState(
-                                        targetValue = if (isSelected) NuxColors.MintGreen else Color(0x22FFFFFF),
+                                        targetValue = if (isSelected) NuxColors.MintGreen else NuxColors.DarkGray.copy(alpha = 0.13f),
                                         animationSpec = tween(150),
                                         label = "runtimeBorder"
                                     )
@@ -303,7 +303,7 @@ fun NuxEditInstanceDialog(
                                             }
                                             Text(
                                                 text = label,
-                                                color = if (isSelected) NuxColors.MintGreen else Color(0xFFA1A1AA),
+                                                color = if (isSelected) NuxColors.SageGreen else NuxColors.GrayNeutral,
                                                 fontWeight = if (isSelected) FontWeight.Black else FontWeight.Bold,
                                                 fontSize = 9.sp
                                             )
@@ -318,8 +318,8 @@ fun NuxEditInstanceDialog(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .clip(RoundedCornerShape(10.dp))
-                                .background(Color(0xFF12151E))
-                                .border(1.dp, Color(0x24FFFFFF), RoundedCornerShape(10.dp))
+                                .background(NuxColors.SurfaceWhite)
+                                .border(1.dp, NuxColors.DarkGray.copy(alpha = 0.28f), RoundedCornerShape(10.dp))
                                 .padding(horizontal = 10.dp, vertical = 7.dp),
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically
@@ -327,7 +327,7 @@ fun NuxEditInstanceDialog(
                             Column {
                                 Text(
                                     text = "TARGET ENGINE",
-                                    color = Color(0xFFA1A1AA),
+                                    color = NuxColors.GrayNeutral,
                                     fontSize = 7.5.sp,
                                     fontWeight = FontWeight.Bold,
                                     letterSpacing = 0.8.sp
@@ -335,7 +335,7 @@ fun NuxEditInstanceDialog(
                                 Spacer(modifier = Modifier.height(2.dp))
                                 Text(
                                     text = "MC ${instance.mcVersion} · ${instance.loader.uppercase()}${if (instance.loaderVersion.isNotBlank()) " (${instance.loaderVersion})" else ""}",
-                                    color = Color.White,
+                                    color = NuxColors.DarkGray,
                                     fontWeight = FontWeight.Black,
                                     fontSize = 10.5.sp
                                 )
@@ -345,8 +345,8 @@ fun NuxEditInstanceDialog(
                             Box(
                                 modifier = Modifier
                                     .clip(RoundedCornerShape(6.dp))
-                                    .background(Color(0xFF1A1F2B))
-                                    .border(1.dp, Color(0x33FFFFFF), RoundedCornerShape(6.dp))
+                                    .background(NuxColors.SurfaceElevated)
+                                    .border(1.dp, NuxColors.DarkGray.copy(alpha = 0.40f), RoundedCornerShape(6.dp))
                                     .clickable {
                                         Toast.makeText(context, "Membuka folder game...", Toast.LENGTH_SHORT).show()
                                         InstanceManager.openInstanceFolder(context, instance)
@@ -358,13 +358,13 @@ fun NuxEditInstanceDialog(
                                     Icon(
                                         imageVector = Icons.Outlined.Folder,
                                         contentDescription = null,
-                                        tint = NuxColors.MintGreen,
+                                        tint = NuxColors.SageGreen,
                                         modifier = Modifier.size(12.dp)
                                     )
                                     Spacer(modifier = Modifier.width(4.dp))
                                     Text(
                                         text = "Buka Folder",
-                                        color = Color.White,
+                                        color = NuxColors.DarkGray,
                                         fontSize = 9.5.sp,
                                         fontWeight = FontWeight.Bold
                                     )
@@ -378,8 +378,8 @@ fun NuxEditInstanceDialog(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .clip(RoundedCornerShape(9.dp))
-                                    .background(Color(0xFF1C1114))
-                                    .border(1.dp, Color(0xFFEF4444).copy(alpha = 0.35f), RoundedCornerShape(9.dp))
+                                    .background(NuxColors.ErrorRed.copy(alpha = 0.12f))
+                                    .border(1.dp, NuxColors.ErrorRed.copy(alpha = 0.35f), RoundedCornerShape(9.dp))
                                     .clickable { showDeleteConfirm = true }
                                     .padding(horizontal = 10.dp, vertical = 6.dp)
                             ) {
@@ -392,20 +392,20 @@ fun NuxEditInstanceDialog(
                                         Icon(
                                             imageVector = Icons.Outlined.DeleteOutline,
                                             contentDescription = null,
-                                            tint = Color(0xFFF87171),
+                                            tint = NuxColors.ErrorRed,
                                             modifier = Modifier.size(14.dp)
                                         )
                                         Spacer(modifier = Modifier.width(6.dp))
                                         Text(
                                             text = "Hapus Instance Ini",
-                                            color = Color(0xFFF87171),
+                                            color = NuxColors.ErrorRed,
                                             fontSize = 9.5.sp,
                                             fontWeight = FontWeight.Bold
                                         )
                                     }
                                     Text(
                                         text = "Hapus game & data permanen",
-                                        color = Color(0xFF71717A),
+                                        color = NuxColors.GrayNeutral,
                                         fontSize = 8.sp
                                     )
                                 }
@@ -416,20 +416,20 @@ fun NuxEditInstanceDialog(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .clip(RoundedCornerShape(9.dp))
-                                    .background(Color(0xFF2C1014))
-                                    .border(1.dp, Color(0xFFEF4444).copy(alpha = 0.7f), RoundedCornerShape(9.dp))
+                                    .background(NuxColors.ErrorRed.copy(alpha = 0.12f))
+                                    .border(1.dp, NuxColors.ErrorRed.copy(alpha = 0.7f), RoundedCornerShape(9.dp))
                                     .padding(9.dp)
                             ) {
                                 Text(
                                     text = "Yakin ingin menghapus '${instance.name}'?",
-                                    color = Color.White,
+                                    color = NuxColors.DarkGray,
                                     fontSize = 10.5.sp,
                                     fontWeight = FontWeight.Black
                                 )
                                 Spacer(modifier = Modifier.height(2.dp))
                                 Text(
                                     text = "Semua world, mod, config, dan file instance akan dihapus permanen.",
-                                    color = Color(0xFFFCA5A5),
+                                    color = NuxColors.ErrorRed,
                                     fontSize = 8.5.sp
                                 )
                                 Spacer(modifier = Modifier.height(6.dp))
@@ -439,14 +439,14 @@ fun NuxEditInstanceDialog(
                                 ) {
                                     NuxButton(
                                         onClick = { showDeleteConfirm = false },
-                                        backgroundColor = Color(0xFF1E222D),
-                                        borderColor = Color(0x33FFFFFF),
-                                        contentColor = Color.White,
+                                        backgroundColor = NuxColors.SurfaceElevated,
+                                        borderColor = NuxColors.DarkGray.copy(alpha = 0.40f),
+                                        contentColor = NuxColors.DarkGray,
                                         modifier = Modifier
                                             .weight(1f)
                                             .height(28.dp)
                                     ) {
-                                        Text("BATAL", color = Color.White, fontSize = 9.sp, fontWeight = FontWeight.Bold)
+                                        Text("BATAL", color = NuxColors.DarkGray, fontSize = 9.sp, fontWeight = FontWeight.Bold)
                                     }
 
                                     NuxButton(
@@ -454,14 +454,14 @@ fun NuxEditInstanceDialog(
                                             onInstanceDeleted(instance)
                                             onDismiss()
                                         },
-                                        backgroundColor = Color(0xFFDC2626),
-                                        borderColor = Color(0x44EF4444),
-                                        contentColor = Color.White,
+                                        backgroundColor = NuxColors.ErrorRed,
+                                        borderColor = NuxColors.ErrorRed.copy(alpha = 0.27f),
+                                        contentColor = NuxColors.DarkGray,
                                         modifier = Modifier
                                             .weight(1.3f)
                                             .height(28.dp)
                                     ) {
-                                        Text("YA, HAPUS SEKARANG", color = Color.White, fontSize = 9.sp, fontWeight = FontWeight.Black)
+                                        Text("YA, HAPUS SEKARANG", color = NuxColors.DarkGray, fontSize = 9.sp, fontWeight = FontWeight.Black)
                                     }
                                 }
                             }
@@ -480,16 +480,16 @@ fun NuxEditInstanceDialog(
                         // BATAL BUTTON (Dark Obsidian Glass + High-contrast White Text)
                         NuxButton(
                             onClick = onDismiss,
-                            backgroundColor = Color(0xFF1A1D27),
-                            borderColor = Color(0x33FFFFFF),
-                            contentColor = Color.White,
+                            backgroundColor = NuxColors.SurfaceElevated,
+                            borderColor = NuxColors.DarkGray.copy(alpha = 0.40f),
+                            contentColor = NuxColors.DarkGray,
                             modifier = Modifier
                                 .weight(1f)
                                 .height(34.dp)
                         ) {
                             Text(
                                 text = "BATAL",
-                                color = Color.White,
+                                color = NuxColors.DarkGray,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 10.sp,
                                 letterSpacing = 0.5.sp
@@ -513,8 +513,8 @@ fun NuxEditInstanceDialog(
                                 onDismiss()
                             },
                             backgroundColor = NuxColors.ForestGreen,
-                            borderColor = Color(0x6634D399),
-                            contentColor = Color.White,
+                            borderColor = NuxColors.ForestGreen.copy(alpha = 0.40f),
+                            contentColor = NuxColors.DarkGray,
                             modifier = Modifier
                                 .weight(1.5f)
                                 .height(34.dp)
@@ -522,13 +522,13 @@ fun NuxEditInstanceDialog(
                             Icon(
                                 imageVector = Icons.Outlined.Check,
                                 contentDescription = null,
-                                tint = Color.White,
+                                tint = NuxColors.DarkGray,
                                 modifier = Modifier.size(13.dp)
                             )
                             Spacer(modifier = Modifier.width(5.dp))
                             Text(
                                 text = "SIMPAN PERUBAHAN",
-                                color = Color.White,
+                                color = NuxColors.DarkGray,
                                 fontWeight = FontWeight.Black,
                                 fontSize = 10.sp,
                                 letterSpacing = 0.4.sp

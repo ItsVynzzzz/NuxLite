@@ -37,6 +37,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.israadev.nuxlauncher.ui.theme.NuxColors
 
 private const val DISCORD_INVITE_URL = "https://discord.gg/UW4wBQg6X5"
 
@@ -72,9 +73,9 @@ fun NuxMarkdownView(
             when (block) {
                 is MarkdownBlock.Header -> {
                     val (fontSize, fontColor, topPadding) = when (block.level) {
-                        1 -> Triple(12.sp, Color(0xFF38BDF8), 6.dp)
-                        2 -> Triple(11.sp, Color(0xFFE2E8F0), 4.dp)
-                        else -> Triple(10.sp, Color(0xFFFBBF24), 3.dp)
+                        1 -> Triple(12.sp, NuxColors.SkyBlue, 6.dp)
+                        2 -> Triple(11.sp, NuxColors.LightGray, 4.dp)
+                        else -> Triple(10.sp, NuxColors.Amber, 3.dp)
                     }
                     Spacer(modifier = Modifier.height(topPadding))
                     Text(
@@ -90,9 +91,9 @@ fun NuxMarkdownView(
 
                 is MarkdownBlock.StatusBadge -> {
                     val isBug = block.isDeveloperBug
-                    val bgColor = if (isBug) Color(0x33F43F5E) else Color(0x2E10B981)
-                    val borderColor = if (isBug) Color(0xFFF43F5E) else Color(0xFF10B981)
-                    val textColor = if (isBug) Color(0xFFFF6482) else Color(0xFF34D399)
+                    val bgColor = if (isBug) NuxColors.ErrorRed.copy(alpha = 0.20f) else NuxColors.ForestGreen.copy(alpha = 0.18f)
+                    val borderColor = if (isBug) NuxColors.ErrorRed else NuxColors.ForestGreen
+                    val textColor = if (isBug) NuxColors.ErrorRed else NuxColors.ForestGreen
                     val icon = if (isBug) Icons.Default.BugReport else Icons.Default.Build
                     val label = if (isBug) "BUG DEVELOPER / LAUNCHER (PERLU PERBAIKAN TIM)" else "BISA DISELESAIKAN SENDIRI"
 
@@ -144,8 +145,8 @@ fun NuxMarkdownView(
 
                 is MarkdownBlock.AlertBox -> {
                     val isDiscordAlert = block.text.contains("discord.gg", ignoreCase = true) || isDeveloperBug
-                    val borderColor = if (isDiscordAlert) Color(0xFFF43F5E) else Color(0xFF38BDF8)
-                    val bgColor = if (isDiscordAlert) Color(0x1FF43F5E) else Color(0x1F38BDF8)
+                    val borderColor = if (isDiscordAlert) NuxColors.ErrorRed else NuxColors.SkyBlue
+                    val bgColor = if (isDiscordAlert) NuxColors.ErrorRed.copy(alpha = 0.12f) else NuxColors.SkyBlue.copy(alpha = 0.12f)
 
                     Box(
                         modifier = Modifier
@@ -168,7 +169,7 @@ fun NuxMarkdownView(
                             )
                             RenderAnnotatedText(
                                 annotated = buildAnnotatedContent(block.text),
-                                defaultColor = Color(0xFFF1F5F9),
+                                defaultColor = NuxColors.LightGray,
                                 fontSize = 9.sp,
                                 lineHeight = 13.sp
                             )
@@ -186,14 +187,14 @@ fun NuxMarkdownView(
                     ) {
                         Text(
                             text = block.bullet,
-                            color = Color(0xFF38BDF8),
+                            color = NuxColors.SkyBlueDark,
                             fontWeight = FontWeight.Black,
                             fontSize = 9.sp,
                             lineHeight = 13.5.sp
                         )
                         RenderAnnotatedText(
                             annotated = buildAnnotatedContent(block.text),
-                            defaultColor = Color(0xFFE2E8F0),
+                            defaultColor = NuxColors.LightGray,
                             fontSize = 9.sp,
                             lineHeight = 13.5.sp
                         )
@@ -207,8 +208,8 @@ fun NuxMarkdownView(
                             .fillMaxWidth()
                             .padding(vertical = 2.dp)
                             .clip(RoundedCornerShape(6.dp))
-                            .background(Color(0xFF070A0E))
-                            .border(1.dp, Color(0x2238BDF8), RoundedCornerShape(6.dp))
+                            .background(NuxColors.Background)
+                            .border(1.dp, NuxColors.SkyBlue.copy(alpha = 0.13f), RoundedCornerShape(6.dp))
                             .horizontalScroll(codeScroll)
                             .padding(6.dp)
                     ) {
@@ -228,14 +229,14 @@ fun NuxMarkdownView(
                             .fillMaxWidth()
                             .padding(vertical = 4.dp)
                             .height(1.dp)
-                            .background(Color(0x22FFFFFF))
+                            .background(NuxColors.DarkGray.copy(alpha = 0.13f))
                     )
                 }
 
                 is MarkdownBlock.Paragraph -> {
                     RenderAnnotatedText(
                         annotated = buildAnnotatedContent(block.text),
-                        defaultColor = Color(0xFFE2E8F0),
+                        defaultColor = NuxColors.LightGray,
                         fontSize = 9.sp,
                         lineHeight = 13.5.sp
                     )
@@ -264,7 +265,7 @@ fun NuxMarkdownView(
                     Text("💬", fontSize = 11.sp)
                     Text(
                         text = "BUKA TIKET PENGADUAN DI DISCORD RESMI",
-                        color = Color.White,
+                        color = NuxColors.DarkGray,
                         fontWeight = FontWeight.Black,
                         fontSize = 9.sp,
                         letterSpacing = 0.4.sp
@@ -272,7 +273,7 @@ fun NuxMarkdownView(
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.OpenInNew,
                         contentDescription = null,
-                        tint = Color.White.copy(alpha = 0.85f),
+                        tint = NuxColors.DarkGray.copy(alpha = 0.85f),
                         modifier = Modifier.size(11.dp)
                     )
                 }
@@ -414,7 +415,7 @@ private fun parseMarkdownBlocks(content: String): List<MarkdownBlock> {
 private fun buildAnnotatedContent(rawText: String): AnnotatedString {
     val linkStyles = TextLinkStyles(
         style = SpanStyle(
-            color = Color(0xFF38BDF8),
+            color = NuxColors.SkyBlueDark,
             fontWeight = FontWeight.Bold,
             textDecoration = TextDecoration.Underline
         )
@@ -429,7 +430,7 @@ private fun buildAnnotatedContent(rawText: String): AnnotatedString {
             if (i + 1 < len && rawText[i] == '*' && rawText[i + 1] == '*') {
                 val end = rawText.indexOf("**", i + 2)
                 if (end != -1) {
-                    pushStyle(SpanStyle(fontWeight = FontWeight.Bold, color = Color.White))
+                    pushStyle(SpanStyle(fontWeight = FontWeight.Bold, color = NuxColors.DarkGray))
                     append(rawText.substring(i + 2, end))
                     pop()
                     i = end + 2
@@ -444,8 +445,8 @@ private fun buildAnnotatedContent(rawText: String): AnnotatedString {
                     pushStyle(
                         SpanStyle(
                             fontFamily = FontFamily.Monospace,
-                            color = Color(0xFF38BDF8),
-                            background = Color(0xFF1E293B)
+                            color = NuxColors.SkyBlueDark,
+                            background = NuxColors.SurfaceElevated
                         )
                     )
                     append(" ${rawText.substring(i + 1, end)} ")

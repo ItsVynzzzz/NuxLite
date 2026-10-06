@@ -56,7 +56,7 @@ fun NuxDeleteInstanceDialog(
                     .widthIn(min = 340.dp, max = 460.dp)
                     .wrapContentHeight(),
                 backgroundColor = NuxColors.SurfaceElevated,
-                borderColor = Color(0x33FFFFFF),
+                borderColor = NuxColors.DarkGray.copy(alpha = 0.40f),
                 cornerRadius = 18.dp,
                 fillMaxHeight = false
             ) {
@@ -78,25 +78,25 @@ fun NuxDeleteInstanceDialog(
                                     .size(32.dp)
                                     .background(
                                         Brush.radialGradient(
-                                            listOf(Color(0xFFEF4444).copy(alpha = 0.28f), Color.Transparent)
+                                            listOf(NuxColors.ErrorRed.copy(alpha = 0.28f), Color.Transparent)
                                         ),
                                         CircleShape
                                     )
-                                    .border(1.2.dp, Color(0xFFEF4444).copy(alpha = 0.6f), CircleShape)
+                                    .border(1.2.dp, NuxColors.ErrorRed.copy(alpha = 0.6f), CircleShape)
                                     .padding(2.5.dp),
                                 contentAlignment = Alignment.Center
                             ) {
                                 Box(
                                     modifier = Modifier
                                         .fillMaxSize()
-                                        .background(Color(0xFF261014), CircleShape)
-                                        .border(1.dp, Color(0x33FFFFFF), CircleShape),
+                                        .background(NuxColors.ErrorRed.copy(alpha = 0.12f), CircleShape)
+                                        .border(1.dp, NuxColors.DarkGray.copy(alpha = 0.40f), CircleShape),
                                     contentAlignment = Alignment.Center
                                 ) {
                                     Icon(
                                         imageVector = Icons.Outlined.DeleteForever,
                                         contentDescription = null,
-                                        tint = Color(0xFFF87171),
+                                        tint = NuxColors.ErrorRed,
                                         modifier = Modifier.size(15.dp)
                                     )
                                 }
@@ -107,14 +107,14 @@ fun NuxDeleteInstanceDialog(
                             Column {
                                 Text(
                                     text = "KONFIRMASI TINDAKAN",
-                                    color = Color(0xFFF87171),
+                                    color = NuxColors.ErrorRed,
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 7.5.sp,
                                     letterSpacing = 1.sp
                                 )
                                 Text(
                                     text = "Hapus Instance",
-                                    color = Color.White,
+                                    color = NuxColors.DarkGray,
                                     fontWeight = FontWeight.Black,
                                     fontSize = 13.sp,
                                     letterSpacing = (-0.2).sp
@@ -127,15 +127,15 @@ fun NuxDeleteInstanceDialog(
                             modifier = Modifier
                                 .size(26.dp)
                                 .clip(CircleShape)
-                                .background(Color(0xFF151821), CircleShape)
-                                .border(1.dp, Color(0x33FFFFFF), CircleShape)
+                                .background(NuxColors.SurfaceWhite, CircleShape)
+                                .border(1.dp, NuxColors.DarkGray.copy(alpha = 0.40f), CircleShape)
                                 .clickable { onDismiss() },
                             contentAlignment = Alignment.Center
                         ) {
                             Icon(
                                 imageVector = Icons.Outlined.Close,
                                 contentDescription = "Tutup",
-                                tint = Color(0xFFA1A1AA),
+                                tint = NuxColors.GrayNeutral,
                                 modifier = Modifier.size(13.dp)
                             )
                         }
@@ -148,21 +148,21 @@ fun NuxDeleteInstanceDialog(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clip(RoundedCornerShape(10.dp))
-                            .background(Color(0xFF12151E))
-                            .border(1.dp, Color(0x24FFFFFF), RoundedCornerShape(10.dp))
+                            .background(NuxColors.SurfaceWhite)
+                            .border(1.dp, NuxColors.DarkGray.copy(alpha = 0.28f), RoundedCornerShape(10.dp))
                             .padding(10.dp)
                     ) {
                         Column {
                             Text(
                                 text = instance.name,
-                                color = Color.White,
+                                color = NuxColors.DarkGray,
                                 fontWeight = FontWeight.Black,
                                 fontSize = 12.sp
                             )
                             Spacer(modifier = Modifier.height(2.dp))
                             Text(
                                 text = "Versi: ${instance.mcVersion} · Loader: ${instance.loader.uppercase()}${if (instance.loaderVersion.isNotBlank()) " (${instance.loaderVersion})" else ""}",
-                                color = Color(0xFFA1A1AA),
+                                color = NuxColors.GrayNeutral,
                                 fontWeight = FontWeight.Medium,
                                 fontSize = 9.sp
                             )
@@ -174,7 +174,7 @@ fun NuxDeleteInstanceDialog(
                     // Warning explanation
                     Text(
                         text = "Apakah Anda yakin ingin menghapus instance ini? Semua dunia game, file modifikasi, savegame, dan konfigurasi akan dihapus secara permanen.",
-                        color = Color(0xFFD4D4D8),
+                        color = NuxColors.GrayNeutral,
                         fontSize = 9.sp,
                         lineHeight = 13.sp,
                         fontWeight = FontWeight.Normal
@@ -189,9 +189,9 @@ fun NuxDeleteInstanceDialog(
                     ) {
                         NuxButton(
                             onClick = onDismiss,
-                            backgroundColor = Color(0xFF1A1D27),
-                            borderColor = Color(0x33FFFFFF),
-                            contentColor = Color.White,
+                            backgroundColor = NuxColors.SurfaceElevated,
+                            borderColor = NuxColors.DarkGray.copy(alpha = 0.40f),
+                            contentColor = NuxColors.DarkGray,
                             modifier = Modifier
                                 .weight(1f)
                                 .height(34.dp)
@@ -200,16 +200,16 @@ fun NuxDeleteInstanceDialog(
                                 text = "BATAL",
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 10.sp,
-                                color = Color.White,
+                                color = NuxColors.DarkGray,
                                 letterSpacing = 0.4.sp
                             )
                         }
 
                         NuxButton(
                             onClick = onConfirm,
-                            backgroundColor = Color(0xFFDC2626),
-                            borderColor = Color(0x44EF4444),
-                            contentColor = Color.White,
+                            backgroundColor = NuxColors.ErrorRed,
+                            borderColor = NuxColors.ErrorRed.copy(alpha = 0.27f),
+                            contentColor = NuxColors.DarkGray,
                             modifier = Modifier
                                 .weight(1.3f)
                                 .height(34.dp)
@@ -218,7 +218,7 @@ fun NuxDeleteInstanceDialog(
                                 text = "HAPUS INSTANCE 🗑",
                                 fontWeight = FontWeight.Black,
                                 fontSize = 10.sp,
-                                color = Color.White,
+                                color = NuxColors.DarkGray,
                                 letterSpacing = 0.4.sp
                             )
                         }

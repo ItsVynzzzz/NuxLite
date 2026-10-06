@@ -52,7 +52,7 @@ fun NuxAccountDialog(
                         letterSpacing = 0.5.sp
                     )
                     Spacer(modifier = Modifier.width(8.dp))
-                    NuxBadge(text = "OFFLINE", backgroundColor = NuxColors.SoftLime, textColor = NuxColors.ForestGreen)
+                    NuxBadge(text = "OFFLINE", backgroundColor = NuxColors.SoftLime, textColor = NuxColors.SageGreen)
                 }
 
                 Box(
@@ -155,7 +155,7 @@ fun NuxAccountDialog(
                                             ) {
                                                 Text(
                                                     text = acc.username.take(2).uppercase(),
-                                                    color = Color.White,
+                                                    color = NuxColors.DarkGray,
                                                     fontWeight = FontWeight.Black,
                                                     fontSize = 10.sp
                                                 )
@@ -177,7 +177,7 @@ fun NuxAccountDialog(
                                         }
 
                                         if (isSelected) {
-                                            NuxBadge(text = "AKTIF", backgroundColor = NuxColors.ForestGreen, textColor = Color.White)
+                                            NuxBadge(text = "AKTIF", backgroundColor = NuxColors.ForestGreen, textColor = NuxColors.DarkGray)
                                         }
                                     }
                                 }
@@ -235,11 +235,11 @@ fun NuxAccountDialog(
                         },
                         modifier = Modifier.fillMaxWidth(),
                         backgroundColor = NuxColors.ForestGreen,
-                        contentColor = Color.White
+                        contentColor = NuxColors.DarkGray
                     ) {
                         Text(
                             text = "SIMPAN AKUN >",
-                            color = Color.White,
+                            color = NuxColors.DarkGray,
                             fontWeight = FontWeight.Black,
                             fontSize = 12.sp
                         )

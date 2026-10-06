@@ -135,7 +135,7 @@ fun NuxNetworkImage(
             ) {
                 CircularProgressIndicator(
                     modifier = Modifier.size(18.dp),
-                    color = NuxColors.ForestGreen,
+                    color = NuxColors.SageGreen,
                     strokeWidth = 2.dp
                 )
             }
@@ -149,7 +149,7 @@ fun NuxNetworkImage(
             ) {
                 Text(
                     text = fallbackInitials.take(2).uppercase(),
-                    color = NuxColors.ForestGreen,
+                    color = NuxColors.SageGreen,
                     fontWeight = FontWeight.Black,
                     fontSize = 15.sp,
                     letterSpacing = 0.5.sp

@@ -53,12 +53,12 @@ fun NuxDownloadProgressDialog(
                 .background(
                     Brush.verticalGradient(
                         colors = listOf(
-                            Color(0xFF141923),
-                            Color(0xFF0F121A)
+                            NuxColors.SurfaceElevated,
+                            NuxColors.SurfaceInput
                         )
                     )
                 )
-                .border(1.dp, Color(0x3310B981), outerShape)
+                .border(1.dp, NuxColors.ForestGreen.copy(alpha = 0.20f), outerShape)
                 .padding(20.dp)
         ) {
             Column(modifier = Modifier.fillMaxWidth()) {
@@ -73,14 +73,14 @@ fun NuxDownloadProgressDialog(
                             modifier = Modifier
                                 .size(32.dp)
                                 .clip(CircleShape)
-                                .background(Color(0xFF10B981).copy(alpha = 0.15f))
+                                .background(NuxColors.ForestGreen.copy(alpha = 0.15f))
                                 .border(1.dp, NuxColors.ForestGreen.copy(alpha = 0.5f), CircleShape),
                             contentAlignment = Alignment.Center
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Download,
                                 contentDescription = null,
-                                tint = NuxColors.MintGreen,
+                                tint = NuxColors.SageGreen,
                                 modifier = Modifier.size(16.dp)
                             )
                         }
@@ -88,14 +88,14 @@ fun NuxDownloadProgressDialog(
                         Column {
                             Text(
                                 text = "CORE ASSET PIPELINE",
-                                color = Color(0xFF71717A),
+                                color = NuxColors.GrayNeutral,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 8.5.sp,
                                 letterSpacing = 1.2.sp
                             )
                             Text(
                                 text = "Mengunduh Game",
-                                color = Color.White,
+                                color = NuxColors.DarkGray,
                                 fontWeight = FontWeight.Black,
                                 fontSize = 16.sp,
                                 letterSpacing = (-0.3).sp
@@ -107,13 +107,13 @@ fun NuxDownloadProgressDialog(
                     Box(
                         modifier = Modifier
                             .clip(RoundedCornerShape(8.dp))
-                            .background(Color(0xFF10B981).copy(alpha = 0.18f))
+                            .background(NuxColors.ForestGreen.copy(alpha = 0.18f))
                             .border(1.dp, NuxColors.ForestGreen.copy(alpha = 0.6f), RoundedCornerShape(8.dp))
                             .padding(horizontal = 10.dp, vertical = 4.dp)
                     ) {
                         Text(
                             text = "${(animatedProgress * 100).toInt()}%",
-                            color = NuxColors.MintGreen,
+                            color = NuxColors.SageGreen,
                             fontWeight = FontWeight.Black,
                             fontSize = 13.sp
                         )
@@ -127,8 +127,8 @@ fun NuxDownloadProgressDialog(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clip(cardShape)
-                        .background(Color(0xFF0B0D13))
-                        .border(1.dp, Color(0x1AFFFFFF), cardShape)
+                        .background(NuxColors.SurfaceInput)
+                        .border(1.dp, NuxColors.DarkGray.copy(alpha = 0.20f), cardShape)
                         .padding(horizontal = 12.dp, vertical = 9.dp)
                 ) {
                     Row(
@@ -145,14 +145,14 @@ fun NuxDownloadProgressDialog(
                             Spacer(modifier = Modifier.width(8.dp))
                             Text(
                                 text = instanceName,
-                                color = Color.White,
+                                color = NuxColors.DarkGray,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 12.sp
                             )
                         }
                         Text(
                             text = "MOJANG ASSETS",
-                            color = Color(0xFF71717A),
+                            color = NuxColors.GrayNeutral,
                             fontWeight = FontWeight.SemiBold,
                             fontSize = 9.sp,
                             letterSpacing = 0.5.sp
@@ -168,8 +168,8 @@ fun NuxDownloadProgressDialog(
                         .fillMaxWidth()
                         .height(12.dp)
                         .clip(CircleShape)
-                        .background(Color(0xFF090B0F), CircleShape)
-                        .border(1.dp, Color(0x2EFFFFFF), CircleShape)
+                        .background(NuxColors.Background, CircleShape)
+                        .border(1.dp, NuxColors.DarkGray.copy(alpha = 0.36f), CircleShape)
                         .padding(2.dp)
                 ) {
                     Box(
@@ -180,10 +180,10 @@ fun NuxDownloadProgressDialog(
                             .background(
                                 Brush.horizontalGradient(
                                     colors = listOf(
-                                        Color(0xFF059669),
-                                        Color(0xFF10B981),
-                                        Color(0xFF34D399),
-                                        Color(0xFF38BDF8)
+                                        NuxColors.ForestGreen,
+                                        NuxColors.ForestGreen,
+                                        NuxColors.ForestGreen,
+                                        NuxColors.SkyBlue
                                     )
                                 )
                             )
@@ -200,12 +200,12 @@ fun NuxDownloadProgressDialog(
                     CircularProgressIndicator(
                         modifier = Modifier.size(12.dp),
                         strokeWidth = 1.5.dp,
-                        color = NuxColors.ForestGreen
+                        color = NuxColors.SageGreen
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
                         text = message.ifBlank { "Menyiapkan dependensi game & checksum..." },
-                        color = Color(0xFFA1A1AA),
+                        color = NuxColors.GrayNeutral,
                         fontWeight = FontWeight.Medium,
                         fontSize = 11.5.sp,
                         maxLines = 1

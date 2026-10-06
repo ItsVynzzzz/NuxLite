@@ -64,6 +64,7 @@ import com.israadev.nuxlauncher.ui.theme.NuxColors
 import com.israadev.nuxlauncher.ui.theme.resp
 import com.israadev.nuxlauncher.ui.theme.LocalNuxScale
 import kotlinx.coroutines.launch
+import com.israadev.nuxlauncher.ui.theme.NuxSizes
 
 @Composable
 fun DashboardScreen() {
@@ -193,7 +194,7 @@ fun DashboardScreen() {
                         ) {
                             Text(
                                 text = "DASHBOARD",
-                                color = Color.White,
+                                color = NuxColors.DarkGray,
                                 fontWeight = FontWeight.Black,
                                 fontSize = (13.5.sp).resp(),
                                 letterSpacing = (0.7.sp).resp(),
@@ -205,12 +206,12 @@ fun DashboardScreen() {
                                 modifier = Modifier
                                     .align(Alignment.Center)
                                     .background(
-                                        Color(0x1AFFFFFF),
+                                        NuxColors.DarkGray.copy(alpha = 0.10f),
                                         RoundedCornerShape((6.dp).resp())
                                     )
                                     .border(
                                         1.dp,
-                                        Color(0x26FFFFFF),
+                                        NuxColors.DarkGray.copy(alpha = 0.30f),
                                         RoundedCornerShape((6.dp).resp())
                                     )
                                     .clickable { showAboutDialog = true }
@@ -256,12 +257,12 @@ fun DashboardScreen() {
                                     modifier = Modifier
                                         .clip(vipShape)
                                         .background(
-                                            if (isVip) Color(0xFFF59E0B).copy(alpha = 0.18f) else Color(0x1AFFFFFF),
+                                            if (isVip) NuxColors.Amber.copy(alpha = 0.18f) else NuxColors.DarkGray.copy(alpha = 0.10f),
                                             vipShape
                                         )
                                         .border(
                                             1.dp,
-                                            if (isVip) Color(0xFFF59E0B) else Color(0x33FFFFFF),
+                                            if (isVip) NuxColors.Amber else NuxColors.DarkGray.copy(alpha = 0.40f),
                                             vipShape
                                         )
                                         .clickable {
@@ -274,7 +275,7 @@ fun DashboardScreen() {
                                     Row(verticalAlignment = Alignment.CenterVertically) {
                                         Text(
                                             text = if (isVip) "👑 VIP" else "★ UPGRADE",
-                                            color = if (isVip) Color(0xFFFBBF24) else Color(0xFF38BDF8),
+                                            color = if (isVip) NuxColors.AmberDark else NuxColors.SkyBlueDark,
                                             fontWeight = FontWeight.Black,
                                             fontSize = (8.5.sp).resp(),
                                             letterSpacing = (0.5.sp).resp()
@@ -287,7 +288,7 @@ fun DashboardScreen() {
                                     modifier = Modifier
                                         .clip(userShape)
                                         .background(NuxColors.SurfaceElevated, userShape)
-                                        .border(1.dp, NuxColors.CardBorder, userShape)
+                                        .border(NuxSizes.BorderWidth, NuxColors.CardBorder, userShape)
                                         .clickable { currentTab = "settings" }
                                         .padding(horizontal = (8.dp).resp(), vertical = (3.5.dp).resp()),
                                     verticalAlignment = Alignment.CenterVertically
@@ -314,7 +315,7 @@ fun DashboardScreen() {
                                     Spacer(modifier = Modifier.width((5.dp).resp()))
                                     Text(
                                         text = launcherUser?.username ?: "PROFIL",
-                                        color = Color.White,
+                                        color = NuxColors.DarkGray,
                                         fontWeight = FontWeight.SemiBold,
                                         fontSize = (10.5.sp).resp()
                                     )
@@ -344,7 +345,7 @@ fun DashboardScreen() {
                                         .weight(1.35f)
                                         .clip(heroShape)
                                         .background(NuxColors.SurfaceElevated, heroShape)
-                                        .border(1.dp, NuxColors.CardBorder, heroShape)
+                                        .border(NuxSizes.BorderWidth, NuxColors.CardBorder, heroShape)
                                 ) {
                                     if (selectedInstance != null) {
                                         val inst = selectedInstance!!
@@ -378,9 +379,9 @@ fun DashboardScreen() {
                                                 .background(
                                                     Brush.horizontalGradient(
                                                         colors = listOf(
-                                                            Color(0xF509090B),
-                                                            Color(0xDC0D0F14),
-                                                            Color(0x550D0F14)
+                                                            NuxColors.Background.copy(alpha = 0.96f),
+                                                            NuxColors.SurfaceInput.copy(alpha = 0.86f),
+                                                            NuxColors.SurfaceInput.copy(alpha = 0.33f)
                                                         )
                                                     )
                                                 )
@@ -398,8 +399,8 @@ fun DashboardScreen() {
                                                     // • FABRIC EDITION pill badge
                                                     Row(
                                                         modifier = Modifier
-                                                            .background(Color(0xFF10B981).copy(alpha = 0.15f), RoundedCornerShape((7.dp).resp()))
-                                                            .border(1.dp, Color(0xFF10B981).copy(alpha = 0.4f), RoundedCornerShape((7.dp).resp()))
+                                                            .background(NuxColors.ForestGreen.copy(alpha = 0.15f), RoundedCornerShape((7.dp).resp()))
+                                                            .border(1.dp, NuxColors.ForestGreen.copy(alpha = 0.4f), RoundedCornerShape((7.dp).resp()))
                                                             .padding(horizontal = (7.dp).resp(), vertical = (2.5.dp).resp()),
                                                         verticalAlignment = Alignment.CenterVertically
                                                     ) {
@@ -411,7 +412,7 @@ fun DashboardScreen() {
                                                         Spacer(modifier = Modifier.width((5.dp).resp()))
                                                         Text(
                                                             text = "${inst.loader.uppercase()} EDITION",
-                                                            color = NuxColors.MintGreen,
+                                                            color = NuxColors.SageGreen,
                                                             fontSize = (9.5.sp).resp(),
                                                             fontWeight = FontWeight.Bold,
                                                             letterSpacing = (0.7.sp).resp()
@@ -423,7 +424,7 @@ fun DashboardScreen() {
                                                     // Large instance title
                                                     Text(
                                                         text = inst.name,
-                                                        color = Color.White,
+                                                        color = NuxColors.DarkGray,
                                                         fontWeight = FontWeight.Black,
                                                         fontSize = (21.sp).resp(),
                                                         letterSpacing = (-0.4).sp,
@@ -449,7 +450,7 @@ fun DashboardScreen() {
                                                     // Subtitle
                                                     Text(
                                                         text = "Version ${inst.mcVersion} — Click PLAY to launch this instance and craft seamlessly.",
-                                                        color = Color(0xFFA1A1AA),
+                                                        color = NuxColors.GrayNeutral,
                                                         fontSize = (10.sp).resp(),
                                                         lineHeight = (13.sp).resp(),
                                                         maxLines = 2
@@ -463,7 +464,7 @@ fun DashboardScreen() {
                                                 Row(
                                                     modifier = Modifier
                                                         .clip(playBtnShape)
-                                                        .background(Color(0xFF181B22), playBtnShape)
+                                                        .background(NuxColors.SurfaceElevated, playBtnShape)
                                                         .border(
                                                             width = 1.dp,
                                                             color = NuxColors.ForestGreen.copy(alpha = 0.5f),
@@ -549,14 +550,14 @@ fun DashboardScreen() {
                                                         Icon(
                                                             imageVector = if (isFullyDownloaded) Icons.Default.PlayArrow else Icons.Default.Download,
                                                             contentDescription = "Action",
-                                                            tint = Color(0xFF09090B),
+                                                            tint = NuxColors.DarkGray,
                                                             modifier = Modifier.size((18.dp).resp())
                                                         )
                                                     }
 
                                                     Text(
                                                         text = if (isFullyDownloaded) "PLAY" else "UNDUH",
-                                                        color = Color.White,
+                                                        color = NuxColors.DarkGray,
                                                         fontWeight = FontWeight.Black,
                                                         fontSize = (13.5.sp).resp(),
                                                         letterSpacing = (0.8.sp).resp()
@@ -579,7 +580,7 @@ fun DashboardScreen() {
                                             ) {
                                                 Text(
                                                     text = "MULAI BERMAIN",
-                                                    color = NuxColors.ForestGreen,
+                                                    color = NuxColors.SageGreen,
                                                     fontWeight = FontWeight.Bold,
                                                     fontSize = 11.sp,
                                                     letterSpacing = 0.5.sp
@@ -587,7 +588,7 @@ fun DashboardScreen() {
                                                 Spacer(modifier = Modifier.height(4.dp))
                                                 Text(
                                                     text = "Belum Ada Instance",
-                                                    color = Color.White,
+                                                    color = NuxColors.DarkGray,
                                                     fontWeight = FontWeight.Black,
                                                     fontSize = 18.sp,
                                                     maxLines = 1
@@ -595,7 +596,7 @@ fun DashboardScreen() {
                                                 Spacer(modifier = Modifier.height(2.dp))
                                                 Text(
                                                     text = "Buat instance Minecraft pertamamu untuk mulai bermain.",
-                                                    color = Color(0xFFA1A1AA),
+                                                    color = NuxColors.GrayNeutral,
                                                     fontSize = 11.sp,
                                                     maxLines = 2
                                                 )
@@ -606,13 +607,13 @@ fun DashboardScreen() {
                                             NuxButton(
                                                 onClick = { handleRequestCreateInstance() },
                                                 backgroundColor = NuxColors.ForestGreen,
-                                                contentColor = Color.White,
+                                                contentColor = NuxColors.DarkGray,
                                                 cornerRadius = 12.dp,
                                                 modifier = Modifier.height(42.dp)
                                             ) {
                                                 Text(
                                                     text = "+ BUAT INSTANCE",
-                                                    color = Color.White,
+                                                    color = NuxColors.DarkGray,
                                                     fontWeight = FontWeight.Bold,
                                                     fontSize = 11.sp,
                                                     letterSpacing = 0.5.sp
@@ -708,7 +709,7 @@ fun DashboardScreen() {
                                         title = "DELETE\nINSTANCE",
                                         description = "Erase this instance.",
                                         icon = Icons.Outlined.DeleteOutline,
-                                        accentColor = Color(0xFFF43F5E),
+                                        accentColor = NuxColors.ErrorRed,
                                         isDestructive = true,
                                         onClick = {
                                             selectedInstance?.let { inst ->
@@ -732,7 +733,7 @@ fun DashboardScreen() {
                                     .fillMaxHeight()
                                     .clip(panelShape)
                                     .background(NuxColors.SurfaceElevated, panelShape)
-                                    .border(1.dp, NuxColors.CardBorder, panelShape)
+                                    .border(NuxSizes.BorderWidth, NuxColors.CardBorder, panelShape)
                             ) {
                                 Column(
                                     modifier = Modifier
@@ -747,7 +748,7 @@ fun DashboardScreen() {
                                     ) {
                                         Text(
                                             text = "INSTANCE (${instances.size})",
-                                            color = Color.White,
+                                            color = NuxColors.DarkGray,
                                             fontWeight = FontWeight.Black,
                                             fontSize = (11.5.sp).resp(),
                                             letterSpacing = (0.5.sp).resp()
@@ -757,14 +758,14 @@ fun DashboardScreen() {
                                         Box(
                                             modifier = Modifier
                                                 .clip(addPillShape)
-                                                .background(Color(0xFF10B981).copy(alpha = 0.14f), addPillShape)
+                                                .background(NuxColors.ForestGreen.copy(alpha = 0.14f), addPillShape)
                                                 .border(1.dp, NuxColors.ForestGreen.copy(alpha = 0.45f), addPillShape)
                                                 .clickable { handleRequestCreateInstance() }
                                                 .padding(horizontal = (8.dp).resp(), vertical = (3.5.dp).resp())
                                         ) {
                                             Text(
                                                 text = "+ TAMBAH",
-                                                color = NuxColors.ForestGreen,
+                                                color = NuxColors.SageGreen,
                                                 fontWeight = FontWeight.Bold,
                                                 fontSize = (9.5.sp).resp()
                                             )
@@ -781,8 +782,8 @@ fun DashboardScreen() {
                                                 .fillMaxWidth()
                                                 .weight(1f)
                                                 .clip(emptyListShape)
-                                                .background(Color(0xFF12141A), emptyListShape)
-                                                .border(1.dp, Color(0x14FFFFFF), emptyListShape)
+                                                .background(NuxColors.SurfaceWhite, emptyListShape)
+                                                .border(1.dp, NuxColors.DarkGray.copy(alpha = 0.16f), emptyListShape)
                                                 .padding((10.dp).resp()),
                                             contentAlignment = Alignment.Center
                                         ) {
@@ -791,14 +792,14 @@ fun DashboardScreen() {
                                                 Spacer(modifier = Modifier.height((3.dp).resp()))
                                                 Text(
                                                     text = "Belum Ada Instance",
-                                                    color = Color.White,
+                                                    color = NuxColors.DarkGray,
                                                     fontWeight = FontWeight.Bold,
                                                     fontSize = (11.5.sp).resp()
                                                 )
                                                 Spacer(modifier = Modifier.height((2.dp).resp()))
                                                 Text(
                                                     text = "Klik '+ TAMBAH' untuk membuat.",
-                                                    color = Color(0xFFA1A1AA),
+                                                    color = NuxColors.GrayNeutral,
                                                     fontSize = (9.5.sp).resp()
                                                 )
                                             }
@@ -818,12 +819,12 @@ fun DashboardScreen() {
                                                         .fillMaxWidth()
                                                         .clip(itemShape)
                                                         .background(
-                                                            if (isSelected) Color(0xFF10B981).copy(alpha = 0.12f) else Color(0xFF12141A),
+                                                            if (isSelected) NuxColors.ForestGreen.copy(alpha = 0.12f) else NuxColors.SurfaceWhite,
                                                             itemShape
                                                         )
                                                         .border(
                                                             width = 1.dp,
-                                                            color = if (isSelected) Color(0xFF10B981).copy(alpha = 0.5f) else Color(0x12FFFFFF),
+                                                            color = if (isSelected) NuxColors.ForestGreen.copy(alpha = 0.5f) else NuxColors.DarkGray.copy(alpha = 0.14f),
                                                             shape = itemShape
                                                         )
                                                         .clickable { InstanceManager.selectInstance(inst) }
@@ -835,7 +836,7 @@ fun DashboardScreen() {
                                                     Column(modifier = Modifier.weight(1f)) {
                                                         Text(
                                                             text = inst.name,
-                                                            color = Color.White,
+                                                            color = NuxColors.DarkGray,
                                                             fontWeight = FontWeight.SemiBold,
                                                             fontSize = (12.5.sp).resp(),
                                                             maxLines = 1
@@ -843,7 +844,7 @@ fun DashboardScreen() {
                                                         Spacer(modifier = Modifier.height((1.dp).resp()))
                                                         Text(
                                                             text = "v${inst.mcVersion} · ${inst.loader.uppercase()}",
-                                                            color = if (isSelected) NuxColors.ForestGreen else Color(0xFF71717A),
+                                                            color = if (isSelected) NuxColors.SageGreen else NuxColors.GrayNeutral,
                                                             fontSize = (9.5.sp).resp(),
                                                             fontWeight = FontWeight.Medium
                                                         )
@@ -863,7 +864,7 @@ fun DashboardScreen() {
                                                                 Icon(
                                                                     imageVector = Icons.Default.Check,
                                                                     contentDescription = "Selected",
-                                                                    tint = Color(0xFF09090B),
+                                                                    tint = NuxColors.DarkGray,
                                                                     modifier = Modifier.size((11.dp).resp())
                                                                 )
                                                             }
@@ -880,7 +881,7 @@ fun DashboardScreen() {
                                                             Icon(
                                                                 imageVector = Icons.Outlined.DeleteOutline,
                                                                 contentDescription = "Delete",
-                                                                tint = Color(0xFF71717A),
+                                                                tint = NuxColors.GrayNeutral,
                                                                 modifier = Modifier.size((14.dp).resp())
                                                             )
                                                         }
@@ -1044,8 +1045,8 @@ fun QuickActionCard(
     isDestructive: Boolean = false
 ) {
     val cardShape = RoundedCornerShape((11.dp).resp())
-    val bgColor = if (isDestructive) Color(0xFF191116) else Color(0xFF12141A)
-    val borderColor = if (isDestructive) Color(0xFFF43F5E).copy(alpha = 0.25f) else Color(0x1FFFFFFF)
+    val bgColor = if (isDestructive) NuxColors.ErrorRed.copy(alpha = 0.10f) else NuxColors.SurfaceWhite
+    val borderColor = if (isDestructive) NuxColors.ErrorRed.copy(alpha = 0.25f) else NuxColors.DarkGray.copy(alpha = 0.24f)
 
     Box(
         modifier = modifier
@@ -1083,7 +1084,7 @@ fun QuickActionCard(
                 // Title
                 Text(
                     text = title,
-                    color = if (isDestructive) Color(0xFFFECDD3) else Color.White,
+                    color = if (isDestructive) NuxColors.ErrorRed else NuxColors.DarkGray,
                     fontSize = (9.5.sp).resp(),
                     fontWeight = FontWeight.Black,
                     lineHeight = (11.5.sp).resp(),
@@ -1103,7 +1104,7 @@ fun QuickActionCard(
             // Description
             Text(
                 text = description,
-                color = Color(0xFFA1A1AA),
+                color = NuxColors.GrayNeutral,
                 fontSize = (8.sp).resp(),
                 lineHeight = (9.5.sp).resp(),
                 maxLines = 2

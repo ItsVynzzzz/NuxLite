@@ -112,7 +112,7 @@ fun NuxRendererV2ConfigDialog(
                     .width(580.dp)
                     .fillMaxHeight(0.94f),
                 backgroundColor = NuxColors.SurfaceElevated,
-                borderColor = Color(0x3310B981),
+                borderColor = NuxColors.ForestGreen.copy(alpha = 0.20f),
                 cornerRadius = NuxSizes.CornerRadiusLarge,
                 fillMaxHeight = false
             ) {
@@ -139,7 +139,7 @@ fun NuxRendererV2ConfigDialog(
                                 Icon(
                                     imageVector = Icons.Default.Settings,
                                     contentDescription = null,
-                                    tint = NuxColors.MintGreen,
+                                    tint = NuxColors.SageGreen,
                                     modifier = Modifier.size(18.dp)
                                 )
                             }
@@ -147,14 +147,14 @@ fun NuxRendererV2ConfigDialog(
                             Column {
                                 Text(
                                     text = "KONFIGURASI RENDERER",
-                                    color = Color.White,
+                                    color = NuxColors.DarkGray,
                                     fontWeight = FontWeight.Black,
                                     fontSize = 14.sp,
                                     letterSpacing = 0.5.sp
                                 )
                                 Text(
                                     text = v2Data?.config?.displayName ?: rendererInfo?.displayName ?: "MobileGlues Engine",
-                                    color = NuxColors.MintGreen,
+                                    color = NuxColors.SageGreen,
                                     fontSize = 10.sp,
                                     fontWeight = FontWeight.SemiBold
                                 )
@@ -167,13 +167,13 @@ fun NuxRendererV2ConfigDialog(
                                 .size(28.dp)
                                 .clip(RoundedCornerShape(8.dp))
                                 .background(NuxColors.SurfaceInput)
-                                .border(1.dp, NuxColors.CardBorder, RoundedCornerShape(8.dp))
+                                .border(NuxSizes.BorderWidth, NuxColors.CardBorder, RoundedCornerShape(8.dp))
                                 .clickable { onDismiss() },
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
                                 text = "✕",
-                                color = Color.White,
+                                color = NuxColors.DarkGray,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 12.sp
                             )
@@ -196,7 +196,7 @@ fun NuxRendererV2ConfigDialog(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .clip(cardShape)
-                                    .background(Color(0xFF141923), cardShape)
+                                    .background(NuxColors.SurfaceElevated, cardShape)
                                     .border(1.dp, NuxColors.ForestGreen.copy(alpha = 0.35f), cardShape)
                                     .clickable {
                                         try {
@@ -232,7 +232,7 @@ fun NuxRendererV2ConfigDialog(
                                             Icon(
                                                 imageVector = Icons.Default.OpenInNew,
                                                 contentDescription = null,
-                                                tint = NuxColors.MintGreen,
+                                                tint = NuxColors.SageGreen,
                                                 modifier = Modifier.size(16.dp)
                                             )
                                         }
@@ -240,13 +240,13 @@ fun NuxRendererV2ConfigDialog(
                                         Column {
                                             Text(
                                                 text = "Buka Panel Aplikasi ${v2Data?.config?.displayName ?: rendererInfo?.displayName ?: "MobileGL"}",
-                                                color = Color.White,
+                                                color = NuxColors.DarkGray,
                                                 fontWeight = FontWeight.Bold,
                                                 fontSize = 12.sp
                                             )
                                             Text(
                                                 text = "Akses pengaturan driver native, benchmark, dan preferensi aplikasi",
-                                                color = Color(0xFFA1A1AA),
+                                                color = NuxColors.GrayNeutral,
                                                 fontSize = 10.sp
                                             )
                                         }
@@ -254,7 +254,7 @@ fun NuxRendererV2ConfigDialog(
                                     Icon(
                                         imageVector = Icons.Default.OpenInNew,
                                         contentDescription = null,
-                                        tint = NuxColors.MintGreen,
+                                        tint = NuxColors.SageGreen,
                                         modifier = Modifier.size(18.dp)
                                     )
                                 }
@@ -273,14 +273,14 @@ fun NuxRendererV2ConfigDialog(
                             ) {
                                 Text(
                                     text = "Tidak ada environment variable yang dapat dikonfigurasi untuk renderer ini.",
-                                    color = Color(0xFF71717A),
+                                    color = NuxColors.GrayNeutral,
                                     fontSize = 11.sp
                                 )
                             }
                         } else {
                             Text(
                                 text = "PENGATURAN ENVIRONMENT VARIABLES",
-                                color = Color(0xFF71717A),
+                                color = NuxColors.GrayNeutral,
                                 fontSize = 10.sp,
                                 fontWeight = FontWeight.Bold,
                                 letterSpacing = 0.5.sp
@@ -328,13 +328,13 @@ fun NuxRendererV2ConfigDialog(
                                 Icon(
                                     imageVector = Icons.Default.RestartAlt,
                                     contentDescription = null,
-                                    tint = Color(0xFFA1A1AA),
+                                    tint = NuxColors.GrayNeutral,
                                     modifier = Modifier.size(14.dp)
                                 )
                                 Spacer(modifier = Modifier.width(6.dp))
                                 Text(
                                     text = "RESET DEFAULT",
-                                    color = Color(0xFFA1A1AA),
+                                    color = NuxColors.GrayNeutral,
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 11.sp
                                 )
@@ -344,13 +344,13 @@ fun NuxRendererV2ConfigDialog(
                         NuxButton(
                             onClick = onDismiss,
                             backgroundColor = NuxColors.ForestGreen,
-                            contentColor = Color.White,
+                            contentColor = NuxColors.DarkGray,
                             cornerRadius = 8.dp,
                             modifier = Modifier.height(36.dp)
                         ) {
                             Text(
                                 text = "SIMPAN & TUTUP",
-                                color = Color.White,
+                                color = NuxColors.DarkGray,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 11.sp
                             )
@@ -375,8 +375,8 @@ private fun SelectableEnvItemCard(unit: EnvSettingUnit.Selectable) {
         modifier = Modifier
             .fillMaxWidth()
             .clip(cardShape)
-            .background(Color(0xFF13161F), cardShape)
-            .border(1.dp, if (unit.isEnabled) Color(0x3010B981) else Color(0x18FFFFFF), cardShape)
+            .background(NuxColors.SurfaceWhite, cardShape)
+            .border(1.dp, if (unit.isEnabled) NuxColors.ForestGreen.copy(alpha = 0.19f) else NuxColors.DarkGray.copy(alpha = 0.19f), cardShape)
     ) {
         Column(modifier = Modifier.fillMaxWidth()) {
             Row(
@@ -395,7 +395,7 @@ private fun SelectableEnvItemCard(unit: EnvSettingUnit.Selectable) {
                     },
                     colors = CheckboxDefaults.colors(
                         checkedColor = NuxColors.ForestGreen,
-                        uncheckedColor = Color(0xFF52525B),
+                        uncheckedColor = NuxColors.LightGray,
                         checkmarkColor = Color.White
                     ),
                     modifier = Modifier.size(24.dp)
@@ -406,7 +406,7 @@ private fun SelectableEnvItemCard(unit: EnvSettingUnit.Selectable) {
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
                         text = unit.key,
-                        color = if (unit.isEnabled) Color.White else Color(0xFF71717A),
+                        color = if (unit.isEnabled) NuxColors.DarkGray else NuxColors.GrayNeutral,
                         fontWeight = FontWeight.Bold,
                         fontSize = 12.sp,
                         fontFamily = FontFamily.Monospace
@@ -415,7 +415,7 @@ private fun SelectableEnvItemCard(unit: EnvSettingUnit.Selectable) {
                         Spacer(modifier = Modifier.height(2.dp))
                         Text(
                             text = unit.summary,
-                            color = Color(0xFFA1A1AA),
+                            color = NuxColors.GrayNeutral,
                             fontSize = 10.sp
                         )
                     }
@@ -423,7 +423,7 @@ private fun SelectableEnvItemCard(unit: EnvSettingUnit.Selectable) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(
                             text = "Nilai aktif: ",
-                            color = Color(0xFF71717A),
+                            color = NuxColors.GrayNeutral,
                             fontSize = 10.sp
                         )
                         Box(
@@ -434,7 +434,7 @@ private fun SelectableEnvItemCard(unit: EnvSettingUnit.Selectable) {
                         ) {
                             Text(
                                 text = unit.state,
-                                color = NuxColors.MintGreen,
+                                color = NuxColors.SageGreen,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 10.sp,
                                 fontFamily = FontFamily.Monospace
@@ -446,7 +446,7 @@ private fun SelectableEnvItemCard(unit: EnvSettingUnit.Selectable) {
                 Icon(
                     imageVector = Icons.Default.ArrowDropDown,
                     contentDescription = null,
-                    tint = if (unit.isEnabled) Color.White else Color(0xFF52525B),
+                    tint = if (unit.isEnabled) NuxColors.DarkGray else NuxColors.GrayNeutral,
                     modifier = Modifier
                         .size(22.dp)
                         .rotate(if (expanded) 180f else 0f)
@@ -461,7 +461,7 @@ private fun SelectableEnvItemCard(unit: EnvSettingUnit.Selectable) {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(Color(0xFF0D1017))
+                        .background(NuxColors.SurfaceInput)
                         .padding(horizontal = 12.dp, vertical = 8.dp)
                 ) {
                     unit.values.forEach { option ->
@@ -481,7 +481,7 @@ private fun SelectableEnvItemCard(unit: EnvSettingUnit.Selectable) {
                         ) {
                             Text(
                                 text = option,
-                                color = if (isSelected) NuxColors.MintGreen else Color(0xFFA1A1AA),
+                                color = if (isSelected) NuxColors.SageGreen else NuxColors.GrayNeutral,
                                 fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
                                 fontSize = 11.5.sp,
                                 fontFamily = FontFamily.Monospace
@@ -490,7 +490,7 @@ private fun SelectableEnvItemCard(unit: EnvSettingUnit.Selectable) {
                                 Icon(
                                     imageVector = Icons.Default.CheckCircle,
                                     contentDescription = null,
-                                    tint = NuxColors.MintGreen,
+                                    tint = NuxColors.SageGreen,
                                     modifier = Modifier.size(15.dp)
                                 )
                             }
@@ -514,8 +514,8 @@ private fun ToggleableEnvItemCard(unit: EnvSettingUnit.Toggleable) {
         modifier = Modifier
             .fillMaxWidth()
             .clip(cardShape)
-            .background(Color(0xFF13161F), cardShape)
-            .border(1.dp, if (unit.isEnabled) Color(0x3010B981) else Color(0x18FFFFFF), cardShape)
+            .background(NuxColors.SurfaceWhite, cardShape)
+            .border(1.dp, if (unit.isEnabled) NuxColors.ForestGreen.copy(alpha = 0.19f) else NuxColors.DarkGray.copy(alpha = 0.19f), cardShape)
             .clickable { unit.setToggle(!unit.isEnabled) }
             .padding(12.dp)
     ) {
@@ -527,7 +527,7 @@ private fun ToggleableEnvItemCard(unit: EnvSettingUnit.Toggleable) {
             Column(modifier = Modifier.weight(1f).padding(end = 12.dp)) {
                 Text(
                     text = unit.key,
-                    color = if (unit.isEnabled) Color.White else Color(0xFFD4D4D8),
+                    color = if (unit.isEnabled) NuxColors.DarkGray else NuxColors.GrayNeutral,
                     fontWeight = FontWeight.Bold,
                     fontSize = 12.sp,
                     fontFamily = FontFamily.Monospace
@@ -536,7 +536,7 @@ private fun ToggleableEnvItemCard(unit: EnvSettingUnit.Toggleable) {
                     Spacer(modifier = Modifier.height(2.dp))
                     Text(
                         text = unit.summary,
-                        color = Color(0xFFA1A1AA),
+                        color = NuxColors.GrayNeutral,
                         fontSize = 10.sp
                     )
                 }
@@ -548,8 +548,8 @@ private fun ToggleableEnvItemCard(unit: EnvSettingUnit.Toggleable) {
                 colors = SwitchDefaults.colors(
                     checkedThumbColor = Color.White,
                     checkedTrackColor = NuxColors.ForestGreen,
-                    uncheckedThumbColor = Color(0xFF71717A),
-                    uncheckedTrackColor = Color(0xFF27272A)
+                    uncheckedThumbColor = NuxColors.LightGray,
+                    uncheckedTrackColor = NuxColors.SurfaceElevated
                 )
             )
         }
@@ -568,14 +568,14 @@ private fun CustomizableEnvItemCard(unit: EnvSettingUnit.Customizable) {
         modifier = Modifier
             .fillMaxWidth()
             .clip(cardShape)
-            .background(Color(0xFF13161F), cardShape)
-            .border(1.dp, Color(0x18FFFFFF), cardShape)
+            .background(NuxColors.SurfaceWhite, cardShape)
+            .border(1.dp, NuxColors.DarkGray.copy(alpha = 0.19f), cardShape)
             .padding(12.dp)
     ) {
         Column(modifier = Modifier.fillMaxWidth()) {
             Text(
                 text = unit.key,
-                color = Color.White,
+                color = NuxColors.DarkGray,
                 fontWeight = FontWeight.Bold,
                 fontSize = 12.sp,
                 fontFamily = FontFamily.Monospace
@@ -584,7 +584,7 @@ private fun CustomizableEnvItemCard(unit: EnvSettingUnit.Customizable) {
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(
                     text = unit.summary,
-                    color = Color(0xFFA1A1AA),
+                    color = NuxColors.GrayNeutral,
                     fontSize = 10.sp
                 )
             }
@@ -596,18 +596,18 @@ private fun CustomizableEnvItemCard(unit: EnvSettingUnit.Customizable) {
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
                 textStyle = TextStyle(
-                    color = Color.White,
+                    color = NuxColors.DarkGray,
                     fontSize = 11.sp,
                     fontFamily = FontFamily.Monospace
                 ),
                 placeholder = {
-                    Text(text = "Masukkan nilai (opsional)", color = Color(0xFF52525B), fontSize = 11.sp)
+                    Text(text = "Masukkan nilai (opsional)", color = NuxColors.GrayNeutral, fontSize = 11.sp)
                 },
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = NuxColors.ForestGreen,
-                    unfocusedBorderColor = Color(0x28FFFFFF),
-                    focusedContainerColor = Color(0xFF0D1017),
-                    unfocusedContainerColor = Color(0xFF0D1017)
+                    unfocusedBorderColor = NuxColors.DarkGray.copy(alpha = 0.16f),
+                    focusedContainerColor = NuxColors.DarkGray,
+                    unfocusedContainerColor = NuxColors.DarkGray
                 ),
                 shape = RoundedCornerShape(8.dp)
             )

@@ -57,7 +57,7 @@ fun NuxRendererWarningDialog(
                     .widthIn(min = 340.dp, max = 480.dp)
                     .wrapContentHeight(),
                 backgroundColor = NuxColors.SurfaceElevated,
-                borderColor = Color(0x33FFFFFF),
+                borderColor = NuxColors.DarkGray.copy(alpha = 0.40f),
                 cornerRadius = 18.dp,
                 fillMaxHeight = false
             ) {
@@ -79,25 +79,25 @@ fun NuxRendererWarningDialog(
                                     .size(32.dp)
                                     .background(
                                         Brush.radialGradient(
-                                            listOf(Color(0xFFF59E0B).copy(alpha = 0.28f), Color.Transparent)
+                                            listOf(NuxColors.Amber.copy(alpha = 0.28f), Color.Transparent)
                                         ),
                                         CircleShape
                                     )
-                                    .border(1.2.dp, Color(0xFFF59E0B).copy(alpha = 0.6f), CircleShape)
+                                    .border(1.2.dp, NuxColors.Amber.copy(alpha = 0.6f), CircleShape)
                                     .padding(2.5.dp),
                                 contentAlignment = Alignment.Center
                             ) {
                                 Box(
                                     modifier = Modifier
                                         .fillMaxSize()
-                                        .background(Color(0xFF26190C), CircleShape)
-                                        .border(1.dp, Color(0x33FFFFFF), CircleShape),
+                                        .background(NuxColors.ErrorRed.copy(alpha = 0.12f), CircleShape)
+                                        .border(1.dp, NuxColors.DarkGray.copy(alpha = 0.40f), CircleShape),
                                     contentAlignment = Alignment.Center
                                 ) {
                                     Icon(
                                         imageVector = Icons.Outlined.WarningAmber,
                                         contentDescription = null,
-                                        tint = Color(0xFFFBBF24),
+                                        tint = NuxColors.AmberDark,
                                         modifier = Modifier.size(15.dp)
                                     )
                                 }
@@ -108,14 +108,14 @@ fun NuxRendererWarningDialog(
                             Column {
                                 Text(
                                     text = "PERINGATAN PERENDER",
-                                    color = Color(0xFFFBBF24),
+                                    color = NuxColors.AmberDark,
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 7.5.sp,
                                     letterSpacing = 1.sp
                                 )
                                 Text(
                                     text = "Inkompatibilitas Render",
-                                    color = Color.White,
+                                    color = NuxColors.DarkGray,
                                     fontWeight = FontWeight.Black,
                                     fontSize = 13.sp,
                                     letterSpacing = (-0.2).sp
@@ -128,15 +128,15 @@ fun NuxRendererWarningDialog(
                             modifier = Modifier
                                 .size(26.dp)
                                 .clip(CircleShape)
-                                .background(Color(0xFF151821), CircleShape)
-                                .border(1.dp, Color(0x33FFFFFF), CircleShape)
+                                .background(NuxColors.SurfaceWhite, CircleShape)
+                                .border(1.dp, NuxColors.DarkGray.copy(alpha = 0.40f), CircleShape)
                                 .clickable { onDismiss() },
                             contentAlignment = Alignment.Center
                         ) {
                             Icon(
                                 imageVector = Icons.Outlined.Close,
                                 contentDescription = "Tutup",
-                                tint = Color(0xFFA1A1AA),
+                                tint = NuxColors.GrayNeutral,
                                 modifier = Modifier.size(13.dp)
                             )
                         }
@@ -149,28 +149,28 @@ fun NuxRendererWarningDialog(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clip(RoundedCornerShape(10.dp))
-                            .background(Color(0xFF1F170A))
-                            .border(1.dp, Color(0xFFF59E0B).copy(alpha = 0.45f), RoundedCornerShape(10.dp))
+                            .background(NuxColors.SurfaceWhite)
+                            .border(1.dp, NuxColors.Amber.copy(alpha = 0.45f), RoundedCornerShape(10.dp))
                             .padding(11.dp)
                     ) {
                         Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
                             Text(
                                 text = "Perender saat ini \"${renderer.displayName}\" tidak didukung resmi untuk Minecraft $mcVersion.",
-                                color = Color.White,
+                                color = NuxColors.DarkGray,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 10.5.sp,
                                 lineHeight = 15.sp
                             )
                             Text(
                                 text = "Memaksakan render ini dapat mengakibatkan visual artifact, freeze layar, atau crash. Apakah Anda yakin ingin melanjutkan?",
-                                color = Color(0xFFD4D4D8),
+                                color = NuxColors.GrayNeutral,
                                 fontSize = 9.sp,
                                 lineHeight = 13.5.sp
                             )
                             if (renderer.compatibility.isNotBlank()) {
                                 Text(
                                     text = "Dukungan resmi: ${renderer.compatibility}",
-                                    color = Color(0xFFFBBF24),
+                                    color = NuxColors.AmberDark,
                                     fontSize = 8.5.sp,
                                     fontWeight = FontWeight.Bold
                                 )
@@ -187,16 +187,16 @@ fun NuxRendererWarningDialog(
                     ) {
                         NuxButton(
                             onClick = onDismiss,
-                            backgroundColor = Color(0xFF1A1D27),
-                            borderColor = Color(0x33FFFFFF),
-                            contentColor = Color.White,
+                            backgroundColor = NuxColors.SurfaceElevated,
+                            borderColor = NuxColors.DarkGray.copy(alpha = 0.40f),
+                            contentColor = NuxColors.DarkGray,
                             modifier = Modifier
                                 .weight(1f)
                                 .height(34.dp)
                         ) {
                             Text(
                                 text = "BATAL",
-                                color = Color.White,
+                                color = NuxColors.DarkGray,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 10.sp,
                                 letterSpacing = 0.4.sp
@@ -205,16 +205,16 @@ fun NuxRendererWarningDialog(
 
                         NuxButton(
                             onClick = onConfirm,
-                            backgroundColor = Color(0xFFF59E0B),
-                            borderColor = Color(0x66FBBF24),
-                            contentColor = Color(0xFF18181B),
+                            backgroundColor = NuxColors.Amber,
+                            borderColor = NuxColors.Amber.copy(alpha = 0.40f),
+                            contentColor = NuxColors.DarkGray.copy(alpha = 0.25f),
                             modifier = Modifier
                                 .weight(1.3f)
                                 .height(34.dp)
                         ) {
                             Text(
                                 text = "TETAP JALANKAN",
-                                color = Color(0xFF18181B),
+                                color = NuxColors.DarkGray,
                                 fontWeight = FontWeight.Black,
                                 fontSize = 10.sp,
                                 letterSpacing = 0.4.sp

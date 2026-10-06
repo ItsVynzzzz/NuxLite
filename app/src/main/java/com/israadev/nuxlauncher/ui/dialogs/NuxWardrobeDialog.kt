@@ -215,7 +215,7 @@ fun NuxWardrobeDialog(
                         ) {
                             Text(
                                 text = account.username,
-                                color = NuxColors.ForestGreen,
+                                color = NuxColors.SageGreen,
                                 fontSize = 9.5.sp,
                                 fontWeight = FontWeight.Bold
                             )
@@ -233,7 +233,7 @@ fun NuxWardrobeDialog(
                     modifier = Modifier
                         .size(26.dp)
                         .background(NuxColors.SurfaceInput, CircleShape)
-                        .border(1.dp, NuxColors.CardBorder, CircleShape)
+                        .border(NuxSizes.BorderWidth, NuxColors.CardBorder, CircleShape)
                         .clickable {
                             onDismissRequest()
                         },
@@ -263,7 +263,7 @@ fun NuxWardrobeDialog(
                         .weight(1f)
                         .fillMaxHeight()
                         .background(NuxColors.SurfaceInput, RoundedCornerShape(14.dp))
-                        .border(1.dp, NuxColors.CardBorder, RoundedCornerShape(14.dp))
+                        .border(NuxSizes.BorderWidth, NuxColors.CardBorder, RoundedCornerShape(14.dp))
                         .clip(RoundedCornerShape(14.dp))
                 ) {
                     AndroidView(
@@ -300,7 +300,7 @@ fun NuxWardrobeDialog(
                         ) {
                             Text(
                                 text = "3D (DRAG / PUTAR)",
-                                color = NuxColors.ForestGreen,
+                                color = NuxColors.SageGreen,
                                 fontSize = 8.5.sp,
                                 fontWeight = FontWeight.Bold
                             )
@@ -324,7 +324,7 @@ fun NuxWardrobeDialog(
                                 Icon(
                                     imageVector = Icons.Outlined.RotateRight,
                                     contentDescription = "Putar Otomatis",
-                                    tint = Color.White,
+                                    tint = NuxColors.DarkGray,
                                     modifier = Modifier.size(14.dp)
                                 )
                             }
@@ -342,7 +342,7 @@ fun NuxWardrobeDialog(
                                 Icon(
                                     imageVector = Icons.Outlined.CenterFocusStrong,
                                     contentDescription = "Reset Kamera",
-                                    tint = Color.White,
+                                    tint = NuxColors.DarkGray,
                                     modifier = Modifier.size(13.dp)
                                 )
                             }
@@ -374,7 +374,7 @@ fun NuxWardrobeDialog(
                             ) {
                                 Text(
                                     text = label,
-                                    color = if (isSelected) Color.White else NuxColors.GrayNeutral,
+                                    color = if (isSelected) NuxColors.DarkGray else NuxColors.GrayNeutral,
                                     fontSize = 9.sp,
                                     fontWeight = FontWeight.Bold
                                 )
@@ -422,13 +422,13 @@ fun NuxWardrobeDialog(
                                     Icon(
                                         imageVector = Icons.Outlined.Person,
                                         contentDescription = null,
-                                        tint = if (activeTab == "skin") Color.White else NuxColors.GrayNeutral,
+                                        tint = if (activeTab == "skin") NuxColors.DarkGray else NuxColors.GrayNeutral,
                                         modifier = Modifier.size(13.dp)
                                     )
                                     Spacer(modifier = Modifier.width(4.dp))
                                     Text(
                                         text = "KUSTOM SKIN",
-                                        color = if (activeTab == "skin") Color.White else NuxColors.DarkGray,
+                                        color = NuxColors.DarkGray,
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 10.sp
                                     )
@@ -451,13 +451,13 @@ fun NuxWardrobeDialog(
                                     Icon(
                                         imageVector = Icons.Outlined.Shield,
                                         contentDescription = null,
-                                        tint = if (activeTab == "cape") Color.White else NuxColors.GrayNeutral,
+                                        tint = if (activeTab == "cape") NuxColors.DarkGray else NuxColors.GrayNeutral,
                                         modifier = Modifier.size(13.dp)
                                     )
                                     Spacer(modifier = Modifier.width(4.dp))
                                     Text(
                                         text = "JUBAH / CAPE",
-                                        color = if (activeTab == "cape") Color.White else NuxColors.DarkGray,
+                                        color = NuxColors.DarkGray,
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 10.sp
                                     )
@@ -483,7 +483,7 @@ fun NuxWardrobeDialog(
                                         Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
                                             Text(
                                                 text = "Sistem Skin & Jubah Ely.by",
-                                                color = Color(0xFF8E24AA),
+                                                color = NuxColors.PurpleDark,
                                                 fontWeight = FontWeight.Bold,
                                                 fontSize = 10.sp
                                             )
@@ -502,7 +502,7 @@ fun NuxWardrobeDialog(
                                                     } catch (_: Exception) {}
                                                 },
                                                 backgroundColor = Color(0xFF8E24AA),
-                                                contentColor = Color.White,
+                                                contentColor = NuxColors.DarkGray,
                                                 modifier = Modifier
                                                     .fillMaxWidth()
                                                     .height(28.dp)
@@ -516,7 +516,7 @@ fun NuxWardrobeDialog(
                                     NuxButton(
                                         onClick = { skinPickerLauncher.launch("image/png") },
                                         backgroundColor = NuxColors.ForestGreen.copy(alpha = 0.15f),
-                                        contentColor = NuxColors.ForestGreen,
+                                        contentColor = NuxColors.SageGreen,
                                         cornerRadius = NuxSizes.CornerRadiusSmall,
                                         modifier = Modifier
                                             .fillMaxWidth()
@@ -571,7 +571,7 @@ fun NuxWardrobeDialog(
                                         Column {
                                             Text(
                                                 text = "Klasik",
-                                                color = if (isClassic) NuxColors.ForestGreen else NuxColors.DarkGray,
+                                                color = if (isClassic) NuxColors.SageGreen else NuxColors.DarkGray,
                                                 fontSize = 10.sp,
                                                 fontWeight = FontWeight.Bold
                                             )
@@ -607,7 +607,7 @@ fun NuxWardrobeDialog(
                                         Column {
                                             Text(
                                                 text = "Slim",
-                                                color = if (isSlim) NuxColors.ForestGreen else NuxColors.DarkGray,
+                                                color = if (isSlim) NuxColors.SageGreen else NuxColors.DarkGray,
                                                 fontSize = 10.sp,
                                                 fontWeight = FontWeight.Bold
                                             )
@@ -669,7 +669,7 @@ fun NuxWardrobeDialog(
                                             CircularProgressIndicator(
                                                 modifier = Modifier.size(16.dp),
                                                 strokeWidth = 2.dp,
-                                                color = Color(0xFFA855F7)
+                                                color = NuxColors.PurpleDark
                                             )
                                             Spacer(modifier = Modifier.width(8.dp))
                                             Text(
@@ -683,7 +683,7 @@ fun NuxWardrobeDialog(
                                             modifier = Modifier
                                                 .fillMaxWidth()
                                                 .background(NuxColors.SurfaceInput, RoundedCornerShape(8.dp))
-                                                .border(1.dp, NuxColors.CardBorder, RoundedCornerShape(8.dp))
+                                                .border(NuxSizes.BorderWidth, NuxColors.CardBorder, RoundedCornerShape(8.dp))
                                                 .padding(10.dp)
                                         ) {
                                             Text(
@@ -722,12 +722,12 @@ fun NuxWardrobeDialog(
                                             ) {
                                                 Text(
                                                     text = "Tanpa Jubah (Lepas Cape)",
-                                                    color = if (isNoCapeSelected) Color(0xFFA855F7) else NuxColors.DarkGray,
+                                                    color = if (isNoCapeSelected) NuxColors.PurpleDark else NuxColors.DarkGray,
                                                     fontSize = 9.5.sp,
                                                     fontWeight = FontWeight.Bold
                                                 )
                                                 if (isNoCapeSelected) {
-                                                    Text("DIPILIH", color = Color(0xFFA855F7), fontSize = 8.sp, fontWeight = FontWeight.Black)
+                                                    Text("DIPILIH", color = NuxColors.PurpleDark, fontSize = 8.sp, fontWeight = FontWeight.Black)
                                                 }
                                             }
                                         }
@@ -773,7 +773,7 @@ fun NuxWardrobeDialog(
                                                         )
                                                         Text(
                                                             text = MicrosoftWardrobeService.getCapeDisplayName(cape.alias),
-                                                            color = if (isSelected) Color(0xFFA855F7) else NuxColors.DarkGray,
+                                                            color = if (isSelected) NuxColors.PurpleDark else NuxColors.DarkGray,
                                                             fontSize = 9.5.sp,
                                                             fontWeight = FontWeight.Bold
                                                         )
@@ -787,7 +787,7 @@ fun NuxWardrobeDialog(
                                                         ) {
                                                             Text(
                                                                 text = "AKTIF DI MOJANG",
-                                                                color = NuxColors.ForestGreen,
+                                                                color = NuxColors.SageGreen,
                                                                 fontSize = 7.5.sp,
                                                                 fontWeight = FontWeight.Black
                                                             )
@@ -809,7 +809,7 @@ fun NuxWardrobeDialog(
                                         Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
                                             Text(
                                                 text = "Sistem Skin & Cape Ely.by",
-                                                color = Color(0xFF8E24AA),
+                                                color = NuxColors.PurpleDark,
                                                 fontWeight = FontWeight.Bold,
                                                 fontSize = 10.sp
                                             )
@@ -828,7 +828,7 @@ fun NuxWardrobeDialog(
                                                     } catch (_: Exception) {}
                                                 },
                                                 backgroundColor = Color(0xFF8E24AA),
-                                                contentColor = Color.White,
+                                                contentColor = NuxColors.DarkGray,
                                                 modifier = Modifier.fillMaxWidth().height(28.dp)
                                             ) {
                                                 Text("BUKA WEBSITE ELY.BY", fontWeight = FontWeight.Bold, fontSize = 9.sp)
@@ -840,7 +840,7 @@ fun NuxWardrobeDialog(
                                     NuxButton(
                                         onClick = { capePickerLauncher.launch("image/png") },
                                         backgroundColor = Color(0xFFA855F7).copy(alpha = 0.15f),
-                                        contentColor = Color(0xFFA855F7),
+                                        contentColor = NuxColors.PurpleDark,
                                         cornerRadius = NuxSizes.CornerRadiusSmall,
                                         modifier = Modifier
                                             .fillMaxWidth()
@@ -938,7 +938,7 @@ fun NuxWardrobeDialog(
                         if (statusMessage != null) {
                             Text(
                                 text = statusMessage!!,
-                                color = NuxColors.ForestGreen,
+                                color = NuxColors.SageGreen,
                                 fontSize = 9.sp,
                                 maxLines = 1
                             )
@@ -951,21 +951,21 @@ fun NuxWardrobeDialog(
                         ) {
                             NuxButton(
                                 onClick = onDismissRequest,
-                                backgroundColor = Color(0xFF1A1D27),
-                                borderColor = Color(0x33FFFFFF),
-                                contentColor = Color.White,
+                                backgroundColor = NuxColors.SurfaceElevated,
+                                borderColor = NuxColors.DarkGray.copy(alpha = 0.40f),
+                                contentColor = NuxColors.DarkGray,
                                 modifier = Modifier
                                     .weight(1f)
                                     .height(32.dp)
                             ) {
-                                Text("BATAL", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 10.sp)
+                                Text("BATAL", color = NuxColors.DarkGray, fontWeight = FontWeight.Bold, fontSize = 10.sp)
                             }
 
                             if (isElyBy) {
                                 NuxButton(
                                     onClick = onDismissRequest,
                                     backgroundColor = Color(0xFF8E24AA),
-                                    contentColor = Color.White,
+                                    contentColor = NuxColors.DarkGray,
                                     modifier = Modifier
                                         .weight(1.5f)
                                         .height(32.dp)
@@ -1017,14 +1017,14 @@ fun NuxWardrobeDialog(
                                         }
                                     },
                                     backgroundColor = NuxColors.ForestGreen,
-                                    contentColor = Color.White,
+                                    contentColor = NuxColors.DarkGray,
                                     enabled = !isProcessing,
                                     modifier = Modifier
                                         .weight(1.5f)
                                         .height(32.dp)
                                 ) {
                                     if (isProcessing) {
-                                        CircularProgressIndicator(modifier = Modifier.size(13.dp), color = Color.White, strokeWidth = 2.dp)
+                                        CircularProgressIndicator(modifier = Modifier.size(13.dp), color = NuxColors.DarkGray, strokeWidth = 2.dp)
                                         Spacer(modifier = Modifier.width(5.dp))
                                     } else {
                                         Icon(

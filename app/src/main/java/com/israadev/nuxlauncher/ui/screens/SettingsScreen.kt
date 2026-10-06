@@ -285,7 +285,7 @@ fun SettingsScreen(
                         .height(26.dp)
                         .clip(RoundedCornerShape(6.dp))
                         .background(NuxColors.SurfaceElevated, RoundedCornerShape(6.dp))
-                        .border(1.dp, NuxColors.CardBorder, RoundedCornerShape(6.dp))
+                        .border(NuxSizes.BorderWidth, NuxColors.CardBorder, RoundedCornerShape(6.dp))
                         .clickable { onNavigateBack() }
                         .padding(horizontal = 8.dp),
                     contentAlignment = Alignment.Center
@@ -294,13 +294,13 @@ fun SettingsScreen(
                         Icon(
                             imageVector = Icons.AutoMirrored.Outlined.ArrowBack,
                             contentDescription = "Kembali",
-                            tint = NuxColors.ForestGreen,
+                            tint = NuxColors.SageGreen,
                             modifier = Modifier.size(12.dp)
                         )
                         Spacer(modifier = Modifier.width(4.dp))
                         Text(
                             text = "DASHBOARD",
-                            color = Color.White,
+                            color = NuxColors.DarkGray,
                             fontWeight = FontWeight.Bold,
                             fontSize = 9.sp,
                             letterSpacing = 0.5.sp
@@ -310,7 +310,7 @@ fun SettingsScreen(
 
                 Text(
                     text = "SETTINGS",
-                    color = Color.White,
+                    color = NuxColors.DarkGray,
                     fontWeight = FontWeight.Black,
                     fontSize = 14.sp,
                     letterSpacing = 0.8.sp
@@ -322,7 +322,7 @@ fun SettingsScreen(
                         .height(26.dp)
                         .clip(RoundedCornerShape(6.dp))
                         .background(NuxColors.SurfaceElevated, RoundedCornerShape(6.dp))
-                        .border(1.dp, NuxColors.CardBorder, RoundedCornerShape(6.dp))
+                        .border(NuxSizes.BorderWidth, NuxColors.CardBorder, RoundedCornerShape(6.dp))
                         .padding(2.dp),
                     horizontalArrangement = Arrangement.spacedBy(2.dp),
                     verticalAlignment = Alignment.CenterVertically
@@ -343,13 +343,13 @@ fun SettingsScreen(
                             Icon(
                                 imageVector = Icons.Outlined.AccountCircle,
                                 contentDescription = null,
-                                tint = if (isProfileTab) Color.White else NuxColors.GrayNeutral,
+                                tint = if (isProfileTab) NuxColors.DarkGray else NuxColors.GrayNeutral,
                                 modifier = Modifier.size(12.dp)
                             )
                             Spacer(modifier = Modifier.width(4.dp))
                             Text(
                                 text = "PROFIL AKUN",
-                                color = if (isProfileTab) Color.White else NuxColors.GrayNeutral,
+                                color = if (isProfileTab) NuxColors.DarkGray else NuxColors.GrayNeutral,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 9.5.sp
                             )
@@ -372,13 +372,13 @@ fun SettingsScreen(
                             Icon(
                                 imageVector = Icons.Outlined.Tune,
                                 contentDescription = null,
-                                tint = if (isGameTab) Color.White else NuxColors.GrayNeutral,
+                                tint = if (isGameTab) NuxColors.DarkGray else NuxColors.GrayNeutral,
                                 modifier = Modifier.size(12.dp)
                             )
                             Spacer(modifier = Modifier.width(4.dp))
                             Text(
                                 text = "PREFERENSI GAME",
-                                color = if (isGameTab) Color.White else NuxColors.GrayNeutral,
+                                color = if (isGameTab) NuxColors.DarkGray else NuxColors.GrayNeutral,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 9.5.sp
                             )
@@ -401,13 +401,13 @@ fun SettingsScreen(
                             Icon(
                                 imageVector = Icons.Outlined.VideoLibrary,
                                 contentDescription = null,
-                                tint = if (isBannerTab) Color.White else NuxColors.GrayNeutral,
+                                tint = if (isBannerTab) NuxColors.DarkGray else NuxColors.GrayNeutral,
                                 modifier = Modifier.size(12.dp)
                             )
                             Spacer(modifier = Modifier.width(4.dp))
                             Text(
                                 text = "ANIMASI BANNER",
-                                color = if (isBannerTab) Color.White else NuxColors.GrayNeutral,
+                                color = if (isBannerTab) NuxColors.DarkGray else NuxColors.GrayNeutral,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 9.5.sp
                             )
@@ -431,13 +431,13 @@ fun SettingsScreen(
                             Icon(
                                 imageVector = Icons.Outlined.AutoFixHigh,
                                 contentDescription = null,
-                                tint = if (isAiTab) Color.White else NuxColors.GrayNeutral,
+                                tint = if (isAiTab) NuxColors.DarkGray else NuxColors.GrayNeutral,
                                 modifier = Modifier.size(12.dp)
                             )
                             Spacer(modifier = Modifier.width(4.dp))
                             Text(
                                 text = "AI ANALITIK",
-                                color = if (isAiTab) Color.White else NuxColors.GrayNeutral,
+                                color = if (isAiTab) NuxColors.DarkGray else NuxColors.GrayNeutral,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 9.5.sp
                             )
@@ -456,13 +456,13 @@ fun SettingsScreen(
                         .height(26.dp)
                         .clip(RoundedCornerShape(6.dp))
                         .background(NuxColors.SurfaceElevated, RoundedCornerShape(6.dp))
-                        .border(1.dp, NuxColors.CardBorder, RoundedCornerShape(6.dp))
+                        .border(NuxSizes.BorderWidth, NuxColors.CardBorder, RoundedCornerShape(6.dp))
                         .padding(horizontal = 8.dp),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
                         text = "${totalRamMb / 1024} GB RAM",
-                        color = NuxColors.MintGreen,
+                        color = NuxColors.SageGreen,
                         fontSize = 9.5.sp,
                         fontWeight = FontWeight.Bold
                     )
@@ -472,7 +472,7 @@ fun SettingsScreen(
                         .height(26.dp)
                         .clip(RoundedCornerShape(6.dp))
                         .background(NuxColors.SurfaceElevated, RoundedCornerShape(6.dp))
-                        .border(1.dp, NuxColors.CardBorder, RoundedCornerShape(6.dp))
+                        .border(NuxSizes.BorderWidth, NuxColors.CardBorder, RoundedCornerShape(6.dp))
                         .padding(horizontal = 8.dp),
                     contentAlignment = Alignment.Center
                 ) {
@@ -518,7 +518,7 @@ fun SettingsScreen(
                             Icon(
                                 imageVector = Icons.Outlined.AccountCircle,
                                 contentDescription = null,
-                                tint = NuxColors.ForestGreen,
+                                tint = NuxColors.SageGreen,
                                 modifier = Modifier.size(16.dp)
                             )
                             Spacer(modifier = Modifier.width(6.dp))
@@ -526,7 +526,7 @@ fun SettingsScreen(
                                 text = "FOTO PROFIL & IDENTITAS",
                                 fontWeight = FontWeight.Black,
                                 fontSize = 12.sp,
-                                color = Color.White
+                                color = NuxColors.DarkGray
                             )
                         }
 
@@ -535,7 +535,7 @@ fun SettingsScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .background(NuxColors.SurfaceInput, RoundedCornerShape(6.dp))
-                                .border(1.dp, NuxColors.CardBorder, RoundedCornerShape(6.dp))
+                                .border(NuxSizes.BorderWidth, NuxColors.CardBorder, RoundedCornerShape(6.dp))
                                 .padding(10.dp),
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.spacedBy(12.dp)
@@ -544,7 +544,7 @@ fun SettingsScreen(
                             Box(
                                 modifier = Modifier
                                     .size(64.dp)
-                                    .border(1.dp, NuxColors.CardBorder, RoundedCornerShape(8.dp))
+                                    .border(NuxSizes.BorderWidth, NuxColors.CardBorder, RoundedCornerShape(8.dp))
                             ) {
                                 NuxNetworkImage(
                                     model = selectedPreviewUri ?: launcherUser?.photoURL?.takeIf { it.isNotBlank() },
@@ -563,7 +563,7 @@ fun SettingsScreen(
                                     ) {
                                         CircularProgressIndicator(
                                             modifier = Modifier.size(20.dp),
-                                            color = Color.White,
+                                            color = NuxColors.DarkGray,
                                             strokeWidth = 2.dp
                                         )
                                     }
@@ -578,14 +578,14 @@ fun SettingsScreen(
                                         .fillMaxWidth()
                                         .height(34.dp),
                                     backgroundColor = NuxColors.ForestGreen,
-                                    contentColor = Color.White,
+                                    contentColor = NuxColors.DarkGray,
                                     cornerRadius = 6.dp,
                                     enabled = !isUploadingAvatar
                                 ) {
                                     Icon(
                                         imageVector = Icons.Outlined.PhotoCamera,
                                         contentDescription = null,
-                                        tint = Color.White,
+                                        tint = NuxColors.DarkGray,
                                         modifier = Modifier.size(14.dp)
                                     )
                                     Spacer(modifier = Modifier.width(6.dp))
@@ -593,7 +593,7 @@ fun SettingsScreen(
                                         text = if (isUploadingAvatar) "MENGUNGGAH..." else "GANTI FOTO PROFIL",
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 10.sp,
-                                        color = Color.White
+                                        color = NuxColors.DarkGray
                                     )
                                 }
                                 Spacer(modifier = Modifier.height(4.dp))
@@ -611,7 +611,7 @@ fun SettingsScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .background(NuxColors.SurfaceInput, RoundedCornerShape(6.dp))
-                                .border(1.dp, NuxColors.CardBorder, RoundedCornerShape(6.dp))
+                                .border(NuxSizes.BorderWidth, NuxColors.CardBorder, RoundedCornerShape(6.dp))
                                 .padding(10.dp),
                             verticalArrangement = Arrangement.spacedBy(6.dp)
                         ) {
@@ -624,7 +624,7 @@ fun SettingsScreen(
                                 Text(
                                     text = com.israadev.nuxlauncher.core.utils.PrivacyMasker.maskEmail(launcherUser?.email),
                                     fontSize = 10.5.sp,
-                                    color = Color.White,
+                                    color = NuxColors.DarkGray,
                                     fontWeight = FontWeight.Bold
                                 )
                             }
@@ -649,8 +649,8 @@ fun SettingsScreen(
                                 }
                                 NuxBadge(
                                     text = tierText,
-                                    backgroundColor = if (isVip) Color(0xFFF59E0B).copy(alpha = 0.2f) else NuxColors.SurfaceElevated,
-                                    textColor = if (isVip) Color(0xFFFBBF24) else Color(0xFF94A3B8)
+                                    backgroundColor = if (isVip) NuxColors.Amber.copy(alpha = 0.2f) else NuxColors.SurfaceElevated,
+                                    textColor = if (isVip) NuxColors.AmberDark else NuxColors.GrayNeutral
                                 )
                             }
 
@@ -661,8 +661,8 @@ fun SettingsScreen(
                                     premiumInitialPrompt = if (isUserVip) "Status NUX VIP Anda saat ini aktif!" else null
                                     showPremiumDialog = true
                                 },
-                                backgroundColor = if (isUserVip) Color(0xFF1E1710) else Color(0xFFF59E0B),
-                                contentColor = if (isUserVip) Color(0xFFFBBF24) else Color.Black,
+                                backgroundColor = if (isUserVip) NuxColors.SurfaceWhite else NuxColors.Amber,
+                                contentColor = if (isUserVip) NuxColors.AmberDark else Color.Black,
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .height(30.dp)
@@ -691,7 +691,7 @@ fun SettingsScreen(
                                 NuxBadge(
                                     text = "ANDROID MOBILE",
                                     backgroundColor = NuxColors.SurfaceElevated,
-                                    textColor = Color.White
+                                    textColor = NuxColors.DarkGray
                                 )
                             }
 
@@ -716,7 +716,7 @@ fun SettingsScreen(
                             NuxButton(
                                 onClick = { showAboutDialog = true },
                                 backgroundColor = NuxColors.SurfaceInput,
-                                contentColor = Color.White,
+                                contentColor = NuxColors.DarkGray,
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .height(34.dp)
@@ -728,14 +728,14 @@ fun SettingsScreen(
                                     Icon(
                                         imageVector = Icons.Outlined.Info,
                                         contentDescription = null,
-                                        tint = NuxColors.ForestGreen,
+                                        tint = NuxColors.SageGreen,
                                         modifier = Modifier.size(13.dp)
                                     )
                                     Text(
                                         text = "TENTANG & LISENSI OPEN SOURCE",
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 9.sp,
-                                        color = Color.White
+                                        color = NuxColors.DarkGray
                                     )
                                 }
                             }
@@ -765,7 +765,7 @@ fun SettingsScreen(
                             Icon(
                                 imageVector = Icons.Outlined.Badge,
                                 contentDescription = null,
-                                tint = NuxColors.ForestGreen,
+                                tint = NuxColors.SageGreen,
                                 modifier = Modifier.size(16.dp)
                             )
                             Spacer(modifier = Modifier.width(6.dp))
@@ -773,7 +773,7 @@ fun SettingsScreen(
                                 text = "GANTI USERNAME NUX",
                                 fontWeight = FontWeight.Black,
                                 fontSize = 12.sp,
-                                color = Color.White
+                                color = NuxColors.DarkGray
                             )
                         }
 
@@ -789,7 +789,7 @@ fun SettingsScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .background(NuxColors.SurfaceInput, RoundedCornerShape(6.dp))
-                                .border(1.dp, NuxColors.CardBorder, RoundedCornerShape(6.dp))
+                                .border(NuxSizes.BorderWidth, NuxColors.CardBorder, RoundedCornerShape(6.dp))
                                 .padding(10.dp)
                         ) {
                             Text(
@@ -834,27 +834,27 @@ fun SettingsScreen(
                                     .fillMaxWidth()
                                     .height(34.dp),
                                 backgroundColor = NuxColors.ForestGreen,
-                                contentColor = Color.White,
+                                contentColor = NuxColors.DarkGray,
                                 cornerRadius = 6.dp,
                                 enabled = !isSavingUsername
                             ) {
                                 if (isSavingUsername) {
                                     CircularProgressIndicator(
                                         modifier = Modifier.size(14.dp),
-                                        color = Color.White,
+                                        color = NuxColors.DarkGray,
                                         strokeWidth = 2.dp
                                     )
                                     Spacer(modifier = Modifier.width(6.dp))
-                                    Text("MENYIMPAN...", fontWeight = FontWeight.Bold, fontSize = 10.sp, color = Color.White)
+                                    Text("MENYIMPAN...", fontWeight = FontWeight.Bold, fontSize = 10.sp, color = NuxColors.DarkGray)
                                 } else {
                                     Icon(
                                         imageVector = Icons.Outlined.Check,
                                         contentDescription = null,
-                                        tint = Color.White,
+                                        tint = NuxColors.DarkGray,
                                         modifier = Modifier.size(14.dp)
                                     )
                                     Spacer(modifier = Modifier.width(6.dp))
-                                    Text("SIMPAN USERNAME", fontWeight = FontWeight.Bold, fontSize = 10.sp, color = Color.White)
+                                    Text("SIMPAN USERNAME", fontWeight = FontWeight.Bold, fontSize = 10.sp, color = NuxColors.DarkGray)
                                 }
                             }
                         }
@@ -866,14 +866,14 @@ fun SettingsScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .background(NuxColors.SurfaceInput, RoundedCornerShape(6.dp))
-                                .border(1.dp, NuxColors.CardBorder, RoundedCornerShape(6.dp))
+                                .border(NuxSizes.BorderWidth, NuxColors.CardBorder, RoundedCornerShape(6.dp))
                                 .padding(10.dp)
                         ) {
                             Text(
                                 text = "MANAJEMEN SESI AKUN",
                                 fontSize = 10.sp,
                                 fontWeight = FontWeight.Black,
-                                color = Color.White
+                                color = NuxColors.DarkGray
                             )
                             Spacer(modifier = Modifier.height(3.dp))
                             Text(
@@ -939,7 +939,7 @@ fun SettingsScreen(
                             Icon(
                                 imageVector = Icons.Outlined.Memory,
                                 contentDescription = null,
-                                tint = NuxColors.ForestGreen,
+                                tint = NuxColors.SageGreen,
                                 modifier = Modifier.size(16.dp)
                             )
                             Spacer(modifier = Modifier.width(6.dp))
@@ -947,7 +947,7 @@ fun SettingsScreen(
                                 text = "ALOKASI RAM & JVM MEMORY",
                                 fontWeight = FontWeight.Black,
                                 fontSize = 12.sp,
-                                color = Color.White
+                                color = NuxColors.DarkGray
                             )
                         }
 
@@ -956,7 +956,7 @@ fun SettingsScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .background(NuxColors.SurfaceInput, RoundedCornerShape(6.dp))
-                                .border(1.dp, NuxColors.CardBorder, RoundedCornerShape(6.dp))
+                                .border(NuxSizes.BorderWidth, NuxColors.CardBorder, RoundedCornerShape(6.dp))
                                 .padding(10.dp)
                         ) {
                             Row(
@@ -968,7 +968,7 @@ fun SettingsScreen(
                                     text = "Maksimum RAM (-Xmx)",
                                     fontSize = 11.sp,
                                     fontWeight = FontWeight.Bold,
-                                    color = Color.White
+                                    color = NuxColors.DarkGray
                                 )
                                 Box(
                                     modifier = Modifier
@@ -985,7 +985,7 @@ fun SettingsScreen(
                                 ) {
                                     Text(
                                         text = "$ramMb MB (${String.format("%.1f", ramMb / 1024f)} GB)",
-                                        color = if (ramMb > (totalRamMb * 0.75f)) NuxColors.Coral else NuxColors.MintGreen,
+                                        color = if (ramMb > (totalRamMb * 0.75f)) NuxColors.Coral else NuxColors.SageGreen,
                                         fontSize = 9.5.sp,
                                         fontWeight = FontWeight.Bold
                                     )
@@ -1050,7 +1050,7 @@ fun SettingsScreen(
                                                 text = if (preset >= 1024) "${preset / 1024}G" else "${preset}M",
                                                 fontSize = 10.sp,
                                                 fontWeight = FontWeight.Bold,
-                                                color = if (isSelected) Color.White else NuxColors.GrayNeutral
+                                                color = if (isSelected) NuxColors.DarkGray else NuxColors.GrayNeutral
                                             )
                                         }
                                     }
@@ -1084,7 +1084,7 @@ fun SettingsScreen(
                             Icon(
                                 imageVector = Icons.Outlined.Speed,
                                 contentDescription = null,
-                                tint = NuxColors.ForestGreen,
+                                tint = NuxColors.SageGreen,
                                 modifier = Modifier.size(16.dp)
                             )
                             Spacer(modifier = Modifier.width(6.dp))
@@ -1092,7 +1092,7 @@ fun SettingsScreen(
                                 text = "GRAFIK & OPTIMASI MINECRAFT",
                                 fontWeight = FontWeight.Black,
                                 fontSize = 12.sp,
-                                color = Color.White
+                                color = NuxColors.DarkGray
                             )
                         }
 
@@ -1106,7 +1106,7 @@ fun SettingsScreen(
                                 .fillMaxWidth()
                                 .clip(RoundedCornerShape(6.dp))
                                 .background(NuxColors.SurfaceInput)
-                                .border(1.dp, NuxColors.CardBorder, RoundedCornerShape(6.dp))
+                                .border(NuxSizes.BorderWidth, NuxColors.CardBorder, RoundedCornerShape(6.dp))
                                 .padding(10.dp)
                         ) {
                             // Top Row: Section label & GANTI button
@@ -1119,7 +1119,7 @@ fun SettingsScreen(
                                     text = "Renderer Grafik (Backend)",
                                     fontSize = 11.sp,
                                     fontWeight = FontWeight.Bold,
-                                    color = Color.White
+                                    color = NuxColors.DarkGray
                                 )
                                 Row(verticalAlignment = Alignment.CenterVertically) {
                                     if (activeRendererInfo.isConfigurable) {
@@ -1138,7 +1138,7 @@ fun SettingsScreen(
                                             Icon(
                                                 imageVector = Icons.Default.Settings,
                                                 contentDescription = "Konfigurasi Renderer",
-                                                tint = NuxColors.MintGreen,
+                                                tint = NuxColors.SageGreen,
                                                 modifier = Modifier.size(14.dp)
                                             )
                                         }
@@ -1149,7 +1149,7 @@ fun SettingsScreen(
                                             .height(24.dp)
                                             .clip(RoundedCornerShape(4.dp))
                                             .background(NuxColors.SurfaceElevated)
-                                            .border(1.dp, NuxColors.CardBorder, RoundedCornerShape(4.dp))
+                                            .border(NuxSizes.BorderWidth, NuxColors.CardBorder, RoundedCornerShape(4.dp))
                                             .clickable {
                                                 NuxRendererPluginManager.scanPlugins(context)
                                                 showRendererDialog = true
@@ -1161,7 +1161,7 @@ fun SettingsScreen(
                                             text = "GANTI",
                                             fontSize = 9.5.sp,
                                             fontWeight = FontWeight.Bold,
-                                            color = NuxColors.MintGreen
+                                            color = NuxColors.SageGreen
                                         )
                                     }
                                 }
@@ -1179,7 +1179,7 @@ fun SettingsScreen(
                                     text = activeRendererInfo.displayName,
                                     fontSize = 12.sp,
                                     fontWeight = FontWeight.Black,
-                                    color = NuxColors.MintGreen
+                                    color = NuxColors.SageGreen
                                 )
                                 Box(
                                     modifier = Modifier
@@ -1191,7 +1191,7 @@ fun SettingsScreen(
                                         text = activeRendererInfo.badge,
                                         fontSize = 8.5.sp,
                                         fontWeight = FontWeight.Bold,
-                                        color = NuxColors.MintGreen,
+                                        color = NuxColors.SageGreen,
                                         maxLines = 1
                                     )
                                 }
@@ -1212,7 +1212,7 @@ fun SettingsScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .background(NuxColors.SurfaceInput, RoundedCornerShape(6.dp))
-                                .border(1.dp, NuxColors.CardBorder, RoundedCornerShape(6.dp))
+                                .border(NuxSizes.BorderWidth, NuxColors.CardBorder, RoundedCornerShape(6.dp))
                                 .padding(10.dp),
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically
@@ -1222,7 +1222,7 @@ fun SettingsScreen(
                                     text = "Auto-Optimize options.txt",
                                     fontSize = 11.sp,
                                     fontWeight = FontWeight.Bold,
-                                    color = Color.White
+                                    color = NuxColors.DarkGray
                                 )
                                 Text(
                                     text = "Otomatis optimasi setting visual (Clouds, Shadows) untuk FPS maksimal",
@@ -1249,7 +1249,7 @@ fun SettingsScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .background(NuxColors.SurfaceInput, RoundedCornerShape(6.dp))
-                                .border(1.dp, NuxColors.CardBorder, RoundedCornerShape(6.dp))
+                                .border(NuxSizes.BorderWidth, NuxColors.CardBorder, RoundedCornerShape(6.dp))
                                 .padding(10.dp)
                         ) {
                             Row(
@@ -1260,13 +1260,13 @@ fun SettingsScreen(
                                     text = "Skala Resolusi Layar",
                                     fontSize = 11.sp,
                                     fontWeight = FontWeight.Bold,
-                                    color = Color.White
+                                    color = NuxColors.DarkGray
                                 )
                                 Text(
                                     text = "$resolutionRatio%",
                                     fontSize = 11.sp,
                                     fontWeight = FontWeight.Black,
-                                    color = NuxColors.MintGreen
+                                    color = NuxColors.SageGreen
                                 )
                             }
                             Spacer(modifier = Modifier.height(4.dp))
@@ -1297,7 +1297,7 @@ fun SettingsScreen(
                                             text = "$ratio%",
                                             fontSize = 10.sp,
                                             fontWeight = FontWeight.Bold,
-                                            color = if (isSelected) Color.White else NuxColors.GrayNeutral
+                                            color = if (isSelected) NuxColors.DarkGray else NuxColors.GrayNeutral
                                         )
                                     }
                                 }
@@ -1309,14 +1309,14 @@ fun SettingsScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .background(NuxColors.SurfaceInput, RoundedCornerShape(6.dp))
-                                .border(1.dp, NuxColors.CardBorder, RoundedCornerShape(6.dp))
+                                .border(NuxSizes.BorderWidth, NuxColors.CardBorder, RoundedCornerShape(6.dp))
                                 .padding(10.dp)
                         ) {
                             Text(
                                 text = "Driver Vulkan",
                                 fontSize = 11.sp,
                                 fontWeight = FontWeight.Bold,
-                                color = Color.White
+                                color = NuxColors.DarkGray
                             )
                             Text(
                                 text = "Pilih implementasi driver Vulkan yang digunakan sistem/game",
@@ -1351,7 +1351,7 @@ fun SettingsScreen(
                                             text = label,
                                             fontSize = 9.5.sp,
                                             fontWeight = FontWeight.Bold,
-                                            color = if (isSelected) Color.White else NuxColors.GrayNeutral
+                                            color = if (isSelected) NuxColors.DarkGray else NuxColors.GrayNeutral
                                         )
                                     }
                                 }
@@ -1363,14 +1363,14 @@ fun SettingsScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .background(NuxColors.SurfaceInput, RoundedCornerShape(6.dp))
-                                .border(1.dp, NuxColors.CardBorder, RoundedCornerShape(6.dp))
+                                .border(NuxSizes.BorderWidth, NuxColors.CardBorder, RoundedCornerShape(6.dp))
                                 .padding(10.dp)
                         ) {
                             Text(
                                 text = "API Grafis",
                                 fontSize = 11.sp,
                                 fontWeight = FontWeight.Bold,
-                                color = Color.White
+                                color = NuxColors.DarkGray
                             )
                             Text(
                                 text = "Atur API grafis yang digunakan oleh Minecraft modern 26.2+",
@@ -1405,7 +1405,7 @@ fun SettingsScreen(
                                             text = label,
                                             fontSize = 9.5.sp,
                                             fontWeight = FontWeight.Bold,
-                                            color = if (isSelected) Color.White else NuxColors.GrayNeutral
+                                            color = if (isSelected) NuxColors.DarkGray else NuxColors.GrayNeutral
                                         )
                                     }
                                 }
@@ -1417,7 +1417,7 @@ fun SettingsScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .background(NuxColors.SurfaceInput, RoundedCornerShape(6.dp))
-                                .border(1.dp, NuxColors.CardBorder, RoundedCornerShape(6.dp))
+                                .border(NuxSizes.BorderWidth, NuxColors.CardBorder, RoundedCornerShape(6.dp))
                                 .padding(10.dp),
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically
@@ -1427,7 +1427,7 @@ fun SettingsScreen(
                                     text = "Gunakan Driver Vulkan Sistem",
                                     fontSize = 11.sp,
                                     fontWeight = FontWeight.Bold,
-                                    color = Color.White
+                                    color = NuxColors.DarkGray
                                 )
                                 Text(
                                     text = "Paksa menggunakan driver Vulkan bawaan sistem HP (bukan Turnip). Mempengaruhi perender Zink.",
@@ -1458,7 +1458,7 @@ fun SettingsScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .background(NuxColors.SurfaceInput, RoundedCornerShape(6.dp))
-                                .border(1.dp, NuxColors.CardBorder, RoundedCornerShape(6.dp))
+                                .border(NuxSizes.BorderWidth, NuxColors.CardBorder, RoundedCornerShape(6.dp))
                                 .padding(10.dp),
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically
@@ -1468,7 +1468,7 @@ fun SettingsScreen(
                                     text = "Sinkronisasi Vertikal Zink",
                                     fontSize = 11.sp,
                                     fontWeight = FontWeight.Bold,
-                                    color = Color.White
+                                    color = NuxColors.DarkGray
                                 )
                                 Text(
                                     text = "Aktifkan sinkronisasi vertikal (V-Sync) untuk perender Kopper Zink via antarmuka sistem.",
@@ -1515,7 +1515,7 @@ fun SettingsScreen(
                             Icon(
                                 imageVector = Icons.Outlined.Mouse,
                                 contentDescription = null,
-                                tint = NuxColors.ForestGreen,
+                                tint = NuxColors.SageGreen,
                                 modifier = Modifier.size(16.dp)
                             )
                             Spacer(modifier = Modifier.width(6.dp))
@@ -1523,7 +1523,7 @@ fun SettingsScreen(
                                 text = "KONTROL MOUSE & SENTUHAN IN-GAME",
                                 fontWeight = FontWeight.Black,
                                 fontSize = 12.sp,
-                                color = Color.White
+                                color = NuxColors.DarkGray
                             )
                         }
 
@@ -1538,7 +1538,7 @@ fun SettingsScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .background(NuxColors.SurfaceInput, RoundedCornerShape(6.dp))
-                                .border(1.dp, NuxColors.CardBorder, RoundedCornerShape(6.dp))
+                                .border(NuxSizes.BorderWidth, NuxColors.CardBorder, RoundedCornerShape(6.dp))
                                 .padding(10.dp)
                         ) {
                             Column(modifier = Modifier.fillMaxWidth()) {
@@ -1549,14 +1549,14 @@ fun SettingsScreen(
                                     Icon(
                                         imageVector = Icons.Outlined.Tune,
                                         contentDescription = null,
-                                        tint = NuxColors.ForestGreen,
+                                        tint = NuxColors.SageGreen,
                                         modifier = Modifier.size(14.dp)
                                     )
                                     Text(
                                         text = "KUSTOMISASI KONTROL VIRTUAL",
                                         fontWeight = FontWeight.Black,
                                         fontSize = 11.sp,
-                                        color = Color.White
+                                        color = NuxColors.DarkGray
                                     )
                                 }
                                 Spacer(modifier = Modifier.height(4.dp))
@@ -1573,12 +1573,12 @@ fun SettingsScreen(
                                         .fillMaxWidth()
                                         .height(34.dp),
                                     backgroundColor = NuxColors.ForestGreen,
-                                    contentColor = Color.White,
+                                    contentColor = NuxColors.DarkGray,
                                     cornerRadius = 6.dp
                                 ) {
-                                    Icon(Icons.Outlined.Edit, contentDescription = null, tint = Color.White, modifier = Modifier.size(14.dp))
+                                    Icon(Icons.Outlined.Edit, contentDescription = null, tint = NuxColors.DarkGray, modifier = Modifier.size(14.dp))
                                     Spacer(modifier = Modifier.width(6.dp))
-                                    Text("BUKA GUI EDITOR", fontWeight = FontWeight.Bold, fontSize = 10.sp, color = Color.White)
+                                    Text("BUKA GUI EDITOR", fontWeight = FontWeight.Bold, fontSize = 10.sp, color = NuxColors.DarkGray)
                                 }
                             }
                         }
@@ -1613,7 +1613,7 @@ fun SettingsScreen(
                                         Icon(
                                             imageVector = Icons.Outlined.TouchApp,
                                             contentDescription = null,
-                                            tint = if (isSlide) NuxColors.MintGreen else Color.White,
+                                            tint = if (isSlide) NuxColors.SageGreen else NuxColors.DarkGray,
                                             modifier = Modifier.size(14.dp)
                                         )
                                         Spacer(modifier = Modifier.width(4.dp))
@@ -1621,7 +1621,7 @@ fun SettingsScreen(
                                             text = "SLIDE (Trackpad)",
                                             fontSize = 10.5.sp,
                                             fontWeight = FontWeight.Black,
-                                            color = if (isSlide) NuxColors.MintGreen else Color.White
+                                            color = if (isSlide) NuxColors.SageGreen else NuxColors.DarkGray
                                         )
                                     }
                                     Spacer(modifier = Modifier.height(3.dp))
@@ -1659,7 +1659,7 @@ fun SettingsScreen(
                                         Icon(
                                             imageVector = Icons.Outlined.NearMe,
                                             contentDescription = null,
-                                            tint = if (isClick) NuxColors.MintGreen else Color.White,
+                                            tint = if (isClick) NuxColors.SageGreen else NuxColors.DarkGray,
                                             modifier = Modifier.size(14.dp)
                                         )
                                         Spacer(modifier = Modifier.width(4.dp))
@@ -1667,7 +1667,7 @@ fun SettingsScreen(
                                             text = "CLICK (Direct)",
                                             fontSize = 10.5.sp,
                                             fontWeight = FontWeight.Black,
-                                            color = if (isClick) NuxColors.MintGreen else Color.White
+                                            color = if (isClick) NuxColors.SageGreen else NuxColors.DarkGray
                                         )
                                     }
                                     Spacer(modifier = Modifier.height(3.dp))
@@ -1686,7 +1686,7 @@ fun SettingsScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .background(NuxColors.SurfaceInput, RoundedCornerShape(6.dp))
-                                .border(1.dp, NuxColors.CardBorder, RoundedCornerShape(6.dp))
+                                .border(NuxSizes.BorderWidth, NuxColors.CardBorder, RoundedCornerShape(6.dp))
                                 .padding(10.dp)
                         ) {
                             Row(
@@ -1698,7 +1698,7 @@ fun SettingsScreen(
                                     text = "Sensitivitas Kamera Game (Rotasi)",
                                     fontSize = 11.sp,
                                     fontWeight = FontWeight.Bold,
-                                    color = Color.White
+                                    color = NuxColors.DarkGray
                                 )
                                 Box(
                                     modifier = Modifier
@@ -1708,7 +1708,7 @@ fun SettingsScreen(
                                 ) {
                                     Text(
                                         text = "$captureSensitivity%",
-                                        color = NuxColors.MintGreen,
+                                        color = NuxColors.SageGreen,
                                         fontSize = 9.5.sp,
                                         fontWeight = FontWeight.Bold
                                     )
@@ -1735,7 +1735,7 @@ fun SettingsScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .background(NuxColors.SurfaceInput, RoundedCornerShape(6.dp))
-                                .border(1.dp, NuxColors.CardBorder, RoundedCornerShape(6.dp))
+                                .border(NuxSizes.BorderWidth, NuxColors.CardBorder, RoundedCornerShape(6.dp))
                                 .padding(10.dp)
                         ) {
                             Row(
@@ -1747,7 +1747,7 @@ fun SettingsScreen(
                                     text = "Sensitivitas Kursor Virtual (Menu)",
                                     fontSize = 11.sp,
                                     fontWeight = FontWeight.Bold,
-                                    color = Color.White
+                                    color = NuxColors.DarkGray
                                 )
                                 Box(
                                     modifier = Modifier
@@ -1757,7 +1757,7 @@ fun SettingsScreen(
                                 ) {
                                     Text(
                                         text = "$cursorSensitivity%",
-                                        color = NuxColors.MintGreen,
+                                        color = NuxColors.SageGreen,
                                         fontSize = 9.5.sp,
                                         fontWeight = FontWeight.Bold
                                     )
@@ -1784,7 +1784,7 @@ fun SettingsScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .background(NuxColors.SurfaceInput, RoundedCornerShape(6.dp))
-                                .border(1.dp, NuxColors.CardBorder, RoundedCornerShape(6.dp))
+                                .border(NuxSizes.BorderWidth, NuxColors.CardBorder, RoundedCornerShape(6.dp))
                                 .padding(10.dp)
                         ) {
                             Row(
@@ -1796,13 +1796,13 @@ fun SettingsScreen(
                                     text = "Ukuran Kursor Virtual",
                                     fontSize = 11.sp,
                                     fontWeight = FontWeight.Bold,
-                                    color = Color.White
+                                    color = NuxColors.DarkGray
                                 )
                                 Text(
                                     text = "${mouseSizeDp}dp",
                                     fontSize = 11.sp,
                                     fontWeight = FontWeight.Black,
-                                    color = NuxColors.MintGreen
+                                    color = NuxColors.SageGreen
                                 )
                             }
                             Slider(
@@ -1826,7 +1826,7 @@ fun SettingsScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .background(NuxColors.SurfaceInput, RoundedCornerShape(6.dp))
-                                .border(1.dp, NuxColors.CardBorder, RoundedCornerShape(6.dp))
+                                .border(NuxSizes.BorderWidth, NuxColors.CardBorder, RoundedCornerShape(6.dp))
                                 .padding(horizontal = 10.dp, vertical = 8.dp),
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically
@@ -1836,7 +1836,7 @@ fun SettingsScreen(
                                     text = "Mode Mouse Fisik (Auto-Hide)",
                                     fontSize = 11.sp,
                                     fontWeight = FontWeight.Bold,
-                                    color = Color.White
+                                    color = NuxColors.DarkGray
                                 )
                                 Text(
                                     text = "Sembunyikan kursor virtual otomatis jika mouse eksternal tersambung",
@@ -1913,14 +1913,14 @@ fun SettingsScreen(
                                     .weight(1f)
                                     .height(34.dp),
                                 backgroundColor = NuxColors.ForestGreen,
-                                contentColor = Color.White,
+                                contentColor = NuxColors.DarkGray,
                                 cornerRadius = 6.dp
                             ) {
                                 Text(
                                     text = "SIMPAN",
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 10.5.sp,
-                                    color = Color.White
+                                    color = NuxColors.DarkGray
                                 )
                             }
                         }
@@ -1960,7 +1960,7 @@ fun SettingsScreen(
                             Icon(
                                 imageVector = Icons.Outlined.AutoFixHigh,
                                 contentDescription = null,
-                                tint = NuxColors.ForestGreen,
+                                tint = NuxColors.SageGreen,
                                 modifier = Modifier.size(16.dp)
                             )
                             Spacer(modifier = Modifier.width(6.dp))
@@ -1968,7 +1968,7 @@ fun SettingsScreen(
                                 text = "AI CRASH ANALYZER & DIAGNOSIS",
                                 fontWeight = FontWeight.Black,
                                 fontSize = 12.sp,
-                                color = Color.White
+                                color = NuxColors.DarkGray
                             )
                         }
 
@@ -1977,7 +1977,7 @@ fun SettingsScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .background(NuxColors.SurfaceInput, RoundedCornerShape(6.dp))
-                                .border(1.dp, NuxColors.CardBorder, RoundedCornerShape(6.dp))
+                                .border(NuxSizes.BorderWidth, NuxColors.CardBorder, RoundedCornerShape(6.dp))
                                 .padding(10.dp),
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.SpaceBetween
@@ -1987,14 +1987,14 @@ fun SettingsScreen(
                                     text = "Analisis Otomatis Saat Game Crash",
                                     fontSize = 10.5.sp,
                                     fontWeight = FontWeight.Bold,
-                                    color = Color.White
+                                    color = NuxColors.DarkGray
                                 )
                                 Spacer(modifier = Modifier.height(2.dp))
                                 Text(
                                     text = if (aiAutoAnalyze) "Aktif: AI langsung menganalisis otomatis saat Minecraft berhenti tak terduga."
                                            else "Nonaktif: Analisis AI hanya dijalankan manual di dialog crash.",
                                     fontSize = 9.sp,
-                                    color = if (aiAutoAnalyze) NuxColors.MintGreen else NuxColors.GrayNeutral,
+                                    color = if (aiAutoAnalyze) NuxColors.SageGreen else NuxColors.GrayNeutral,
                                     lineHeight = 12.sp
                                 )
                             }
@@ -2018,7 +2018,7 @@ fun SettingsScreen(
                             Icon(
                                 imageVector = Icons.Outlined.Psychology,
                                 contentDescription = null,
-                                tint = NuxColors.MintGreen,
+                                tint = NuxColors.SageGreen,
                                 modifier = Modifier.size(14.dp)
                             )
                             Spacer(modifier = Modifier.width(6.dp))
@@ -2026,7 +2026,7 @@ fun SettingsScreen(
                                 text = "MODEL KECERDASAN BUATAN (AI)",
                                 fontWeight = FontWeight.Black,
                                 fontSize = 11.sp,
-                                color = Color.White
+                                color = NuxColors.DarkGray
                             )
                         }
 
@@ -2079,12 +2079,12 @@ fun SettingsScreen(
                                         text = mTitle,
                                         fontSize = 10.sp,
                                         fontWeight = FontWeight.Bold,
-                                        color = if (isSelected) Color.White else NuxColors.GrayNeutral
+                                        color = if (isSelected) NuxColors.DarkGray else NuxColors.GrayNeutral
                                     )
                                     Text(
                                         text = mDesc,
                                         fontSize = 8.5.sp,
-                                        color = if (isSelected) NuxColors.MintGreen else NuxColors.GrayNeutral.copy(alpha = 0.7f)
+                                        color = if (isSelected) NuxColors.SageGreen else NuxColors.GrayNeutral.copy(alpha = 0.7f)
                                     )
                                 }
                             }
@@ -2095,7 +2095,7 @@ fun SettingsScreen(
                             Icon(
                                 imageVector = Icons.Outlined.Key,
                                 contentDescription = null,
-                                tint = NuxColors.ForestGreen,
+                                tint = NuxColors.SageGreen,
                                 modifier = Modifier.size(14.dp)
                             )
                             Spacer(modifier = Modifier.width(6.dp))
@@ -2103,7 +2103,7 @@ fun SettingsScreen(
                                 text = "API KEY (OPSIONAL)",
                                 fontWeight = FontWeight.Black,
                                 fontSize = 11.sp,
-                                color = Color.White
+                                color = NuxColors.DarkGray
                             )
                         }
 
@@ -2111,7 +2111,7 @@ fun SettingsScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .background(NuxColors.SurfaceInput, RoundedCornerShape(6.dp))
-                                .border(1.dp, NuxColors.CardBorder, RoundedCornerShape(6.dp))
+                                .border(NuxSizes.BorderWidth, NuxColors.CardBorder, RoundedCornerShape(6.dp))
                                 .padding(10.dp)
                         ) {
                             Text(
@@ -2176,27 +2176,27 @@ fun SettingsScreen(
                                     .height(34.dp),
                                 backgroundColor = NuxColors.SurfaceInput,
                                 borderColor = NuxColors.CardBorder,
-                                contentColor = Color.White,
+                                contentColor = NuxColors.DarkGray,
                                 cornerRadius = 6.dp,
                                 enabled = !isTestingAiConnection
                             ) {
                                 if (isTestingAiConnection) {
                                     CircularProgressIndicator(
                                         modifier = Modifier.size(12.dp),
-                                        color = Color.White,
+                                        color = NuxColors.DarkGray,
                                         strokeWidth = 2.dp
                                     )
                                     Spacer(modifier = Modifier.width(6.dp))
-                                    Text("MENGUJI...", fontWeight = FontWeight.Bold, fontSize = 9.5.sp, color = Color.White)
+                                    Text("MENGUJI...", fontWeight = FontWeight.Bold, fontSize = 9.5.sp, color = NuxColors.DarkGray)
                                 } else {
                                     Icon(
                                         imageVector = Icons.Outlined.NetworkCheck,
                                         contentDescription = null,
-                                        tint = NuxColors.MintGreen,
+                                        tint = NuxColors.SageGreen,
                                         modifier = Modifier.size(13.dp)
                                     )
                                     Spacer(modifier = Modifier.width(6.dp))
-                                    Text("TES KONEKSI AI", fontWeight = FontWeight.Bold, fontSize = 9.5.sp, color = Color.White)
+                                    Text("TES KONEKSI AI", fontWeight = FontWeight.Bold, fontSize = 9.5.sp, color = NuxColors.DarkGray)
                                 }
                             }
 
@@ -2209,17 +2209,17 @@ fun SettingsScreen(
                                     .weight(1f)
                                     .height(34.dp),
                                 backgroundColor = NuxColors.ForestGreen,
-                                contentColor = Color.White,
+                                contentColor = NuxColors.DarkGray,
                                 cornerRadius = 6.dp
                             ) {
                                 Icon(
                                     imageVector = Icons.Outlined.Save,
                                     contentDescription = null,
-                                    tint = Color.White,
+                                    tint = NuxColors.DarkGray,
                                     modifier = Modifier.size(13.dp)
                                 )
                                 Spacer(modifier = Modifier.width(6.dp))
-                                Text("SIMPAN PENGATURAN", fontWeight = FontWeight.Bold, fontSize = 9.5.sp, color = Color.White)
+                                Text("SIMPAN PENGATURAN", fontWeight = FontWeight.Bold, fontSize = 9.5.sp, color = NuxColors.DarkGray)
                             }
                         }
 
@@ -2245,14 +2245,14 @@ fun SettingsScreen(
                                 Icon(
                                     imageVector = if (isAiConnectionSuccess) Icons.Outlined.CheckCircle else Icons.Outlined.ErrorOutline,
                                     contentDescription = null,
-                                    tint = if (isAiConnectionSuccess) NuxColors.MintGreen else NuxColors.Coral,
+                                    tint = if (isAiConnectionSuccess) NuxColors.SageGreen else NuxColors.Coral,
                                     modifier = Modifier.size(16.dp)
                                 )
                                 Spacer(modifier = Modifier.width(6.dp))
                                 Text(
                                     text = aiConnectionTestResult!!,
                                     fontSize = 9.sp,
-                                    color = if (isAiConnectionSuccess) Color.White else NuxColors.Coral,
+                                    color = if (isAiConnectionSuccess) NuxColors.DarkGray else NuxColors.Coral,
                                     lineHeight = 12.sp
                                 )
                             }
@@ -2288,7 +2288,7 @@ fun SettingsScreen(
                                 Icon(
                                     imageVector = Icons.Outlined.Info,
                                     contentDescription = null,
-                                    tint = NuxColors.ForestGreen,
+                                    tint = NuxColors.SageGreen,
                                     modifier = Modifier.size(16.dp)
                                 )
                                 Spacer(modifier = Modifier.width(6.dp))
@@ -2296,7 +2296,7 @@ fun SettingsScreen(
                                     text = "STATUS SISTEM & KAPABILITAS",
                                     fontWeight = FontWeight.Black,
                                     fontSize = 12.sp,
-                                    color = Color.White
+                                    color = NuxColors.DarkGray
                                 )
                             }
 
@@ -2307,7 +2307,7 @@ fun SettingsScreen(
                             ) {
                                 Text(
                                     text = "ONLINE & SIAP",
-                                    color = NuxColors.MintGreen,
+                                    color = NuxColors.SageGreen,
                                     fontSize = 8.5.sp,
                                     fontWeight = FontWeight.Bold
                                 )
@@ -2319,7 +2319,7 @@ fun SettingsScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .background(NuxColors.SurfaceInput, RoundedCornerShape(6.dp))
-                                .border(1.dp, NuxColors.CardBorder, RoundedCornerShape(6.dp))
+                                .border(NuxSizes.BorderWidth, NuxColors.CardBorder, RoundedCornerShape(6.dp))
                                 .padding(10.dp),
                             verticalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
@@ -2327,7 +2327,7 @@ fun SettingsScreen(
                                 text = "Apa Saja yang Dapat Didiagnosis AI?",
                                 fontSize = 10.5.sp,
                                 fontWeight = FontWeight.Bold,
-                                color = Color.White
+                                color = NuxColors.DarkGray
                             )
 
                             val features = listOf(
@@ -2355,7 +2355,7 @@ fun SettingsScreen(
                                             text = title,
                                             fontSize = 9.5.sp,
                                             fontWeight = FontWeight.Bold,
-                                            color = Color.White
+                                            color = NuxColors.DarkGray
                                         )
                                         Text(
                                             text = desc,
@@ -2380,7 +2380,7 @@ fun SettingsScreen(
                                 Icon(
                                     imageVector = Icons.Outlined.Lightbulb,
                                     contentDescription = null,
-                                    tint = NuxColors.MintGreen,
+                                    tint = NuxColors.SageGreen,
                                     modifier = Modifier.size(14.dp)
                                 )
                                 Spacer(modifier = Modifier.width(6.dp))
@@ -2388,7 +2388,7 @@ fun SettingsScreen(
                                     text = "Ingin Menggunakan API Key Pribadi?",
                                     fontSize = 10.sp,
                                     fontWeight = FontWeight.Bold,
-                                    color = NuxColors.MintGreen
+                                    color = NuxColors.SageGreen
                                 )
                             }
                             Spacer(modifier = Modifier.height(4.dp))
@@ -2398,7 +2398,7 @@ fun SettingsScreen(
                                        "3. Salin kunci lalu tempel di kolom API Key di sebelah kiri\n" +
                                        "4. Dapatkan kuota pribadi super cepat dengan model AI terbaik!",
                                 fontSize = 8.5.sp,
-                                color = Color.White.copy(alpha = 0.85f),
+                                color = NuxColors.DarkGray.copy(alpha = 0.85f),
                                 lineHeight = 12.sp
                             )
                         }
@@ -2438,7 +2438,7 @@ fun SettingsScreen(
                             Icon(
                                 imageVector = Icons.Outlined.VideoLibrary,
                                 contentDescription = null,
-                                tint = NuxColors.ForestGreen,
+                                tint = NuxColors.SageGreen,
                                 modifier = Modifier.size(15.dp)
                             )
                             Spacer(modifier = Modifier.width(6.dp))
@@ -2446,7 +2446,7 @@ fun SettingsScreen(
                                 text = "ANIMASI BANNER HERO",
                                 fontWeight = FontWeight.Black,
                                 fontSize = 11.5.sp,
-                                color = Color.White
+                                color = NuxColors.DarkGray
                             )
                         }
 
@@ -2462,7 +2462,7 @@ fun SettingsScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .background(NuxColors.SurfaceInput, RoundedCornerShape(6.dp))
-                                .border(1.dp, NuxColors.CardBorder, RoundedCornerShape(6.dp))
+                                .border(NuxSizes.BorderWidth, NuxColors.CardBorder, RoundedCornerShape(6.dp))
                                 .padding(horizontal = 8.dp, vertical = 5.dp),
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically
@@ -2472,12 +2472,12 @@ fun SettingsScreen(
                                     text = "Aktifkan Animasi Banner",
                                     fontSize = 10.5.sp,
                                     fontWeight = FontWeight.Bold,
-                                    color = Color.White
+                                    color = NuxColors.DarkGray
                                 )
                                 Text(
                                     text = if (heroAnimationEnabled) "Status: Aktif (Memutar video MP4)" else "Status: Nonaktif (Gambar Flat)",
                                     fontSize = 8.5.sp,
-                                    color = if (heroAnimationEnabled) NuxColors.MintGreen else NuxColors.GrayNeutral
+                                    color = if (heroAnimationEnabled) NuxColors.SageGreen else NuxColors.GrayNeutral
                                 )
                             }
                             Switch(
@@ -2510,7 +2510,7 @@ fun SettingsScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .background(NuxColors.SurfaceInput, RoundedCornerShape(6.dp))
-                                .border(1.dp, NuxColors.CardBorder, RoundedCornerShape(6.dp))
+                                .border(NuxSizes.BorderWidth, NuxColors.CardBorder, RoundedCornerShape(6.dp))
                                 .padding(horizontal = 8.dp, vertical = 7.dp),
                             verticalArrangement = Arrangement.spacedBy(6.dp)
                         ) {
@@ -2523,13 +2523,13 @@ fun SettingsScreen(
                                     text = "Rotasi Video",
                                     fontSize = 10.sp,
                                     fontWeight = FontWeight.Bold,
-                                    color = Color.White
+                                    color = NuxColors.DarkGray
                                 )
                                 Text(
                                     text = "${heroAnimationRotation}°",
                                     fontSize = 9.sp,
                                     fontWeight = FontWeight.Bold,
-                                    color = NuxColors.MintGreen
+                                    color = NuxColors.SageGreen
                                 )
                             }
                             Text(
@@ -2567,7 +2567,7 @@ fun SettingsScreen(
                                             text = "$angle°",
                                             fontSize = 9.sp,
                                             fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
-                                            color = if (isSelected) Color.White else NuxColors.GrayNeutral
+                                            color = if (isSelected) NuxColors.DarkGray else NuxColors.GrayNeutral
                                         )
                                     }
                                 }
@@ -2593,7 +2593,7 @@ fun SettingsScreen(
                                     .weight(1f)
                                     .height(30.dp),
                                 backgroundColor = NuxColors.ForestGreen,
-                                contentColor = Color.White,
+                                contentColor = NuxColors.DarkGray,
                                 cornerRadius = 6.dp
                             ) {
                                 Icon(
@@ -2674,7 +2674,7 @@ fun SettingsScreen(
                                 Icon(
                                     imageVector = Icons.Outlined.Visibility,
                                     contentDescription = null,
-                                    tint = NuxColors.ForestGreen,
+                                    tint = NuxColors.SageGreen,
                                     modifier = Modifier.size(15.dp)
                                 )
                                 Spacer(modifier = Modifier.width(5.dp))
@@ -2682,7 +2682,7 @@ fun SettingsScreen(
                                     text = "PRATINJAU BANNER",
                                     fontWeight = FontWeight.Black,
                                     fontSize = 11.5.sp,
-                                    color = Color.White,
+                                    color = NuxColors.DarkGray,
                                     maxLines = 1
                                 )
                             }
@@ -2707,7 +2707,7 @@ fun SettingsScreen(
                             ) {
                                 Text(
                                     text = if (isPreviewVideoActive) "• VIDEO AKTIF" else "• GAMBAR FLAT",
-                                    color = if (isPreviewVideoActive) NuxColors.MintGreen else NuxColors.GrayNeutral,
+                                    color = if (isPreviewVideoActive) NuxColors.SageGreen else NuxColors.GrayNeutral,
                                     fontSize = 8.5.sp,
                                     fontWeight = FontWeight.Bold,
                                     maxLines = 1,
@@ -2729,8 +2729,8 @@ fun SettingsScreen(
                                 .fillMaxWidth()
                                 .height(175.dp)
                                 .clip(mockupShape)
-                                .background(Color(0xFF0D0F14), mockupShape)
-                                .border(1.dp, NuxColors.CardBorder, mockupShape)
+                                .background(NuxColors.SurfaceInput, mockupShape)
+                                .border(NuxSizes.BorderWidth, NuxColors.CardBorder, mockupShape)
                         ) {
                             val isPreviewVideoActive = heroAnimationEnabled &&
                                     heroAnimationVideoPath.isNotBlank() &&
@@ -2759,9 +2759,9 @@ fun SettingsScreen(
                                     .background(
                                         Brush.horizontalGradient(
                                             colors = listOf(
-                                                Color(0xF509090B),
-                                                Color(0xDC0D0F14),
-                                                Color(0x550D0F14)
+                                                NuxColors.Background.copy(alpha = 0.96f),
+                                                NuxColors.SurfaceInput.copy(alpha = 0.86f),
+                                                NuxColors.SurfaceInput.copy(alpha = 0.33f)
                                             )
                                         )
                                     )
@@ -2779,8 +2779,8 @@ fun SettingsScreen(
                                         // • FABRIC EDITION pill badge
                                         Row(
                                             modifier = Modifier
-                                                .background(Color(0xFF10B981).copy(alpha = 0.15f), RoundedCornerShape(8.dp))
-                                                .border(1.dp, Color(0xFF10B981).copy(alpha = 0.4f), RoundedCornerShape(8.dp))
+                                                .background(NuxColors.ForestGreen.copy(alpha = 0.15f), RoundedCornerShape(8.dp))
+                                                .border(1.dp, NuxColors.ForestGreen.copy(alpha = 0.4f), RoundedCornerShape(8.dp))
                                                 .padding(horizontal = 8.dp, vertical = 3.dp),
                                             verticalAlignment = Alignment.CenterVertically
                                         ) {
@@ -2792,7 +2792,7 @@ fun SettingsScreen(
                                             Spacer(modifier = Modifier.width(6.dp))
                                             Text(
                                                 text = "FABRIC EDITION",
-                                                color = NuxColors.MintGreen,
+                                                color = NuxColors.SageGreen,
                                                 fontSize = 9.sp,
                                                 fontWeight = FontWeight.Bold,
                                                 letterSpacing = 0.8.sp
@@ -2804,7 +2804,7 @@ fun SettingsScreen(
                                         // Large instance title
                                         Text(
                                             text = "MINECRAFT 1.21.4",
-                                            color = Color.White,
+                                            color = NuxColors.DarkGray,
                                             fontWeight = FontWeight.Black,
                                             fontSize = 20.sp,
                                             letterSpacing = (-0.5).sp,
@@ -2830,7 +2830,7 @@ fun SettingsScreen(
                                         // Subtitle
                                         Text(
                                             text = "Version 1.21.4 — Click PLAY to launch this instance and craft seamlessly.",
-                                            color = Color(0xFFA1A1AA),
+                                            color = NuxColors.GrayNeutral,
                                             fontSize = 10.sp,
                                             lineHeight = 13.sp,
                                             maxLines = 2
@@ -2844,7 +2844,7 @@ fun SettingsScreen(
                                     Row(
                                         modifier = Modifier
                                             .clip(playBtnShape)
-                                            .background(Color(0xFF181B22), playBtnShape)
+                                            .background(NuxColors.SurfaceElevated, playBtnShape)
                                             .border(
                                                 width = 1.dp,
                                                 color = NuxColors.ForestGreen.copy(alpha = 0.5f),
@@ -2864,14 +2864,14 @@ fun SettingsScreen(
                                             Icon(
                                                 imageVector = Icons.Outlined.PlayArrow,
                                                 contentDescription = "Action",
-                                                tint = Color(0xFF09090B),
+                                                tint = NuxColors.DarkGray,
                                                 modifier = Modifier.size(18.dp)
                                             )
                                         }
 
                                         Text(
                                             text = "PLAY",
-                                            color = Color.White,
+                                            color = NuxColors.DarkGray,
                                             fontWeight = FontWeight.Black,
                                             fontSize = 14.sp,
                                             letterSpacing = 1.sp
@@ -2894,7 +2894,7 @@ fun SettingsScreen(
                         text = "Keluar dari Akun?",
                         fontWeight = FontWeight.Black,
                         fontSize = 14.sp,
-                        color = Color.White
+                        color = NuxColors.DarkGray
                     )
                 },
                 text = {
@@ -2914,7 +2914,7 @@ fun SettingsScreen(
                         },
                         modifier = Modifier.height(32.dp),
                         backgroundColor = NuxColors.Coral,
-                        contentColor = Color.White,
+                        contentColor = NuxColors.DarkGray,
                         cornerRadius = 6.dp
                     ) {
                         Text("YA, KELUAR", fontWeight = FontWeight.Bold, fontSize = 10.5.sp)
@@ -2961,7 +2961,7 @@ fun SettingsScreen(
                             Icon(
                                 imageVector = Icons.Outlined.Layers,
                                 contentDescription = null,
-                                tint = NuxColors.ForestGreen,
+                                tint = NuxColors.SageGreen,
                                 modifier = Modifier.size(18.dp)
                             )
                             Spacer(modifier = Modifier.width(8.dp))
@@ -2970,7 +2970,7 @@ fun SettingsScreen(
                                     text = "PILIH RENDERER GRAFIK",
                                     fontWeight = FontWeight.Black,
                                     fontSize = 13.sp,
-                                    color = Color.White
+                                    color = NuxColors.DarkGray
                                 )
                                 Text(
                                     text = "Sesuaikan backend grafis dengan Minecraft & GPU perangkat",
@@ -2986,7 +2986,7 @@ fun SettingsScreen(
                             Icon(
                                 imageVector = Icons.Default.Close,
                                 contentDescription = "Tutup",
-                                tint = Color.White,
+                                tint = NuxColors.DarkGray,
                                 modifier = Modifier.size(16.dp)
                             )
                         }
@@ -3052,7 +3052,7 @@ fun SettingsScreen(
                                                 text = rendererItem.displayName,
                                                 fontWeight = FontWeight.Bold,
                                                 fontSize = 11.sp,
-                                                color = if (isSelected) NuxColors.MintGreen else Color.White
+                                                color = if (isSelected) NuxColors.SageGreen else NuxColors.DarkGray
                                             )
                                         }
                                         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -3073,7 +3073,7 @@ fun SettingsScreen(
                                                     Icon(
                                                         imageVector = Icons.Default.Settings,
                                                         contentDescription = "Konfigurasi ${rendererItem.displayName}",
-                                                        tint = NuxColors.MintGreen,
+                                                        tint = NuxColors.SageGreen,
                                                         modifier = Modifier.size(13.dp)
                                                     )
                                                 }
@@ -3085,14 +3085,14 @@ fun SettingsScreen(
                                                         if (isSelected) NuxColors.ForestGreen else NuxColors.SurfaceElevated,
                                                         RoundedCornerShape(4.dp)
                                                     )
-                                                    .border(1.dp, NuxColors.CardBorder, RoundedCornerShape(4.dp))
+                                                    .border(NuxSizes.BorderWidth, NuxColors.CardBorder, RoundedCornerShape(4.dp))
                                                     .padding(horizontal = 6.dp, vertical = 2.dp)
                                             ) {
                                                 Text(
                                                     text = rendererItem.badge,
                                                     fontSize = 8.5.sp,
                                                     fontWeight = FontWeight.Bold,
-                                                    color = if (isSelected) Color.White else NuxColors.GrayNeutral
+                                                    color = if (isSelected) NuxColors.DarkGray else NuxColors.GrayNeutral
                                                 )
                                             }
                                         }
@@ -3110,7 +3110,7 @@ fun SettingsScreen(
                                         text = "Kesesuaian: ${rendererItem.compatibility}",
                                         fontSize = 9.sp,
                                         fontWeight = FontWeight.SemiBold,
-                                        color = NuxColors.MintGreen,
+                                        color = NuxColors.SageGreen,
                                         modifier = Modifier.padding(start = 24.dp)
                                     )
                                 }
@@ -3128,7 +3128,7 @@ fun SettingsScreen(
                             onClick = { showRendererDialog = false },
                             modifier = Modifier.height(30.dp),
                             backgroundColor = NuxColors.SurfaceInput,
-                            contentColor = Color.White,
+                            contentColor = NuxColors.DarkGray,
                             cornerRadius = 6.dp
                         ) {
                             Text("TUTUP", fontWeight = FontWeight.Bold, fontSize = 10.sp)
@@ -3154,7 +3154,7 @@ fun SettingsScreen(
                         .width(420.dp)
                         .wrapContentHeight(),
                     backgroundColor = NuxColors.SurfaceElevated,
-                    borderColor = Color(0x33FFFFFF),
+                    borderColor = NuxColors.DarkGray.copy(alpha = 0.40f),
                     cornerRadius = NuxSizes.CornerRadiusLarge,
                     fillMaxHeight = false
                 ) {
@@ -3169,14 +3169,14 @@ fun SettingsScreen(
                             Spacer(modifier = Modifier.width(6.dp))
                             Text(
                                 text = "PERINGATAN DRIVER ADRENO",
-                                color = Color(0xFFFBBF24),
+                                color = NuxColors.AmberDark,
                                 fontWeight = FontWeight.Black,
                                 fontSize = 13.sp
                             )
                         }
                         Text(
                             text = "Launcher mendeteksi perangkatmu menggunakan GPU Adreno. Mengaktifkan opsi ini dapat menyebabkan perender Zink tidak berfungsi atau crash. Apakah Anda yakin ingin mengaktifkannya?",
-                            color = Color(0xFFD4D4D8),
+                            color = NuxColors.GrayNeutral,
                             fontSize = 11.sp,
                             lineHeight = 16.sp
                         )
@@ -3192,7 +3192,7 @@ fun SettingsScreen(
                                         showAdrenoWarningDialog = false
                                     },
                                     backgroundColor = NuxColors.SurfaceInput,
-                                    contentColor = Color.White,
+                                    contentColor = NuxColors.DarkGray,
                                     modifier = Modifier.fillMaxWidth()
                                 ) {
                                     Text(
@@ -3209,7 +3209,7 @@ fun SettingsScreen(
                                         commitSettings()
                                         showAdrenoWarningDialog = false
                                     },
-                                    backgroundColor = Color(0xFFF59E0B),
+                                    backgroundColor = NuxColors.Amber,
                                     contentColor = Color.Black,
                                     modifier = Modifier.fillMaxWidth()
                                 ) {
