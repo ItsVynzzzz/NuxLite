@@ -87,14 +87,13 @@ class MinecraftDownloader(
                 )
             }
 
-            // 3. Download Libraries (Parallel with 48 Turbo threads for Premium, 20 threads for Free)
+            // 3. Download Libraries (paralel, 20 thread: cukup cepat dan ringan untuk HP RAM kecil)
             val libraries = detail.libraries ?: emptyList()
             val allowedLibs = libraries.filter { isLibraryAllowed(it) }
             val libDir = InstanceManager.getLibrariesDir(context)
             if (!libDir.exists()) libDir.mkdirs()
 
-            val isPremium = com.israadev.nuxlauncher.core.account.AccountManager.launcherUser.value?.isActivated == true
-            val libThreads = if (isPremium) 48 else 20
+            val libThreads = 20
 
             val totalLibs = allowedLibs.size
             if (totalLibs > 0) {
@@ -139,7 +138,7 @@ class MinecraftDownloader(
                     downloadFile(assetIndex.url, indexFile)
                 }
 
-                // Download objects (Parallel concurrency: 48 Turbo for Premium, 24 for Free)
+                // Download objects (paralel, 24 thread)
                 if (indexFile.exists()) {
                     try {
                         val indexContent = gson.fromJson(indexFile.readText(), AssetIndexContent::class.java)
@@ -148,7 +147,7 @@ class MinecraftDownloader(
                         val objectsDir = File(assetsDir, "objects")
 
                         val downloadedAssets = AtomicInteger(0)
-                        val assetThreads = if (isPremium) 48 else 24
+                        val assetThreads = 24
                         val semaphore = Semaphore(assetThreads)
 
                         val assetJobs = objects.map { entry ->

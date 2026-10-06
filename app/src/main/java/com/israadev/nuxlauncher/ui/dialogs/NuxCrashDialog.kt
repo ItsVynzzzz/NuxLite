@@ -54,44 +54,6 @@ fun NuxCrashDialog(
     var isUploading by remember { mutableStateOf(false) }
     var uploadSuccessUrl by remember { mutableStateOf<String?>(null) }
 
-    val settings by com.israadev.nuxlauncher.core.settings.SettingsManager.settings.collectAsState()
-    var aiState by remember { mutableStateOf<com.israadev.nuxlauncher.core.crash.AIStreamState>(com.israadev.nuxlauncher.core.crash.AIStreamState.Idle) }
-    var rightViewMode by remember { mutableStateOf("ai") } // "ai" or "raw"
-    val isAutoAnalyze = settings.aiAutoAnalyze
-
-    var remainingQuota by remember {
-        mutableStateOf(com.israadev.nuxlauncher.core.crash.AICrashQuotaManager.getRemainingQuota(context, settings))
-    }
-
-    LaunchedEffect(settings.aiApiKey) {
-        remainingQuota = com.israadev.nuxlauncher.core.crash.AICrashQuotaManager.getRemainingQuota(context, settings)
-    }
-
-    fun runAiAnalysis() {
-        rightViewMode = "ai"
-        if (!com.israadev.nuxlauncher.core.crash.AICrashQuotaManager.hasQuota(context, settings)) {
-            aiState = com.israadev.nuxlauncher.core.crash.AIStreamState.QuotaExceeded
-            return
-        }
-        coroutineScope.launch {
-            com.israadev.nuxlauncher.core.crash.AICrashAnalyzer.analyzeCrashStreaming(context, crashInfo, settings).collect { state ->
-                aiState = state
-                if (state is com.israadev.nuxlauncher.core.crash.AIStreamState.Connecting ||
-                    state is com.israadev.nuxlauncher.core.crash.AIStreamState.Streaming ||
-                    state is com.israadev.nuxlauncher.core.crash.AIStreamState.Completed
-                ) {
-                    remainingQuota = com.israadev.nuxlauncher.core.crash.AICrashQuotaManager.getRemainingQuota(context, settings)
-                }
-            }
-        }
-    }
-
-    LaunchedEffect(crashInfo, isAutoAnalyze) {
-        if (isAutoAnalyze) {
-            runAiAnalysis()
-        }
-    }
-
     var isCursorBlinkVisible by remember { mutableStateOf(true) }
     LaunchedEffect(Unit) {
         while (true) {
@@ -566,36 +528,19 @@ fun NuxCrashDialog(
                     }
 
                     // ==========================================
-                    // RIGHT COLUMN: AI Crash Analyst (Realtime Streaming)
+                    // RIGHT COLUMN: Log crash mentah
                     // ==========================================
-                    val effectiveModel = com.israadev.nuxlauncher.core.crash.AICrashAnalyzer.getEffectiveModel(settings)
-                    val activeAiText = when (val s = aiState) {
-                        is com.israadev.nuxlauncher.core.crash.AIStreamState.Streaming -> s.fullText
-                        is com.israadev.nuxlauncher.core.crash.AIStreamState.Completed -> s.fullText
-                        else -> ""
-                    }
-
                     Box(
                         modifier = Modifier
                             .weight(1.2f)
                             .fillMaxHeight()
                             .clip(cardShape)
                             .background(NuxColors.Background)
-                            .border(
-                                1.dp,
-                                Brush.linearGradient(
-                                    listOf(
-                                        NuxColors.ForestGreen.copy(alpha = 0.20f),
-                                        NuxColors.SkyBlue.copy(alpha = 0.13f),
-                                        NuxColors.ForestGreen.copy(alpha = 0.08f)
-                                    )
-                                ),
-                                cardShape
-                            )
+                            .border(2.dp, NuxColors.CardBorder, cardShape)
                             .padding(8.dp)
                     ) {
                         Column(modifier = Modifier.fillMaxSize()) {
-                            // Header Bar with Dots, AI Badge & Controls
+                            // Header: judul + tombol salin
                             Row(
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -603,131 +548,31 @@ fun NuxCrashDialog(
                                 horizontalArrangement = Arrangement.SpaceBetween,
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.spacedBy(5.dp)
+                                Text(
+                                    text = "LOG CRASH",
+                                    color = NuxColors.DarkGray,
+                                    fontWeight = FontWeight.Black,
+                                    fontSize = 9.sp,
+                                    letterSpacing = 0.8.sp
+                                )
+                                Box(
+                                    modifier = Modifier
+                                        .size(20.dp)
+                                        .clip(RoundedCornerShape(4.dp))
+                                        .background(NuxColors.SurfaceElevated)
+                                        .clickable {
+                                            val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                                            cm.setPrimaryClip(ClipData.newPlainText("Crash Log", crashInfo.logSnippet))
+                                            Toast.makeText(context, "Disalin ke papan klip!", Toast.LENGTH_SHORT).show()
+                                        },
+                                    contentAlignment = Alignment.Center
                                 ) {
-                                    Box(modifier = Modifier.size(7.dp).background(NuxColors.ErrorRed, CircleShape))
-                                    Box(modifier = Modifier.size(7.dp).background(NuxColors.Amber, CircleShape))
-                                    Box(modifier = Modifier.size(7.dp).background(NuxColors.ForestGreen, CircleShape))
-                                    Spacer(modifier = Modifier.width(4.dp))
-
-                                    Text(
-                                        text = "AI CRASH ANALYST",
-                                        color = NuxColors.SkyBlueDark,
-                                        fontWeight = FontWeight.Black,
-                                        fontSize = 9.sp,
-                                        letterSpacing = 0.8.sp
+                                    Icon(
+                                        imageVector = Icons.Default.ContentCopy,
+                                        contentDescription = "Salin",
+                                        tint = NuxColors.GrayNeutral,
+                                        modifier = Modifier.size(11.dp)
                                     )
-
-                                    // Status Pill
-                                    val (badgeText, badgeBg, badgeColor) = when (aiState) {
-                                        is com.israadev.nuxlauncher.core.crash.AIStreamState.Idle -> Triple("STANDBY", NuxColors.LightGray, NuxColors.LightGray)
-                                        is com.israadev.nuxlauncher.core.crash.AIStreamState.Connecting -> Triple("CONNECTING...", NuxColors.Amber.copy(alpha = 0.20f), NuxColors.Amber)
-                                        is com.israadev.nuxlauncher.core.crash.AIStreamState.Streaming -> Triple("LIVE STREAMING", NuxColors.ForestGreen.copy(alpha = 0.20f), NuxColors.ForestGreen)
-                                        is com.israadev.nuxlauncher.core.crash.AIStreamState.Completed -> Triple("SELESAI", NuxColors.ForestGreen.copy(alpha = 0.15f), NuxColors.MintGreen)
-                                        is com.israadev.nuxlauncher.core.crash.AIStreamState.Error -> Triple("ERROR", NuxColors.ErrorRed.copy(alpha = 0.20f), NuxColors.ErrorRed)
-                                        is com.israadev.nuxlauncher.core.crash.AIStreamState.QuotaExceeded -> Triple("LIMIT HABIS", NuxColors.ErrorRed.copy(alpha = 0.20f), NuxColors.ErrorRed)
-                                    }
-
-                                    Box(
-                                        modifier = Modifier
-                                            .clip(RoundedCornerShape(4.dp))
-                                            .background(badgeBg)
-                                            .padding(horizontal = 5.dp, vertical = 1.5.dp)
-                                    ) {
-                                        Text(
-                                            text = badgeText,
-                                            color = badgeColor,
-                                            fontSize = 7.5.sp,
-                                            fontWeight = FontWeight.Black
-                                        )
-                                    }
-
-                                    // Quota Badge
-                                    val quotaText = if (remainingQuota < 0) "UNLIMITED" else "$remainingQuota/5"
-                                    val quotaColor = when {
-                                        remainingQuota < 0 -> NuxColors.SkyBlue
-                                        remainingQuota > 1 -> NuxColors.ForestGreen
-                                        remainingQuota == 1 -> NuxColors.Amber
-                                        else -> NuxColors.ErrorRed
-                                    }
-                                    Box(
-                                        modifier = Modifier
-                                            .clip(RoundedCornerShape(4.dp))
-                                            .background(quotaColor.copy(alpha = 0.15f))
-                                            .padding(horizontal = 5.dp, vertical = 1.5.dp)
-                                    ) {
-                                        Text(
-                                            text = "KUOTA: $quotaText",
-                                            color = quotaColor,
-                                            fontSize = 7.5.sp,
-                                            fontWeight = FontWeight.Black
-                                        )
-                                    }
-                                }
-
-                                // Quick Actions (Toggle Raw Log, Retry, Copy)
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.spacedBy(4.dp)
-                                ) {
-                                    // Toggle Raw Log
-                                    Box(
-                                        modifier = Modifier
-                                            .clip(RoundedCornerShape(4.dp))
-                                            .background(NuxColors.SurfaceElevated)
-                                            .clickable {
-                                                rightViewMode = if (rightViewMode == "ai") "raw" else "ai"
-                                            }
-                                            .padding(horizontal = 6.dp, vertical = 2.dp)
-                                    ) {
-                                        Text(
-                                            text = if (rightViewMode == "ai") "LOG MENTAH" else "AI ANALISIS",
-                                            color = if (rightViewMode == "ai") NuxColors.GrayNeutral else NuxColors.SkyBlueDark,
-                                            fontSize = 8.sp,
-                                            fontWeight = FontWeight.Bold
-                                        )
-                                    }
-
-                                    // Refresh / Retry AI
-                                    Box(
-                                        modifier = Modifier
-                                            .size(20.dp)
-                                            .clip(RoundedCornerShape(4.dp))
-                                            .background(NuxColors.SurfaceElevated)
-                                            .clickable { runAiAnalysis() },
-                                        contentAlignment = Alignment.Center
-                                    ) {
-                                        Icon(
-                                            imageVector = Icons.Default.Refresh,
-                                            contentDescription = "Analisis Ulang",
-                                            tint = NuxColors.SkyBlueDark,
-                                            modifier = Modifier.size(11.dp)
-                                        )
-                                    }
-
-                                    // Copy AI Analysis / Log
-                                    Box(
-                                        modifier = Modifier
-                                            .size(20.dp)
-                                            .clip(RoundedCornerShape(4.dp))
-                                            .background(NuxColors.SurfaceElevated)
-                                            .clickable {
-                                                val textToCopy = if (rightViewMode == "ai" && activeAiText.isNotBlank()) activeAiText else crashInfo.logSnippet
-                                                val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                                                cm.setPrimaryClip(ClipData.newPlainText("Crash Analysis", textToCopy))
-                                                Toast.makeText(context, "Disalin ke papan klip!", Toast.LENGTH_SHORT).show()
-                                            },
-                                        contentAlignment = Alignment.Center
-                                    ) {
-                                        Icon(
-                                            imageVector = Icons.Default.ContentCopy,
-                                            contentDescription = "Salin",
-                                            tint = NuxColors.GrayNeutral,
-                                            modifier = Modifier.size(11.dp)
-                                        )
-                                    }
                                 }
                             }
 
@@ -743,7 +588,7 @@ fun NuxCrashDialog(
                                     .border(1.dp, NuxColors.DarkGray.copy(alpha = 0.20f), innerShape)
                                     .padding(8.dp)
                             ) {
-                                if (rightViewMode == "raw") {
+                                run {
                                     // View Raw Terminal Log
                                     val verticalScroll = rememberScrollState()
                                     val horizontalScroll = rememberScrollState()
@@ -758,322 +603,6 @@ fun NuxCrashDialog(
                                             .verticalScroll(verticalScroll)
                                             .horizontalScroll(horizontalScroll)
                                     )
-                                } else {
-                                    // View AI Analysis
-                                    when (val state = aiState) {
-                                        is com.israadev.nuxlauncher.core.crash.AIStreamState.Idle -> {
-                                            Column(
-                                                modifier = Modifier
-                                                    .fillMaxSize()
-                                                    .padding(12.dp),
-                                                verticalArrangement = Arrangement.Center,
-                                                horizontalAlignment = Alignment.CenterHorizontally
-                                            ) {
-                                                Box(
-                                                    modifier = Modifier
-                                                        .size(36.dp)
-                                                        .clip(CircleShape)
-                                                        .background(if (remainingQuota == 0) NuxColors.ErrorRed.copy(alpha = 0.13f) else NuxColors.ForestGreen.copy(alpha = 0.13f))
-                                                        .border(1.dp, if (remainingQuota == 0) NuxColors.ErrorRed.copy(alpha = 0.27f) else NuxColors.ForestGreen.copy(alpha = 0.27f), CircleShape),
-                                                    contentAlignment = Alignment.Center
-                                                ) {
-                                                    Text(if (remainingQuota == 0) "⏱️" else "⚡", fontSize = 16.sp)
-                                                }
-                                                Spacer(modifier = Modifier.height(8.dp))
-                                                Text(
-                                                    text = if (remainingQuota == 0) "KUOTA HARIAN AI HABIS" else "DIAGNOSA CRASH OTOMATIS",
-                                                    fontWeight = FontWeight.Black,
-                                                    fontSize = 11.sp,
-                                                    color = NuxColors.DarkGray
-                                                )
-                                                Spacer(modifier = Modifier.height(4.dp))
-                                                Text(
-                                                    text = if (remainingQuota == 0)
-                                                        "Batas 5 kali penggunaan AI hari ini telah tercapai. Kuota di-reset besok atau salin log ke Discord kami."
-                                                    else
-                                                        "AI akan menganalisis cuplikan error game untuk mendeteksi penyebab pasti & solusi perbaikan.",
-                                                    color = NuxColors.GrayNeutral,
-                                                    fontSize = 9.sp,
-                                                    textAlign = androidx.compose.ui.text.style.TextAlign.Center,
-                                                    lineHeight = 12.sp
-                                                )
-                                                Spacer(modifier = Modifier.height(10.dp))
-                                                NuxButton(
-                                                    onClick = { runAiAnalysis() },
-                                                    backgroundColor = if (remainingQuota == 0) NuxColors.ErrorRed else NuxColors.ForestGreen,
-                                                    contentColor = if (remainingQuota == 0) NuxColors.DarkGray else Color.Black,
-                                                    cornerRadius = 6.dp,
-                                                    modifier = Modifier.height(30.dp)
-                                                ) {
-                                                    Row(
-                                                        verticalAlignment = Alignment.CenterVertically,
-                                                        horizontalArrangement = Arrangement.spacedBy(4.dp)
-                                                    ) {
-                                                        Text(if (remainingQuota == 0) "⚠️" else "✨", fontSize = 10.sp)
-                                                        Text(
-                                                            text = if (remainingQuota == 0) "LIHAT SOLUSI & TIKET DISCORD" else "MULAI ANALISIS DENGAN AI",
-                                                            fontWeight = FontWeight.Black,
-                                                            fontSize = 9.sp
-                                                        )
-                                                    }
-                                                }
-                                            }
-                                        }
-
-                                        is com.israadev.nuxlauncher.core.crash.AIStreamState.Connecting -> {
-                                            Column(
-                                                modifier = Modifier
-                                                    .fillMaxSize()
-                                                    .padding(16.dp),
-                                                verticalArrangement = Arrangement.Center,
-                                                horizontalAlignment = Alignment.CenterHorizontally
-                                            ) {
-                                                CircularProgressIndicator(
-                                                    modifier = Modifier.size(24.dp),
-                                                    color = NuxColors.SkyBlueDark,
-                                                    strokeWidth = 2.dp
-                                                )
-                                                Spacer(modifier = Modifier.height(10.dp))
-                                                Text(
-                                                    text = "AI sedang menganalisis crash...",
-                                                    color = NuxColors.DarkGray,
-                                                    fontWeight = FontWeight.Bold,
-                                                    fontSize = 10.sp
-                                                )
-                                                Spacer(modifier = Modifier.height(3.dp))
-                                                Text(
-                                                    text = "Membedah log error dan metadata instance ($effectiveModel)",
-                                                    color = NuxColors.GrayNeutral,
-                                                    fontSize = 8.5.sp
-                                                )
-                                            }
-                                        }
-
-                                        is com.israadev.nuxlauncher.core.crash.AIStreamState.Streaming -> {
-                                            val verticalScroll = rememberScrollState()
-                                            LaunchedEffect(state.fullText) {
-                                                verticalScroll.animateScrollTo(verticalScroll.maxValue)
-                                            }
-                                            Box(
-                                                modifier = Modifier
-                                                    .fillMaxSize()
-                                                    .verticalScroll(verticalScroll)
-                                            ) {
-                                                NuxMarkdownView(
-                                                    markdownText = state.fullText,
-                                                    isStreaming = true,
-                                                    showCursor = isCursorBlinkVisible
-                                                )
-                                            }
-                                        }
-
-                                        is com.israadev.nuxlauncher.core.crash.AIStreamState.Completed -> {
-                                            val verticalScroll = rememberScrollState()
-                                            Column(modifier = Modifier.fillMaxSize()) {
-                                                Box(
-                                                    modifier = Modifier
-                                                        .fillMaxWidth()
-                                                        .weight(1f)
-                                                        .verticalScroll(verticalScroll)
-                                                ) {
-                                                    NuxMarkdownView(
-                                                        markdownText = state.fullText,
-                                                        isStreaming = false,
-                                                        showCursor = false
-                                                    )
-                                                }
-
-                                                Spacer(modifier = Modifier.height(6.dp))
-                                                Row(
-                                                    modifier = Modifier.fillMaxWidth(),
-                                                    horizontalArrangement = Arrangement.SpaceBetween,
-                                                    verticalAlignment = Alignment.CenterVertically
-                                                ) {
-                                                    Text(
-                                                        text = "• Model: $effectiveModel",
-                                                        fontSize = 8.sp,
-                                                        color = NuxColors.GrayNeutral
-                                                    )
-                                                    Text(
-                                                        text = "Analisis Selesai ✓",
-                                                        fontSize = 8.sp,
-                                                        fontWeight = FontWeight.Bold,
-                                                        color = NuxColors.SageGreen
-                                                    )
-                                                }
-                                            }
-                                        }
-
-                                        is com.israadev.nuxlauncher.core.crash.AIStreamState.Error -> {
-                                            Column(
-                                                modifier = Modifier
-                                                    .fillMaxSize()
-                                                    .padding(12.dp),
-                                                verticalArrangement = Arrangement.Center,
-                                                horizontalAlignment = Alignment.CenterHorizontally
-                                            ) {
-                                                Box(
-                                                    modifier = Modifier
-                                                        .size(32.dp)
-                                                        .clip(CircleShape)
-                                                        .background(NuxColors.ErrorRed.copy(alpha = 0.20f)),
-                                                    contentAlignment = Alignment.Center
-                                                ) {
-                                                    Text("⚠️", fontSize = 14.sp)
-                                                }
-                                                Spacer(modifier = Modifier.height(8.dp))
-                                                Text(
-                                                    text = "Gagal Menganalisis Log",
-                                                    fontWeight = FontWeight.Black,
-                                                    fontSize = 11.sp,
-                                                    color = NuxColors.ErrorRed
-                                                )
-                                                Spacer(modifier = Modifier.height(4.dp))
-                                                Text(
-                                                    text = state.errorMessage,
-                                                    color = NuxColors.GrayNeutral,
-                                                    fontSize = 8.5.sp,
-                                                    textAlign = androidx.compose.ui.text.style.TextAlign.Center,
-                                                    lineHeight = 11.5.sp
-                                                )
-                                                Spacer(modifier = Modifier.height(10.dp))
-                                                NuxButton(
-                                                    onClick = { runAiAnalysis() },
-                                                    backgroundColor = NuxColors.SurfaceElevated,
-                                                    contentColor = NuxColors.DarkGray,
-                                                    cornerRadius = 6.dp,
-                                                    modifier = Modifier.height(28.dp)
-                                                ) {
-                                                    Text("COBA LAGI", fontWeight = FontWeight.Bold, fontSize = 8.5.sp)
-                                                }
-                                            }
-                                        }
-
-                                        is com.israadev.nuxlauncher.core.crash.AIStreamState.QuotaExceeded -> {
-                                            val verticalScroll = rememberScrollState()
-                                            Column(
-                                                modifier = Modifier
-                                                    .fillMaxSize()
-                                                    .verticalScroll(verticalScroll)
-                                                    .padding(12.dp),
-                                                verticalArrangement = Arrangement.Center,
-                                                horizontalAlignment = Alignment.CenterHorizontally
-                                            ) {
-                                                Box(
-                                                    modifier = Modifier
-                                                        .size(36.dp)
-                                                        .clip(CircleShape)
-                                                        .background(NuxColors.ErrorRed.copy(alpha = 0.13f))
-                                                        .border(1.dp, NuxColors.ErrorRed.copy(alpha = 0.33f), CircleShape),
-                                                    contentAlignment = Alignment.Center
-                                                ) {
-                                                    Text("⏱️", fontSize = 16.sp)
-                                                }
-                                                Spacer(modifier = Modifier.height(8.dp))
-                                                Text(
-                                                    text = "KUOTA HARIAN AI TELAH HABIS",
-                                                    fontWeight = FontWeight.Black,
-                                                    fontSize = 11.sp,
-                                                    color = NuxColors.ErrorRed,
-                                                    letterSpacing = 0.5.sp
-                                                )
-                                                Spacer(modifier = Modifier.height(4.dp))
-                                                Text(
-                                                    text = "Batas penggunaan analisis AI gratis adalah 5 kali per hari. Kuota harian Anda akan di-reset otomatis besok.",
-                                                    color = NuxColors.GrayNeutral,
-                                                    fontSize = 9.sp,
-                                                    textAlign = androidx.compose.ui.text.style.TextAlign.Center,
-                                                    lineHeight = 12.5.sp
-                                                )
-                                                Spacer(modifier = Modifier.height(10.dp))
-                                                Box(
-                                                    modifier = Modifier
-                                                        .fillMaxWidth()
-                                                        .clip(RoundedCornerShape(8.dp))
-                                                        .background(NuxColors.SurfaceWhite)
-                                                        .border(1.dp, NuxColors.SkyBlue.copy(alpha = 0.20f), RoundedCornerShape(8.dp))
-                                                        .padding(10.dp)
-                                                ) {
-                                                    Text(
-                                                        text = "Silakan klik tombol SALIN LOG di bawah, lalu buka tiket pengaduan di server Discord resmi kami agar tim developer atau komunitas dapat membantu mendiagnosa penyebab crash game Anda.",
-                                                        color = Color(0xFF93C5FD),
-                                                        fontSize = 8.5.sp,
-                                                        lineHeight = 12.sp,
-                                                        textAlign = androidx.compose.ui.text.style.TextAlign.Center
-                                                    )
-                                                }
-                                                Spacer(modifier = Modifier.height(12.dp))
-                                                Row(
-                                                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                                                    verticalAlignment = Alignment.CenterVertically
-                                                ) {
-                                                    // Tombol Salin Log
-                                                    NuxButton(
-                                                        onClick = {
-                                                            val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                                                            val textToCopy = if (crashInfo.fullLogPath.isNotBlank() && logFile.exists()) {
-                                                                try { logFile.readText() } catch (_: Exception) { crashInfo.logSnippet }
-                                                            } else {
-                                                                crashInfo.logSnippet
-                                                            }
-                                                            cm.setPrimaryClip(ClipData.newPlainText("Crash Log", textToCopy))
-                                                            Toast.makeText(context, "Log crash berhasil disalin ke papan klip!", Toast.LENGTH_SHORT).show()
-                                                        },
-                                                        backgroundColor = NuxColors.SurfaceElevated,
-                                                        contentColor = NuxColors.DarkGray,
-                                                        cornerRadius = 6.dp,
-                                                        modifier = Modifier.height(30.dp)
-                                                    ) {
-                                                        Row(
-                                                            verticalAlignment = Alignment.CenterVertically,
-                                                            horizontalArrangement = Arrangement.spacedBy(4.dp)
-                                                        ) {
-                                                            Icon(
-                                                                imageVector = Icons.Default.ContentCopy,
-                                                                contentDescription = null,
-                                                                modifier = Modifier.size(11.dp),
-                                                                tint = NuxColors.DarkGray
-                                                            )
-                                                            Text("SALIN LOG", fontWeight = FontWeight.Bold, fontSize = 8.5.sp)
-                                                        }
-                                                    }
-
-                                                    // Tombol Open Ticket Discord
-                                                    NuxButton(
-                                                        onClick = {
-                                                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://discord.gg/UW4wBQg6X5"))
-                                                            context.startActivity(intent)
-                                                        },
-                                                        backgroundColor = Color(0xFF5865F2),
-                                                        contentColor = NuxColors.DarkGray,
-                                                        cornerRadius = 6.dp,
-                                                        modifier = Modifier.height(30.dp)
-                                                    ) {
-                                                        Row(
-                                                            verticalAlignment = Alignment.CenterVertically,
-                                                            horizontalArrangement = Arrangement.spacedBy(4.dp)
-                                                        ) {
-                                                            Icon(
-                                                                imageVector = Icons.Default.OpenInNew,
-                                                                contentDescription = null,
-                                                                modifier = Modifier.size(11.dp),
-                                                                tint = NuxColors.DarkGray
-                                                            )
-                                                            Text("OPEN TICKET DISCORD", fontWeight = FontWeight.Black, fontSize = 8.5.sp)
-                                                        }
-                                                    }
-                                                }
-
-                                                Spacer(modifier = Modifier.height(10.dp))
-                                                Text(
-                                                    text = "💡 Tips: Anda dapat memasukkan API Key pribadi (OpenRouter / Gemini) di Pengaturan > Integrasi AI untuk penggunaan tanpa batas.",
-                                                    fontSize = 7.5.sp,
-                                                    color = NuxColors.GrayNeutral,
-                                                    textAlign = androidx.compose.ui.text.style.TextAlign.Center
-                                                )
-                                            }
-                                        }
-                                    }
                                 }
                             }
                         }

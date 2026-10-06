@@ -109,13 +109,6 @@ private val LIBRARIES = listOf(
         url = "https://developer.android.com/jetpack/compose"
     ),
     OpenSourceLibrary(
-        name = "LiveKit WebRTC",
-        copyright = "Copyright © 2022-2026 LiveKit, Inc.",
-        license = "Apache 2.0",
-        role = "Infrastruktur audio real-time dan voice room mabar",
-        url = "https://livekit.io"
-    ),
-    OpenSourceLibrary(
         name = "Modrinth API",
         copyright = "Copyright © Rinth, Inc. & Community",
         license = "Open API / AGPL",

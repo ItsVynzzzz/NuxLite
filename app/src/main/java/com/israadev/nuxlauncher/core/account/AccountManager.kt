@@ -3,7 +3,6 @@ package com.israadev.nuxlauncher.core.account
 import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.israadev.nuxlauncher.core.auth.AuthUser
 import com.israadev.nuxlauncher.core.models.UserAccount
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,20 +13,12 @@ import java.util.UUID
 object AccountManager {
     private val gson = Gson()
 
-    // 1. LAUNCHER AUTH SESSION (Akun NUX Launcher, Terpisah dari Akun Game Minecraft)
-    private val _launcherUser = MutableStateFlow<AuthUser?>(null)
-    val launcherUser: StateFlow<AuthUser?> = _launcherUser.asStateFlow()
-
-    // 2. IN-GAME MINECRAFT ACCOUNTS (Profil Player Game di AccountsScreen)
+    // Akun Minecraft (profil pemain di halaman Akun)
     private val _accounts = MutableStateFlow<List<UserAccount>>(emptyList())
     val accounts: StateFlow<List<UserAccount>> = _accounts.asStateFlow()
 
     private val _currentAccount = MutableStateFlow<UserAccount?>(null)
     val currentAccount: StateFlow<UserAccount?> = _currentAccount.asStateFlow()
-
-    private fun getSessionFile(context: Context): File {
-        return File(context.filesDir, "launcher_session.json")
-    }
 
     private fun getAccountsFile(context: Context): File {
         return File(context.filesDir, "accounts.json")
@@ -37,19 +28,6 @@ object AccountManager {
 
     fun init(context: Context) {
         appContext = context.applicationContext
-        // --- A. Load Launcher Auth Session ---
-        val sessionFile = getSessionFile(context)
-        if (sessionFile.exists()) {
-            try {
-                val json = sessionFile.readText()
-                val user = gson.fromJson(json, AuthUser::class.java)
-                _launcherUser.value = user
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-
-        // --- B. Load Minecraft Game Accounts ---
         val accountsFile = getAccountsFile(context)
         if (accountsFile.exists()) {
             try {
@@ -70,28 +48,9 @@ object AccountManager {
                     )
                 }
 
-                // Jika launcher user belum ter-load tapi ada akun launcher lawas tercampur di accounts.json, migrasikan ke session terpisah
-                if (_launcherUser.value == null) {
-                    val legacyAuthAcc = list.firstOrNull { it.safeEmail.isNotBlank() && it.isActivated }
-                    if (legacyAuthAcc != null) {
-                        val authUser = AuthUser(
-                            uid = legacyAuthAcc.uuid.ifBlank { legacyAuthAcc.id },
-                            email = legacyAuthAcc.safeEmail,
-                            username = legacyAuthAcc.username,
-                            photoURL = legacyAuthAcc.photoUrl ?: "",
-                            isActivated = legacyAuthAcc.isActivated,
-                            tier = legacyAuthAcc.safeTier
-                        )
-                        _launcherUser.value = authUser
-                        saveSession(context, authUser)
-                    }
-                }
-
-                // Bersihkan akun launcher dari daftar profil game Minecraft (pisahkan 100%)
+                // Buang sisa akun bawaan lama "NuxPlayer" dari daftar profil game
                 val cleanGameList = list.filterNot {
-                    it.username.equals("NuxPlayer", ignoreCase = true) ||
-                    (it.safeEmail.isNotBlank() && it.safeEmail == _launcherUser.value?.email) ||
-                    (it.uuid.isNotBlank() && it.uuid == _launcherUser.value?.uid)
+                    it.username.equals("NuxPlayer", ignoreCase = true)
                 }
 
                 _accounts.value = cleanGameList
@@ -100,70 +59,6 @@ object AccountManager {
             } catch (e: Exception) {
                 e.printStackTrace()
             }
-        }
-    }
-
-    // ==========================================
-    // LAUNCHER ACCOUNT OPERATIONS
-    // ==========================================
-
-    fun getActiveUser(): AuthUser? = _launcherUser.value
-
-    fun isSessionActivated(): Boolean {
-        val user = _launcherUser.value ?: return false
-        return user.isActivated
-    }
-
-    fun saveAuthUser(context: Context, user: AuthUser) {
-        _launcherUser.value = user
-        saveSession(context, user)
-    }
-
-    fun updateProfile(context: Context, newUsername: String? = null, newPhotoUrl: String? = null) {
-        val current = _launcherUser.value ?: return
-        val updated = current.copy(
-            username = if (!newUsername.isNullOrBlank()) newUsername.trim() else current.username,
-            photoURL = if (newPhotoUrl != null) newPhotoUrl.trim() else current.photoURL
-        )
-        _launcherUser.value = updated
-        saveSession(context, updated)
-    }
-
-    fun setActivation(context: Context, isActivated: Boolean, tier: String) {
-        val current = _launcherUser.value ?: return
-        val updated = current.copy(isActivated = isActivated, tier = tier)
-        _launcherUser.value = updated
-        saveSession(context, updated)
-    }
-
-    fun updateTokens(idToken: String, refreshToken: String) {
-        val current = _launcherUser.value ?: return
-        val updated = current.copy(
-            idToken = idToken,
-            refreshToken = refreshToken.ifBlank { current.refreshToken }
-        )
-        _launcherUser.value = updated
-        appContext?.let { saveSession(it, updated) }
-    }
-
-    fun logout(context: Context) {
-        _launcherUser.value = null
-        try {
-            val file = getSessionFile(context)
-            if (file.exists()) {
-                file.delete()
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
-
-    private fun saveSession(context: Context, user: AuthUser) {
-        try {
-            val file = getSessionFile(context)
-            file.writeText(gson.toJson(user))
-        } catch (e: Exception) {
-            e.printStackTrace()
         }
     }
 

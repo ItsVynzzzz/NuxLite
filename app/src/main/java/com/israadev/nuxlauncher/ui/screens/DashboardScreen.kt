@@ -53,13 +53,9 @@ import com.israadev.nuxlauncher.ui.dialogs.NuxEditInstanceDialog
 import com.israadev.nuxlauncher.ui.dialogs.NuxCrashDialog
 import com.israadev.nuxlauncher.ui.dialogs.NuxDeleteInstanceDialog
 import com.israadev.nuxlauncher.ui.dialogs.NuxDownloadProgressDialog
-import com.israadev.nuxlauncher.ui.dialogs.NuxUpdateDialog
-import com.israadev.nuxlauncher.core.update.AndroidUpdateInfo
-import com.israadev.nuxlauncher.core.update.UpdateManager
 import com.israadev.nuxlauncher.core.mods.NuxAddonImportManager
 import com.israadev.nuxlauncher.ui.dialogs.NuxAddonImportDialog
 import com.israadev.nuxlauncher.ui.dialogs.NuxAboutDialog
-import com.israadev.nuxlauncher.ui.dialogs.NuxPremiumDialog
 import com.israadev.nuxlauncher.ui.theme.NuxColors
 import com.israadev.nuxlauncher.ui.theme.resp
 import com.israadev.nuxlauncher.ui.theme.LocalNuxScale
@@ -78,39 +74,17 @@ fun DashboardScreen() {
     val instances by InstanceManager.instances.collectAsState()
     val selectedInstance by InstanceManager.selectedInstance.collectAsState()
     val currentAccount by AccountManager.currentAccount.collectAsState()
-    val launcherUser by AccountManager.launcherUser.collectAsState()
     val launcherSettings by SettingsManager.settings.collectAsState()
 
     var showAddDialog by remember { mutableStateOf(false) }
     var showEditInstanceDialog by remember { mutableStateOf(false) }
     var instanceToDelete by remember { mutableStateOf<com.israadev.nuxlauncher.core.models.Instance?>(null) }
-    var isCheckingUpdate by remember { mutableStateOf(false) }
-    var updateDialogInfo by remember { mutableStateOf<AndroidUpdateInfo?>(null) }
     var pendingLaunchInstance by remember { mutableStateOf<com.israadev.nuxlauncher.core.models.Instance?>(null) }
     var unsupportedRendererInfo by remember { mutableStateOf<NuxRendererInfo?>(null) }
     var showAboutDialog by remember { mutableStateOf(false) }
-    var showPremiumDialog by remember { mutableStateOf(false) }
-    var premiumInitialPrompt by remember { mutableStateOf<String?>(null) }
     val pendingImport by NuxAddonImportManager.pendingImport.collectAsState()
 
-    val handleRequestCreateInstance = {
-        if (instances.size >= 3 && launcherUser?.isActivated != true) {
-            premiumInitialPrompt = "Batas akun Free adalah maksimal 3 instance. Upgrade ke NUX Premium untuk membuat instance tanpa batas!"
-            showPremiumDialog = true
-        } else {
-            showAddDialog = true
-        }
-    }
-
-    // Auto check update every time launcher is opened
-    LaunchedEffect(Unit) {
-        val result = UpdateManager.checkForUpdate(context)
-        result.onSuccess { info ->
-            if (info.isUpdateAvailable) {
-                updateDialogInfo = info
-            }
-        }
-    }
+    val handleRequestCreateInstance = { showAddDialog = true }
 
     // Download progress state
     var isDownloading by remember { mutableStateOf(false) }
@@ -138,14 +112,12 @@ fun DashboardScreen() {
                 NuxSidebar(
                     activeTab = currentTab,
                     onTabSelected = { tabId ->
-                        if (tabId == "home" || tabId == "accounts" || tabId == "settings" || tabId == "friends" || tabId == "mods") {
+                        if (tabId == "home" || tabId == "accounts" || tabId == "settings" || tabId == "mods") {
                             currentTab = tabId
                         } else {
                             Toast.makeText(context, "Fitur ${tabId.replaceFirstChar { it.uppercase() }} segera hadir di mobile!", Toast.LENGTH_SHORT).show()
                         }
                     },
-                    currentAccount = currentAccount,
-                    launcherUser = launcherUser
                 )
 
                 // --- 2. MAIN CONTENT AREA ---
@@ -167,13 +139,6 @@ fun DashboardScreen() {
                     SettingsScreen(
                         onNavigateBack = { currentTab = "home" },
                         onOpenGuiEditor = { currentTab = "gui_editor" },
-                        modifier = Modifier
-                            .weight(1f)
-                            .fillMaxHeight()
-                    )
-                } else if (currentTab == "friends") {
-                    FriendsScreen(
-                        onNavigateBack = { currentTab = "home" },
                         modifier = Modifier
                             .weight(1f)
                             .fillMaxHeight()
@@ -244,82 +209,33 @@ fun DashboardScreen() {
                                 }
                             }
 
-                            // Compact Profile & VIP Indicator
+                            // Chip akun Minecraft aktif (klik untuk membuka halaman Akun)
+                            val userShape = RoundedCornerShape((8.dp).resp())
                             Row(
-                                modifier = Modifier.align(Alignment.CenterEnd),
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.spacedBy((6.dp).resp())
+                                modifier = Modifier
+                                    .align(Alignment.CenterEnd)
+                                    .clip(userShape)
+                                    .background(NuxColors.SurfaceElevated, userShape)
+                                    .border(NuxSizes.BorderWidth, NuxColors.CardBorder, userShape)
+                                    .clickable { currentTab = "accounts" }
+                                    .padding(horizontal = (8.dp).resp(), vertical = (3.5.dp).resp()),
+                                verticalAlignment = Alignment.CenterVertically
                             ) {
-                                // VIP / Upgrade Badge
-                                val isVip = launcherUser?.isActivated == true
-                                val vipShape = RoundedCornerShape((7.dp).resp())
                                 Box(
                                     modifier = Modifier
-                                        .clip(vipShape)
+                                        .size((6.5.dp).resp())
                                         .background(
-                                            if (isVip) NuxColors.Amber.copy(alpha = 0.18f) else NuxColors.DarkGray.copy(alpha = 0.10f),
-                                            vipShape
+                                            if (currentAccount != null) NuxColors.ForestGreen else NuxColors.Amber,
+                                            CircleShape
                                         )
-                                        .border(
-                                            1.dp,
-                                            if (isVip) NuxColors.Amber else NuxColors.DarkGray.copy(alpha = 0.40f),
-                                            vipShape
-                                        )
-                                        .clickable {
-                                            premiumInitialPrompt = if (isVip) "Status NUX VIP Anda saat ini aktif!" else null
-                                            showPremiumDialog = true
-                                        }
-                                        .padding(horizontal = (7.dp).resp(), vertical = (3.dp).resp()),
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    Row(verticalAlignment = Alignment.CenterVertically) {
-                                        Text(
-                                            text = if (isVip) "👑 VIP" else "★ UPGRADE",
-                                            color = if (isVip) NuxColors.AmberDark else NuxColors.SkyBlueDark,
-                                            fontWeight = FontWeight.Black,
-                                            fontSize = (8.5.sp).resp(),
-                                            letterSpacing = (0.5.sp).resp()
-                                        )
-                                    }
-                                }
-
-                                val userShape = RoundedCornerShape((8.dp).resp())
-                                Row(
-                                    modifier = Modifier
-                                        .clip(userShape)
-                                        .background(NuxColors.SurfaceElevated, userShape)
-                                        .border(NuxSizes.BorderWidth, NuxColors.CardBorder, userShape)
-                                        .clickable { currentTab = "settings" }
-                                        .padding(horizontal = (8.dp).resp(), vertical = (3.5.dp).resp()),
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    val photo = launcherUser?.photoURL
-                                    if (!photo.isNullOrBlank()) {
-                                        NuxNetworkImage(
-                                            model = photo,
-                                            contentDescription = "Profile",
-                                            fallbackInitials = launcherUser?.username ?: "User",
-                                            modifier = Modifier.size((15.dp).resp()),
-                                            shape = CircleShape
-                                        )
-                                    } else {
-                                        Box(
-                                            modifier = Modifier
-                                                .size((6.5.dp).resp())
-                                                .background(
-                                                    if (launcherUser?.isActivated == true) NuxColors.ForestGreen else NuxColors.Amber,
-                                                    CircleShape
-                                                )
-                                        )
-                                    }
-                                    Spacer(modifier = Modifier.width((5.dp).resp()))
-                                    Text(
-                                        text = launcherUser?.username ?: "PROFIL",
-                                        color = NuxColors.DarkGray,
-                                        fontWeight = FontWeight.SemiBold,
-                                        fontSize = (10.5.sp).resp()
-                                    )
-                                }
+                                )
+                                Spacer(modifier = Modifier.width((5.dp).resp()))
+                                Text(
+                                    text = currentAccount?.username ?: "BELUM ADA AKUN",
+                                    color = NuxColors.DarkGray,
+                                    fontWeight = FontWeight.SemiBold,
+                                    fontSize = (10.5.sp).resp()
+                                )
                             }
                         }
 
@@ -330,7 +246,7 @@ fun DashboardScreen() {
                                 .weight(1f),
                             horizontalArrangement = Arrangement.spacedBy((10.dp).resp())
                         ) {
-                            // LEFT COLUMN: HERO CARD + 4 QUICK ACTION CARDS (Exactly matching PC version)
+                            // LEFT COLUMN: HERO CARD + 3 QUICK ACTION CARDS
                             Column(
                                 modifier = Modifier
                                     .weight(1.38f)
@@ -351,26 +267,14 @@ fun DashboardScreen() {
                                         val inst = selectedInstance!!
                                         val isFullyDownloaded = inst.isDownloaded && InstanceManager.isInstanceDownloaded(context, inst)
 
-                                        // Scenery background / Animated video
-                                        val hasValidHeroVideo = launcherSettings.heroAnimationEnabled &&
-                                                launcherSettings.heroAnimationVideoPath.isNotBlank() &&
-                                                File(launcherSettings.heroAnimationVideoPath).exists()
-
-                                        if (hasValidHeroVideo) {
-                                            HeroBannerVideoPlayer(
-                                                videoPath = launcherSettings.heroAnimationVideoPath,
-                                                rotationDegrees = launcherSettings.heroAnimationRotation,
-                                                modifier = Modifier.fillMaxSize()
-                                            )
-                                        } else {
-                                            Image(
-                                                painter = painterResource(id = R.drawable.mc_hero_bg),
-                                                contentDescription = "Minecraft Scenery",
-                                                contentScale = ContentScale.Crop,
-                                                modifier = Modifier.fillMaxSize(),
-                                                alpha = 0.35f
-                                            )
-                                        }
+                                        // Latar gambar statis (ringan, tanpa video)
+                                        Image(
+                                            painter = painterResource(id = R.drawable.mc_hero_bg),
+                                            contentDescription = "Minecraft Scenery",
+                                            contentScale = ContentScale.Crop,
+                                            modifier = Modifier.fillMaxSize(),
+                                            alpha = 0.35f
+                                        )
 
                                         // Dark gradient overlay
                                         Box(
@@ -623,42 +527,13 @@ fun DashboardScreen() {
                                     }
                                 }
 
-                                // 2. 4 QUICK ACTION CARDS (Exact match with PC layout from Image 2)
+                                // 2. 3 QUICK ACTION CARDS
                                 Row(
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .weight(0.95f),
                                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                                 ) {
-                                    // Card 1: CHECK FOR UPDATES
-                                    QuickActionCard(
-                                        title = "CHECK FOR\nUPDATES",
-                                        description = if (isCheckingUpdate) "Checking server..." else "Scan launcher patches.",
-                                        icon = Icons.Outlined.Refresh,
-                                        accentColor = NuxColors.ForestGreen,
-                                        onClick = {
-                                            if (isCheckingUpdate) return@QuickActionCard
-                                            isCheckingUpdate = true
-                                            Toast.makeText(context, "Memeriksa pembaruan NUX Launcher...", Toast.LENGTH_SHORT).show()
-                                            scope.launch {
-                                                val result = UpdateManager.checkForUpdate(context)
-                                                isCheckingUpdate = false
-                                                result.onSuccess { info ->
-                                                    if (info.isUpdateAvailable) {
-                                                        updateDialogInfo = info
-                                                    } else {
-                                                        Toast.makeText(context, "NUX Launcher v${info.localVersion} sudah versi terbaru!", Toast.LENGTH_SHORT).show()
-                                                    }
-                                                }.onFailure { err ->
-                                                    Toast.makeText(context, "Gagal cek update: ${err.localizedMessage ?: "Periksa koneksi internet"}", Toast.LENGTH_LONG).show()
-                                                }
-                                            }
-                                        },
-                                        modifier = Modifier
-                                            .weight(1f)
-                                            .fillMaxHeight()
-                                    )
-
                                     // Card 2: OPEN GAME FOLDER
                                     QuickActionCard(
                                         title = "OPEN GAME\nFOLDER",
@@ -897,15 +772,6 @@ fun DashboardScreen() {
                 }
             }
 
-            // Floating Voice Bar
-            if (currentTab != "friends") {
-                FloatingVoiceBar(
-                    onOpenVoiceRoom = { currentTab = "friends" },
-                    modifier = Modifier
-                        .align(Alignment.TopEnd)
-                        .padding(top = 8.dp, end = 12.dp)
-                )
-            }
         }
 
         // Add Instance Dialog
@@ -956,14 +822,6 @@ fun DashboardScreen() {
                 instanceName = downloadTargetName,
                 progress = downloadProgress,
                 message = downloadMessage
-            )
-        }
-
-        // Launcher Update Dialog
-        updateDialogInfo?.let { info ->
-            NuxUpdateDialog(
-                updateInfo = info,
-                onDismiss = { updateDialogInfo = null }
             )
         }
 
@@ -1018,16 +876,6 @@ fun DashboardScreen() {
             )
         }
 
-        // NUX Premium & Showcase Dialog (Fitur 1 - 7 Eksklusif)
-        if (showPremiumDialog) {
-            NuxPremiumDialog(
-                initialPrompt = premiumInitialPrompt,
-                onDismissRequest = {
-                    showPremiumDialog = false
-                    premiumInitialPrompt = null
-                }
-            )
-        }
     }
 }
 

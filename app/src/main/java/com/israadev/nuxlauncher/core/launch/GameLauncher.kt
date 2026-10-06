@@ -226,7 +226,6 @@ object GameLauncher {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
 
-        com.israadev.nuxlauncher.core.social.NuxSocialManager.setInGame(true)
         context.startActivity(intent)
     }
 }

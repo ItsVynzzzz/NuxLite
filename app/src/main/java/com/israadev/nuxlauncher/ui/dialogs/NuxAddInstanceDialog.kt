@@ -73,11 +73,6 @@ fun NuxAddInstanceDialog(
     var searchQuery by remember { mutableStateOf("") }
     var selectedCategory by remember { mutableStateOf(VersionCategory.RELEASE) }
 
-    var showPremiumDialog by remember { mutableStateOf(false) }
-    var premiumInitialPrompt by remember { mutableStateOf<String?>(null) }
-
-    val launcherUser by com.israadev.nuxlauncher.core.account.AccountManager.launcherUser.collectAsState()
-
     LaunchedEffect(Unit) {
         val result = MojangManifestService.getVersionManifest()
         val manifest = result.getOrNull()
@@ -598,14 +593,7 @@ fun NuxAddInstanceDialog(
                                             .clip(RoundedCornerShape(6.dp))
                                             .background(pillBg)
                                             .border(1.dp, pillBorder, RoundedCornerShape(6.dp))
-                                            .clickable {
-                                                if (category != VersionCategory.RELEASE && launcherUser?.isActivated != true) {
-                                                    premiumInitialPrompt = "Akses versi Snapshot dan build Eksperimental (Beta & Alpha) hanya tersedia untuk member NUX Premium. Pengguna Free dapat memainkan seluruh versi Release stabil."
-                                                    showPremiumDialog = true
-                                                } else {
-                                                    selectedCategory = category
-                                                }
-                                            }
+                                            .clickable { selectedCategory = category }
                                             .padding(horizontal = 7.dp, vertical = 3.5.dp)
                                     ) {
                                         Text(
@@ -822,15 +810,5 @@ fun NuxAddInstanceDialog(
                 }
             }
         }
-    }
-
-    if (showPremiumDialog) {
-        NuxPremiumDialog(
-            initialPrompt = premiumInitialPrompt,
-            onDismissRequest = {
-                showPremiumDialog = false
-                premiumInitialPrompt = null
-            }
-        )
     }
 }
