@@ -6,31 +6,32 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 /**
- * NUX Dark Obsidian Cyber-Glass Color Palette
- * Direct match with Windows launcher and Keystore
+ * NuxLite Cartoon Minimal Palette
+ * Latar krem hangat, kartu putih, garis tepi tebal warna tinta, aksen hijau permen.
+ * Semua nama properti sama dengan versi lama supaya kode lain tidak perlu diubah.
  */
 object NuxColors {
-    // Primary Cyber Emerald Palette
-    val ForestGreen = Color(0xFF10B981) // Cyber Emerald Primary (#10b981)
-    val MintGreen = Color(0xFF34D399)   // Bright Mint Accent / Glow (#34d399)
-    val SageGreen = Color(0xFF059669)   // Darker Emerald (#059669)
-    val SoftLime = Color(0xFF102A1F)    // Dark Emerald Tint Container
-    val LightGreen = Color(0x2610B981)  // 15% Emerald Glow Container
+    // Aksen utama (hijau permen)
+    val ForestGreen = Color(0xFF2EC46A) // Warna utama: tombol, kursor
+    val MintGreen = Color(0xFF86EFAC)   // Aksen terang
+    val SageGreen = Color(0xFF15803D)   // Hijau tua untuk teks aksen
+    val SoftLime = Color(0xFFD7F7E0)    // Wadah hijau muda (badge, chip)
+    val LightGreen = Color(0xFFE6F9EC)  // Wadah hijau paling muda
 
-    // Dark Obsidian Neutrals
-    val Background = Color(0xFF09090B)  // Deep Obsidian background (#09090b)
-    val SurfaceWhite = Color(0xFF12141A)// Obsidian Glass surface (#12141a)
-    val SurfaceElevated = Color(0xFF181B22) // Elevated card surface
-    val SurfaceInput = Color(0xFF0D0F14) // Dark input surface
-    val DarkGray = Color(0xFFF4F4F5)    // High-contrast text (#F4F4F5)
-    val GrayNeutral = Color(0xFFA1A1AA) // Zinc-400 Muted text & subtitles
-    val LightGray = Color(0x1FFFFFFF)   // Hairline dividers (12% white)
-    val CardBorder = Color(0x26FFFFFF)  // Hairline borders (15% white)
-    val ErrorRed = Color(0xFFF43F5E)    // Rose error (#f43f5e)
-    val Amber = Color(0xFFF59E0B)       // Amber warning (#f59e0b)
-    val TextPrimary = Color(0xFFFFFFFF) // Pure white text
+    // Netral hangat
+    val Background = Color(0xFFFFF6E5)      // Krem hangat
+    val SurfaceWhite = Color(0xFFFFFFFF)    // Kartu
+    val SurfaceElevated = Color(0xFFFFFDF8) // Dialog dan kartu terangkat
+    val SurfaceInput = Color(0xFFFFEFCF)    // Kolom isian
+    val DarkGray = Color(0xFF1F1B2E)        // Teks utama (tinta)
+    val GrayNeutral = Color(0xFF6B6578)     // Teks pendukung
+    val LightGray = Color(0x331F1B2E)       // Garis pemisah (tinta 20%)
+    val CardBorder = Color(0xFF1F1B2E)      // Garis tepi cartoon (tinta penuh)
+    val ErrorRed = Color(0xFFE11D48)        // Merah galat
+    val Amber = Color(0xFFFFB400)           // Kuning peringatan
+    val TextPrimary = Color(0xFF1F1B2E)     // Sama dengan tinta
 
-    // Legacy aliases for backward compatibility
+    // Alias lama (jangan dihapus, masih dipakai di kode lain)
     val Mint = SoftLime
     val MintDark = MintGreen
     val ForestDark = DarkGray
@@ -40,15 +41,15 @@ object NuxColors {
     val Coral = ErrorRed
     val TextMuted = GrayNeutral
     val SuccessGreen = ForestGreen
-    val SkyBlue = Color(0xFF38BDF8)
+    val SkyBlue = Color(0xFF2AA9F0)
 }
 
 object NuxSizes {
-    val BorderWidth = 1.dp
-    val CornerRadius = 16.dp
-    val CornerRadiusLarge = 20.dp
-    val CornerRadiusSmall = 10.dp
-    val ShadowOffset = 0.dp
+    val BorderWidth = 2.dp
+    val CornerRadius = 20.dp
+    val CornerRadiusLarge = 28.dp
+    val CornerRadiusSmall = 14.dp
+    val ShadowOffset = 3.dp
     val BorderDefault = BorderStroke(BorderWidth, NuxColors.CardBorder)
     val ShapeDefault = RoundedCornerShape(CornerRadius)
     val ShapeLarge = RoundedCornerShape(CornerRadiusLarge)
