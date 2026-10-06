@@ -15,8 +15,6 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -28,7 +26,6 @@ import com.israadev.nuxlauncher.core.instance.InstanceManager
 import com.israadev.nuxlauncher.core.mods.NuxAddonImportManager
 import com.israadev.nuxlauncher.core.mods.PendingAddonImport
 import com.israadev.nuxlauncher.core.settings.SettingsManager
-import com.israadev.nuxlauncher.ui.screens.AuthScreen
 import com.israadev.nuxlauncher.ui.screens.DashboardScreen
 import com.israadev.nuxlauncher.ui.theme.NuxColors
 import com.israadev.nuxlauncher.ui.theme.NuxResponsiveTheme
@@ -50,34 +47,16 @@ class MainActivity : ComponentActivity() {
         com.israadev.nuxlauncher.core.device.PhysicalMouseChecker.initChecker(this)
         com.israadev.nuxlauncher.core.controls.ControlLayoutManager.init(this)
         com.israadev.nuxlauncher.core.renderer.NuxRendererPluginManager.scanPlugins(this)
-        com.israadev.nuxlauncher.core.social.NuxVoiceManager.init(this)
         com.israadev.nuxlauncher.core.crash.CrashManager.checkAndNotify(this)
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.RECORD_AUDIO), 1002)
-        }
-
         setContent {
-            val launcherUser by AccountManager.launcherUser.collectAsState()
-
-            // Pengguna yang sudah login (baik Free maupun Premium) langsung masuk ke Dashboard
-            val isLoggedIn = true
-
             NuxResponsiveTheme {
                 MaterialTheme {
                     Surface(
                         modifier = Modifier.fillMaxSize(),
                         color = NuxColors.Background
                     ) {
-                        if (isLoggedIn) {
-                            DashboardScreen()
-                        } else {
-                            AuthScreen(
-                                onAuthSuccess = {
-                                    // Sesi telah tersimpan di AccountManager, state compose otomatis ter-update
-                                }
-                            )
-                        }
+                        DashboardScreen()
                     }
                 }
             }
@@ -91,8 +70,6 @@ class MainActivity : ComponentActivity() {
         InstanceManager.init(this)
         com.israadev.nuxlauncher.core.renderer.NuxRendererPluginManager.scanPlugins(this)
         com.israadev.nuxlauncher.core.crash.CrashManager.checkAndNotify(this)
-        com.israadev.nuxlauncher.core.social.NuxSocialManager.setInGame(false)
-        com.israadev.nuxlauncher.core.social.NuxSocialManager.onAppForeground()
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
@@ -102,16 +79,9 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    override fun onStop() {
-        super.onStop()
-        com.israadev.nuxlauncher.core.social.NuxVoiceManager.keepAliveInBackground()
-        com.israadev.nuxlauncher.core.social.NuxSocialManager.onAppBackground()
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         com.israadev.nuxlauncher.core.skin.OfflineSkinServerManager.stopServer()
-        com.israadev.nuxlauncher.core.social.NuxSocialManager.onAppBackground()
     }
 
     private fun hideSystemBars() {
