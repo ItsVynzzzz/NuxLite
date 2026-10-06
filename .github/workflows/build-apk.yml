@@ -53,6 +53,17 @@ jobs:
           mkdir -p ~/.android
           cp signing/debug.keystore ~/.android/debug.keystore
 
+      - name: Terapkan pending.patch (jika ada)
+        id: patch
+        run: |
+          if [ -f pending.patch ]; then
+            echo "Menerapkan pending.patch ..."
+            git apply --index --whitespace=nowarn pending.patch
+            echo "applied=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Tidak ada pending.patch, build seperti biasa."
+          fi
+
       - name: Pasang Gradle dan cache
         uses: gradle/actions/setup-gradle@v4
 
@@ -83,3 +94,12 @@ jobs:
           name: Build ${{ github.run_number }}
           files: dist/*.apk
           prerelease: true
+
+      - name: Simpan perubahan patch ke repo (hanya jika build lolos)
+        if: steps.patch.outputs.applied == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm -q -f pending.patch
+          git commit -m "Terapkan pending.patch (build lolos)"
+          git push
