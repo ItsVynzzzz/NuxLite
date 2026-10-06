@@ -53,16 +53,45 @@ jobs:
           mkdir -p ~/.android
           cp signing/debug.keystore ~/.android/debug.keystore
 
-      - name: Terapkan pending.patch (jika ada)
+      - name: Terapkan patch pending-*.patch (jika ada)
         id: patch
         run: |
-          if [ -f pending.patch ]; then
-            echo "Menerapkan pending.patch ..."
-            git apply --index --whitespace=nowarn pending.patch
-            echo "applied=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "Tidak ada pending.patch, build seperti biasa."
+          shopt -s nullglob
+          PATCHES=(pending-*.patch)
+          if [ ${#PATCHES[@]} -eq 0 ]; then
+            echo "Tidak ada patch, build seperti biasa."
+            exit 0
           fi
+          TOTAL=0
+          for f in "${PATCHES[@]}"; do
+            LAST=$(tail -n 1 "$f")
+            PARTS=$(echo "$LAST" | sed -n 's/^# FIN part=[0-9]*\/\([0-9][0-9]*\) files=[0-9][0-9]*$/\1/p')
+            EXPECT=$(echo "$LAST" | sed -n 's/^# FIN part=[0-9]*\/[0-9]* files=\([0-9][0-9]*\)$/\1/p')
+            ACTUAL=$(grep -c '^diff --git ' "$f" || true)
+            echo "Memeriksa $f ($(wc -c < "$f") byte, $ACTUAL file)"
+            if [ -z "$EXPECT" ] || [ "$EXPECT" != "$ACTUAL" ]; then
+              echo "::error::$f terpotong atau rusak saat diupload (penanda akhir tidak ditemukan). Upload ulang file aslinya."
+              exit 1
+            fi
+            if [ "$PARTS" != "${#PATCHES[@]}" ]; then
+              echo "::error::Ada ${#PATCHES[@]} file pending-*.patch di repo, seharusnya $PARTS. Upload semua bagian sekaligus."
+              exit 1
+            fi
+            TOTAL=$((TOTAL + ACTUAL))
+          done
+          for f in "${PATCHES[@]}"; do
+            echo "Menerapkan $f ..."
+            if ! git apply --index --whitespace=nowarn "$f"; then
+              echo "::error::Gagal menerapkan $f."
+              exit 1
+            fi
+          done
+          CHANGED=$(git diff --cached --name-only | wc -l)
+          if [ "$CHANGED" != "$TOTAL" ]; then
+            echo "::error::Jumlah file berubah ($CHANGED) tidak sama dengan isi patch ($TOTAL)."
+            exit 1
+          fi
+          echo "applied=true" >> "$GITHUB_OUTPUT"
 
       - name: Pasang Gradle dan cache
         uses: gradle/actions/setup-gradle@v4
@@ -100,6 +129,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git rm -q -f pending.patch
-          git commit -m "Terapkan pending.patch (build lolos)"
+          git ls-files 'pending*.patch' | xargs -r git rm -q -f
+          git commit -m "Terapkan patch (build lolos)"
           git push
