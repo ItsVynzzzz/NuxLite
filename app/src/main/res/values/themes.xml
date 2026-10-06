@@ -1,8 +1,8 @@
 <resources>
-    <style name="Theme.NuxLauncher" parent="android:Theme.Material.NoActionBar.Fullscreen">
-        <item name="android:statusBarColor">#09090B</item>
-        <item name="android:navigationBarColor">#09090B</item>
-        <item name="android:windowBackground">#09090B</item>
+    <style name="Theme.NuxLauncher" parent="android:Theme.Material.Light.NoActionBar.Fullscreen">
+        <item name="android:statusBarColor">#FFF6E5</item>
+        <item name="android:navigationBarColor">#FFF6E5</item>
+        <item name="android:windowBackground">#FFF6E5</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowContentOverlay">@null</item>
     </style>
