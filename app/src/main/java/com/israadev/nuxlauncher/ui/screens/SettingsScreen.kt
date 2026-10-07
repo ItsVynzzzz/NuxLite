@@ -305,12 +305,12 @@ fun SettingsScreen(
                                 Box(
                                     modifier = Modifier
                                         .background(
-                                            if (ramMb > (totalRamMb * 0.75f)) NuxColors.Coral.copy(alpha = 0.2f) else NuxColors.ForestGreen.copy(alpha = 0.2f),
+                                            if (ramMb > (totalRamMb * 0.75f)) NuxColors.Coral.copy(alpha = 0.2f) else NuxColors.YellowPale,
                                             RoundedCornerShape(4.dp)
                                         )
                                         .border(
                                             1.dp,
-                                            if (ramMb > (totalRamMb * 0.75f)) NuxColors.Coral.copy(alpha = 0.4f) else NuxColors.MintGreen.copy(alpha = 0.3f),
+                                            if (ramMb > (totalRamMb * 0.75f)) NuxColors.Coral.copy(alpha = 0.4f) else NuxColors.Ink,
                                             RoundedCornerShape(4.dp)
                                         )
                                         .padding(horizontal = 6.dp, vertical = 2.dp)
@@ -460,7 +460,7 @@ fun SettingsScreen(
                                                 .size(24.dp)
                                                 .clip(RoundedCornerShape(4.dp))
                                                 .background(NuxColors.SurfaceElevated)
-                                                .border(1.dp, NuxColors.MintGreen.copy(alpha = 0.5f), RoundedCornerShape(4.dp))
+                                                .border(1.dp, NuxColors.Ink, RoundedCornerShape(4.dp))
                                                 .clickable {
                                                     selectedConfigRenderer = activeRendererInfo
                                                     showRendererConfigDialog = true
@@ -515,8 +515,8 @@ fun SettingsScreen(
                                 )
                                 Box(
                                     modifier = Modifier
-                                        .background(NuxColors.ForestGreen.copy(alpha = 0.2f), RoundedCornerShape(4.dp))
-                                        .border(1.dp, NuxColors.MintGreen.copy(alpha = 0.3f), RoundedCornerShape(4.dp))
+                                        .background(NuxColors.YellowPale, RoundedCornerShape(4.dp))
+                                        .border(1.dp, NuxColors.Ink, RoundedCornerShape(4.dp))
                                         .padding(horizontal = 6.dp, vertical = 2.dp)
                                 ) {
                                     Text(
@@ -569,7 +569,7 @@ fun SettingsScreen(
                                     commitSettings()
                                 },
                                 colors = SwitchDefaults.colors(
-                                    checkedThumbColor = Color.White,
+                                    checkedThumbColor = NuxColors.Ink,
                                     checkedTrackColor = NuxColors.ForestGreen,
                                     uncheckedTrackColor = NuxColors.SurfaceElevated
                                 )
@@ -778,7 +778,7 @@ fun SettingsScreen(
                                     }
                                 },
                                 colors = SwitchDefaults.colors(
-                                    checkedThumbColor = Color.White,
+                                    checkedThumbColor = NuxColors.Ink,
                                     checkedTrackColor = NuxColors.ForestGreen,
                                     uncheckedTrackColor = NuxColors.SurfaceElevated
                                 )
@@ -815,7 +815,7 @@ fun SettingsScreen(
                                     commitSettings()
                                 },
                                 colors = SwitchDefaults.colors(
-                                    checkedThumbColor = Color.White,
+                                    checkedThumbColor = NuxColors.Ink,
                                     checkedTrackColor = NuxColors.ForestGreen,
                                     uncheckedTrackColor = NuxColors.SurfaceElevated
                                 )
@@ -926,7 +926,7 @@ fun SettingsScreen(
                                 modifier = Modifier
                                     .weight(1f)
                                     .background(
-                                        if (isSlide) NuxColors.ForestGreen.copy(alpha = 0.15f) else NuxColors.SurfaceInput,
+                                        if (isSlide) NuxColors.YellowPale else NuxColors.SurfaceInput,
                                         RoundedCornerShape(6.dp)
                                     )
                                     .border(
@@ -972,7 +972,7 @@ fun SettingsScreen(
                                 modifier = Modifier
                                     .weight(1f)
                                     .background(
-                                        if (isClick) NuxColors.ForestGreen.copy(alpha = 0.15f) else NuxColors.SurfaceInput,
+                                        if (isClick) NuxColors.YellowPale else NuxColors.SurfaceInput,
                                         RoundedCornerShape(6.dp)
                                     )
                                     .border(
@@ -1034,8 +1034,8 @@ fun SettingsScreen(
                                 )
                                 Box(
                                     modifier = Modifier
-                                        .background(NuxColors.ForestGreen.copy(alpha = 0.2f), RoundedCornerShape(4.dp))
-                                        .border(1.dp, NuxColors.MintGreen.copy(alpha = 0.3f), RoundedCornerShape(4.dp))
+                                        .background(NuxColors.YellowPale, RoundedCornerShape(4.dp))
+                                        .border(1.dp, NuxColors.Ink, RoundedCornerShape(4.dp))
                                         .padding(horizontal = 6.dp, vertical = 2.dp)
                                 ) {
                                     Text(
@@ -1083,8 +1083,8 @@ fun SettingsScreen(
                                 )
                                 Box(
                                     modifier = Modifier
-                                        .background(NuxColors.ForestGreen.copy(alpha = 0.2f), RoundedCornerShape(4.dp))
-                                        .border(1.dp, NuxColors.MintGreen.copy(alpha = 0.3f), RoundedCornerShape(4.dp))
+                                        .background(NuxColors.YellowPale, RoundedCornerShape(4.dp))
+                                        .border(1.dp, NuxColors.Ink, RoundedCornerShape(4.dp))
                                         .padding(horizontal = 6.dp, vertical = 2.dp)
                                 ) {
                                     Text(
@@ -1183,7 +1183,7 @@ fun SettingsScreen(
                                     commitSettings()
                                 },
                                 colors = SwitchDefaults.colors(
-                                    checkedThumbColor = NuxColors.MintGreen,
+                                    checkedThumbColor = NuxColors.Ink,
                                     checkedTrackColor = NuxColors.ForestGreen,
                                     uncheckedThumbColor = Color.Gray,
                                     uncheckedTrackColor = NuxColors.CardBorder
@@ -1327,7 +1327,7 @@ fun SettingsScreen(
                                     .fillMaxWidth()
                                     .clip(RoundedCornerShape(6.dp))
                                     .background(
-                                        if (isSelected) NuxColors.ForestGreen.copy(alpha = 0.15f) else NuxColors.SurfaceInput
+                                        if (isSelected) NuxColors.YellowPale else NuxColors.SurfaceInput
                                     )
                                     .border(
                                         width = 1.dp,
@@ -1381,7 +1381,7 @@ fun SettingsScreen(
                                                         .size(22.dp)
                                                         .clip(RoundedCornerShape(4.dp))
                                                         .background(NuxColors.SurfaceElevated)
-                                                        .border(1.dp, NuxColors.MintGreen.copy(alpha = 0.5f), RoundedCornerShape(4.dp))
+                                                        .border(1.dp, NuxColors.Ink, RoundedCornerShape(4.dp))
                                                         .clickable {
                                                             selectedConfigRenderer = rendererItem
                                                             showRendererDialog = false

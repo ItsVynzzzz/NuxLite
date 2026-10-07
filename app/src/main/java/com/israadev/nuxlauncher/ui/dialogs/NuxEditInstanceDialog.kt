@@ -106,11 +106,11 @@ fun NuxEditInstanceDialog(
                                     .size(32.dp)
                                     .background(
                                         Brush.radialGradient(
-                                            listOf(NuxColors.ForestGreen.copy(alpha = 0.28f), Color.Transparent)
+                                            listOf(NuxColors.YellowPale, Color.Transparent)
                                         ),
                                         CircleShape
                                     )
-                                    .border(1.2.dp, NuxColors.ForestGreen.copy(alpha = 0.6f), CircleShape)
+                                    .border(1.2.dp, NuxColors.Ink, CircleShape)
                                     .padding(2.5.dp),
                                 contentAlignment = Alignment.Center
                             ) {
@@ -218,7 +218,7 @@ fun NuxEditInstanceDialog(
                                         fontSize = 11.5.sp,
                                         fontWeight = FontWeight.SemiBold
                                     ),
-                                    cursorBrush = SolidColor(NuxColors.MintGreen),
+                                    cursorBrush = SolidColor(NuxColors.Ink),
                                     modifier = Modifier.fillMaxWidth()
                                 )
                             }
@@ -247,9 +247,9 @@ fun NuxEditInstanceDialog(
                                 )
                                 NuxBadge(
                                     text = "Rekomendasi: ${JavaRuntimeManager.getRuntimeDisplayName(autoRecommendedRuntime)}",
-                                    backgroundColor = NuxColors.ForestGreen.copy(alpha = 0.16f),
+                                    backgroundColor = NuxColors.YellowPale,
                                     textColor = NuxColors.SageGreen,
-                                    borderColor = NuxColors.MintGreen.copy(alpha = 0.35f)
+                                    borderColor = NuxColors.Ink
                                 )
                             }
 
@@ -513,7 +513,7 @@ fun NuxEditInstanceDialog(
                                 onDismiss()
                             },
                             backgroundColor = NuxColors.ForestGreen,
-                            borderColor = NuxColors.ForestGreen.copy(alpha = 0.40f),
+                            borderColor = NuxColors.Ink,
                             contentColor = NuxColors.DarkGray,
                             modifier = Modifier
                                 .weight(1.5f)

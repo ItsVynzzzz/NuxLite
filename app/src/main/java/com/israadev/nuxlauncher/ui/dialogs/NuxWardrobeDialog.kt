@@ -210,7 +210,7 @@ fun NuxWardrobeDialog(
                         Spacer(modifier = Modifier.width(8.dp))
                         Box(
                             modifier = Modifier
-                                .background(NuxColors.ForestGreen.copy(alpha = 0.15f), RoundedCornerShape(6.dp))
+                                .background(NuxColors.YellowPale, RoundedCornerShape(6.dp))
                                 .padding(horizontal = 7.dp, vertical = 2.dp)
                         ) {
                             Text(
@@ -515,7 +515,7 @@ fun NuxWardrobeDialog(
                                     // Upload Button
                                     NuxButton(
                                         onClick = { skinPickerLauncher.launch("image/png") },
-                                        backgroundColor = NuxColors.ForestGreen.copy(alpha = 0.15f),
+                                        backgroundColor = NuxColors.YellowPale,
                                         contentColor = NuxColors.SageGreen,
                                         cornerRadius = NuxSizes.CornerRadiusSmall,
                                         modifier = Modifier
@@ -553,7 +553,7 @@ fun NuxWardrobeDialog(
                                         modifier = Modifier
                                             .weight(1f)
                                             .background(
-                                                if (isClassic) NuxColors.ForestGreen.copy(alpha = 0.15f) else NuxColors.SurfaceInput,
+                                                if (isClassic) NuxColors.YellowPale else NuxColors.SurfaceInput,
                                                 RoundedCornerShape(8.dp)
                                             )
                                             .border(
@@ -589,7 +589,7 @@ fun NuxWardrobeDialog(
                                         modifier = Modifier
                                             .weight(1f)
                                             .background(
-                                                if (isSlim) NuxColors.ForestGreen.copy(alpha = 0.15f) else NuxColors.SurfaceInput,
+                                                if (isSlim) NuxColors.YellowPale else NuxColors.SurfaceInput,
                                                 RoundedCornerShape(8.dp)
                                             )
                                             .border(
@@ -782,7 +782,7 @@ fun NuxWardrobeDialog(
                                                     if (isMojangActive) {
                                                         Box(
                                                             modifier = Modifier
-                                                                .background(NuxColors.ForestGreen.copy(alpha = 0.2f), RoundedCornerShape(4.dp))
+                                                                .background(NuxColors.YellowPale, RoundedCornerShape(4.dp))
                                                                 .padding(horizontal = 5.dp, vertical = 2.dp)
                                                         ) {
                                                             Text(

@@ -22,7 +22,7 @@ data class LauncherSettings(
     val resolutionRatio: Int = 100, // 50% - 125%
     val autoOptimizeMinecraft: Boolean = true,
     val sustainedPerformanceMode: Boolean = false,
-    val selectedRenderer: String = "auto", // "auto", "krypton", "mobileglues", "gl4es", "zink", "freedreno", "virgl", "panfrost"
+    val selectedRenderer: String = "auto", // "auto", "krypton", "mobileglues", "gl4es", "zink", "freedreno"
     val vulkanDriver: String = "auto", // "auto", "system", "turnip", etc.
     val graphicsApi: String = "DEFAULT", // "DEFAULT", "OPENGL", "VULKAN"
     val zinkPreferSystemDriver: Boolean = false,

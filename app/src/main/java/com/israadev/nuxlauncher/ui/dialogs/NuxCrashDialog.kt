@@ -365,7 +365,7 @@ fun NuxCrashDialog(
                                         )
                                         .border(
                                             1.dp,
-                                            if (uploadSuccessUrl != null) NuxColors.ForestGreen.copy(alpha = 0.40f) else NuxColors.ErrorRed.copy(alpha = 0.40f),
+                                            if (uploadSuccessUrl != null) NuxColors.Ink else NuxColors.ErrorRed.copy(alpha = 0.40f),
                                             RoundedCornerShape(10.dp)
                                         )
                                         .clickable {

@@ -175,11 +175,11 @@ fun NuxAboutDialog(
                             .size(32.dp)
                             .background(
                                 Brush.radialGradient(
-                                    listOf(NuxColors.ForestGreen.copy(alpha = 0.28f), Color.Transparent)
+                                    listOf(NuxColors.YellowPale, Color.Transparent)
                                 ),
                                 CircleShape
                             )
-                            .border(1.2.dp, NuxColors.ForestGreen.copy(alpha = 0.6f), CircleShape)
+                            .border(1.2.dp, NuxColors.Ink, CircleShape)
                             .padding(2.5.dp),
                         contentAlignment = Alignment.Center
                     ) {
@@ -213,9 +213,9 @@ fun NuxAboutDialog(
                             Spacer(modifier = Modifier.width(6.dp))
                             NuxBadge(
                                 text = "v1.0.6",
-                                backgroundColor = NuxColors.ForestGreen.copy(alpha = 0.18f),
+                                backgroundColor = NuxColors.YellowPale,
                                 textColor = NuxColors.SageGreen,
-                                borderColor = NuxColors.MintGreen.copy(alpha = 0.35f)
+                                borderColor = NuxColors.Ink
                             )
                         }
                         Text(
@@ -472,8 +472,8 @@ fun NuxAboutDialog(
                                                 Box(
                                                     modifier = Modifier
                                                         .clip(RoundedCornerShape(4.dp))
-                                                        .background(NuxColors.ForestGreen.copy(alpha = 0.16f))
-                                                        .border(1.dp, NuxColors.ForestGreen.copy(alpha = 0.35f), RoundedCornerShape(4.dp))
+                                                        .background(NuxColors.YellowPale)
+                                                        .border(1.dp, NuxColors.Ink, RoundedCornerShape(4.dp))
                                                         .padding(horizontal = 4.dp, vertical = 1.dp)
                                                 ) {
                                                     Text(
@@ -657,8 +657,8 @@ private fun UpstreamProjectCard(
                     Box(
                         modifier = Modifier
                             .clip(RoundedCornerShape(4.dp))
-                            .background(NuxColors.ForestGreen.copy(alpha = 0.16f))
-                            .border(1.dp, NuxColors.ForestGreen.copy(alpha = 0.35f), RoundedCornerShape(4.dp))
+                            .background(NuxColors.YellowPale)
+                            .border(1.dp, NuxColors.Ink, RoundedCornerShape(4.dp))
                             .padding(horizontal = 5.dp, vertical = 1.dp)
                     ) {
                         Text(

@@ -230,7 +230,7 @@ fun NuxTextField(
                 value = value,
                 onValueChange = onValueChange,
                 textStyle = resolvedTextStyle,
-                cursorBrush = SolidColor(NuxColors.ForestGreen),
+                cursorBrush = SolidColor(NuxColors.Ink),
                 singleLine = true,
                 visualTransformation = visualTransformation,
                 modifier = Modifier.fillMaxWidth()

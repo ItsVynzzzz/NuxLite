@@ -4,12 +4,22 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.*
+import androidx.compose.material.icons.outlined.Extension
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,7 +32,6 @@ import androidx.compose.ui.unit.dp
 import com.israadev.nuxlauncher.R
 import com.israadev.nuxlauncher.ui.theme.NuxColors
 import com.israadev.nuxlauncher.ui.theme.NuxSizes
-import com.israadev.nuxlauncher.ui.theme.resp
 
 data class NuxNavItem(
     val id: String,
@@ -38,7 +47,8 @@ val NUX_NAV_ITEMS = listOf(
 )
 
 /**
- * Sidebar kecil bergaya cartoon minimalis: logo di atas, 4 menu di bawahnya.
+ * Sidebar berbentuk pil putih (tepi tinta + bayangan keras): logo di atas,
+ * 4 menu di bawahnya. Tiap menu 44dp supaya mudah disentuh jempol.
  */
 @Composable
 fun NuxSidebar(
@@ -46,56 +56,54 @@ fun NuxSidebar(
     onTabSelected: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val scrollState = rememberScrollState()
-
-    Row(
-        modifier = modifier.fillMaxHeight()
+    NuxCard(
+        modifier = modifier
+            .width(56.dp)
+            .fillMaxHeight(),
+        backgroundColor = NuxColors.SurfaceWhite,
+        cornerRadius = 28.dp,
+        fillMaxHeight = true
     ) {
         Column(
             modifier = Modifier
-                .width((52.dp).resp())
-                .fillMaxHeight()
-                .background(NuxColors.Background)
-                .padding(top = (6.dp).resp(), bottom = (8.dp).resp(), start = (3.dp).resp(), end = (3.dp).resp()),
+                .fillMaxSize()
+                .padding(vertical = 8.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Logo
-            val logoShape = RoundedCornerShape((8.dp).resp())
+            // Logo (ketuk = kembali ke Home)
+            val logoShape = RoundedCornerShape(14.dp)
             Box(
                 modifier = Modifier
-                    .size((32.dp).resp())
+                    .size(40.dp)
                     .clip(logoShape)
-                    .background(NuxColors.SurfaceElevated)
-                    .border(NuxSizes.BorderWidth, NuxColors.CardBorder, logoShape)
+                    .background(NuxColors.Ink, logoShape)
                     .clickable { onTabSelected("home") },
                 contentAlignment = Alignment.Center
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.nux_icon),
                     contentDescription = "Logo",
-                    modifier = Modifier.size((20.dp).resp())
+                    modifier = Modifier.size(26.dp)
                 )
             }
 
-            Spacer(modifier = Modifier.height((8.dp).resp()))
-
-            // Menu
+            // Menu, rata di tengah sisa tinggi
             Column(
                 modifier = Modifier
                     .weight(1f)
-                    .verticalScroll(scrollState),
-                verticalArrangement = Arrangement.spacedBy((6.dp).resp()),
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 NUX_NAV_ITEMS.forEach { item ->
                     val isSelected = activeTab == item.id
-                    val shape = RoundedCornerShape((10.dp).resp())
+                    val shape = RoundedCornerShape(16.dp)
 
                     Box(
                         modifier = Modifier
-                            .size((36.dp).resp())
+                            .size(44.dp)
                             .background(
-                                color = if (isSelected) NuxColors.SoftLime else Color.Transparent,
+                                color = if (isSelected) NuxColors.Yellow else Color.Transparent,
                                 shape = shape
                             )
                             .border(
@@ -110,20 +118,12 @@ fun NuxSidebar(
                         Icon(
                             imageVector = item.icon,
                             contentDescription = item.contentDescription,
-                            tint = if (isSelected) NuxColors.DarkGray else NuxColors.GrayNeutral,
-                            modifier = Modifier.size((18.dp).resp())
+                            tint = if (isSelected) NuxColors.Ink else NuxColors.GrayNeutral,
+                            modifier = Modifier.size(24.dp)
                         )
                     }
                 }
             }
         }
-
-        // Garis pemisah kanan
-        Box(
-            modifier = Modifier
-                .width(NuxSizes.BorderWidth)
-                .fillMaxHeight()
-                .background(NuxColors.CardBorder)
-        )
     }
 }

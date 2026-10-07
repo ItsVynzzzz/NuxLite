@@ -104,7 +104,7 @@ fun NuxAddonImportDialog(
                     .width(520.dp)
                     .fillMaxHeight(0.92f),
                 backgroundColor = NuxColors.SurfaceElevated,
-                borderColor = NuxColors.ForestGreen.copy(alpha = 0.20f),
+                borderColor = NuxColors.Ink,
                 cornerRadius = NuxSizes.CornerRadiusLarge,
                 fillMaxHeight = false
             ) {
@@ -124,8 +124,8 @@ fun NuxAddonImportDialog(
                                 modifier = Modifier
                                     .size(32.dp)
                                     .clip(RoundedCornerShape(8.dp))
-                                    .background(NuxColors.ForestGreen.copy(alpha = 0.15f))
-                                    .border(1.dp, NuxColors.ForestGreen.copy(alpha = 0.4f), RoundedCornerShape(8.dp)),
+                                    .background(NuxColors.YellowPale)
+                                    .border(1.dp, NuxColors.Ink, RoundedCornerShape(8.dp)),
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(text = "📥", fontSize = 16.sp)
@@ -252,7 +252,7 @@ fun NuxAddonImportDialog(
                                     modifier = Modifier
                                         .clip(chipShape)
                                         .background(
-                                            if (isSelected) NuxColors.ForestGreen.copy(alpha = 0.2f) else NuxColors.SurfaceElevated,
+                                            if (isSelected) NuxColors.YellowPale else NuxColors.SurfaceElevated,
                                             chipShape
                                         )
                                         .border(
@@ -319,7 +319,7 @@ fun NuxAddonImportDialog(
                                         modifier = Modifier
                                             .clip(cardShape)
                                             .background(
-                                            if (isSelected) NuxColors.ForestGreen.copy(alpha = 0.18f) else NuxColors.SurfaceElevated,
+                                            if (isSelected) NuxColors.YellowPale else NuxColors.SurfaceElevated,
                                                 cardShape
                                             )
                                             .border(
@@ -378,7 +378,7 @@ fun NuxAddonImportDialog(
                                     .fillMaxWidth()
                                     .clip(progressShape)
                                     .background(NuxColors.SoftLime, progressShape)
-                                    .border(1.dp, NuxColors.ForestGreen.copy(alpha = 0.3f), progressShape)
+                                    .border(1.dp, NuxColors.Ink, progressShape)
                                     .padding(12.dp)
                             ) {
                                 Column {

@@ -112,7 +112,7 @@ fun NuxRendererV2ConfigDialog(
                     .width(580.dp)
                     .fillMaxHeight(0.94f),
                 backgroundColor = NuxColors.SurfaceElevated,
-                borderColor = NuxColors.ForestGreen.copy(alpha = 0.20f),
+                borderColor = NuxColors.Ink,
                 cornerRadius = NuxSizes.CornerRadiusLarge,
                 fillMaxHeight = false
             ) {
@@ -132,8 +132,8 @@ fun NuxRendererV2ConfigDialog(
                                 modifier = Modifier
                                     .size(34.dp)
                                     .clip(RoundedCornerShape(8.dp))
-                                    .background(NuxColors.ForestGreen.copy(alpha = 0.15f))
-                                    .border(1.dp, NuxColors.ForestGreen.copy(alpha = 0.4f), RoundedCornerShape(8.dp)),
+                                    .background(NuxColors.YellowPale)
+                                    .border(1.dp, NuxColors.Ink, RoundedCornerShape(8.dp)),
                                 contentAlignment = Alignment.Center
                             ) {
                                 Icon(
@@ -197,7 +197,7 @@ fun NuxRendererV2ConfigDialog(
                                     .fillMaxWidth()
                                     .clip(cardShape)
                                     .background(NuxColors.SurfaceElevated, cardShape)
-                                    .border(1.dp, NuxColors.ForestGreen.copy(alpha = 0.35f), cardShape)
+                                    .border(1.dp, NuxColors.Ink, cardShape)
                                     .clickable {
                                         try {
                                             val launchIntent = context.packageManager.getLaunchIntentForPackage(activePkg)
@@ -226,7 +226,7 @@ fun NuxRendererV2ConfigDialog(
                                             modifier = Modifier
                                                 .size(32.dp)
                                                 .clip(RoundedCornerShape(8.dp))
-                                                .background(NuxColors.ForestGreen.copy(alpha = 0.2f)),
+                                                .background(NuxColors.YellowPale),
                                             contentAlignment = Alignment.Center
                                         ) {
                                             Icon(
@@ -376,7 +376,7 @@ private fun SelectableEnvItemCard(unit: EnvSettingUnit.Selectable) {
             .fillMaxWidth()
             .clip(cardShape)
             .background(NuxColors.SurfaceWhite, cardShape)
-            .border(1.dp, if (unit.isEnabled) NuxColors.ForestGreen.copy(alpha = 0.19f) else NuxColors.DarkGray.copy(alpha = 0.19f), cardShape)
+            .border(1.dp, if (unit.isEnabled) NuxColors.Ink else NuxColors.DarkGray.copy(alpha = 0.19f), cardShape)
     ) {
         Column(modifier = Modifier.fillMaxWidth()) {
             Row(
@@ -396,7 +396,7 @@ private fun SelectableEnvItemCard(unit: EnvSettingUnit.Selectable) {
                     colors = CheckboxDefaults.colors(
                         checkedColor = NuxColors.ForestGreen,
                         uncheckedColor = NuxColors.LightGray,
-                        checkmarkColor = Color.White
+                        checkmarkColor = NuxColors.Ink
                     ),
                     modifier = Modifier.size(24.dp)
                 )
@@ -429,7 +429,7 @@ private fun SelectableEnvItemCard(unit: EnvSettingUnit.Selectable) {
                         Box(
                             modifier = Modifier
                                 .clip(RoundedCornerShape(4.dp))
-                                .background(NuxColors.ForestGreen.copy(alpha = 0.2f))
+                                .background(NuxColors.YellowPale)
                                 .padding(horizontal = 6.dp, vertical = 2.dp)
                         ) {
                             Text(
@@ -470,7 +470,7 @@ private fun SelectableEnvItemCard(unit: EnvSettingUnit.Selectable) {
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .clip(RoundedCornerShape(6.dp))
-                                .background(if (isSelected) NuxColors.ForestGreen.copy(alpha = 0.15f) else Color.Transparent)
+                                .background(if (isSelected) NuxColors.YellowPale else Color.Transparent)
                                 .clickable {
                                     unit.save(option)
                                     expanded = false
@@ -515,7 +515,7 @@ private fun ToggleableEnvItemCard(unit: EnvSettingUnit.Toggleable) {
             .fillMaxWidth()
             .clip(cardShape)
             .background(NuxColors.SurfaceWhite, cardShape)
-            .border(1.dp, if (unit.isEnabled) NuxColors.ForestGreen.copy(alpha = 0.19f) else NuxColors.DarkGray.copy(alpha = 0.19f), cardShape)
+            .border(1.dp, if (unit.isEnabled) NuxColors.Ink else NuxColors.DarkGray.copy(alpha = 0.19f), cardShape)
             .clickable { unit.setToggle(!unit.isEnabled) }
             .padding(12.dp)
     ) {
@@ -546,7 +546,7 @@ private fun ToggleableEnvItemCard(unit: EnvSettingUnit.Toggleable) {
                 checked = unit.isEnabled,
                 onCheckedChange = { checked -> unit.setToggle(checked) },
                 colors = SwitchDefaults.colors(
-                    checkedThumbColor = Color.White,
+                    checkedThumbColor = NuxColors.Ink,
                     checkedTrackColor = NuxColors.ForestGreen,
                     uncheckedThumbColor = NuxColors.LightGray,
                     uncheckedTrackColor = NuxColors.SurfaceElevated

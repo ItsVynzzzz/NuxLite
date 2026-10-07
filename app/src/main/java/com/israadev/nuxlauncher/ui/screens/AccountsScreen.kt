@@ -157,8 +157,8 @@ fun AccountsScreen(
                 modifier = Modifier
                     .height(26.dp)
                     .clip(RoundedCornerShape(6.dp))
-                    .background(NuxColors.ForestGreen.copy(alpha = 0.12f), RoundedCornerShape(6.dp))
-                    .border(1.dp, NuxColors.ForestGreen.copy(alpha = 0.35f), RoundedCornerShape(6.dp))
+                    .background(NuxColors.YellowPale, RoundedCornerShape(6.dp))
+                    .border(1.dp, NuxColors.Ink, RoundedCornerShape(6.dp))
                     .clickable { showAddAccountDialog = true }
                     .padding(horizontal = 9.dp),
                 contentAlignment = Alignment.Center
@@ -414,12 +414,12 @@ fun AccountsScreen(
                                         .fillMaxWidth()
                                         .clip(itemShape)
                                         .background(
-                                            if (isCurrent) NuxColors.ForestGreen.copy(alpha = 0.12f) else NuxColors.SurfaceWhite,
+                                            if (isCurrent) NuxColors.YellowPale else NuxColors.SurfaceWhite,
                                             itemShape
                                         )
                                         .border(
                                             width = 1.dp,
-                                            color = if (isCurrent) NuxColors.ForestGreen.copy(alpha = 0.5f) else NuxColors.DarkGray.copy(alpha = 0.14f),
+                                            color = if (isCurrent) NuxColors.Ink else NuxColors.DarkGray.copy(alpha = 0.14f),
                                             shape = itemShape
                                         )
                                         .clickable {
@@ -845,7 +845,7 @@ private fun AddAccountModal(
                             modifier = Modifier
                                 .size(46.dp)
                                 .background(NuxColors.SurfaceInput, RoundedCornerShape(12.dp))
-                                .border(1.dp, NuxColors.ForestGreen.copy(alpha = 0.5f), RoundedCornerShape(12.dp)),
+                                .border(1.dp, NuxColors.Ink, RoundedCornerShape(12.dp)),
                             contentAlignment = Alignment.Center
                         ) {
                             if (offlineName.trim().isNotBlank()) {

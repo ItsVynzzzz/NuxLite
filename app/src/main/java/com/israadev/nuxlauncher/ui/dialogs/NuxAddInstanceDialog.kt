@@ -48,7 +48,7 @@ enum class VersionCategory(
     val badgeBg: Color,
     val badgeText: Color
 ) {
-    RELEASE("Release", NuxColors.ForestGreen.copy(alpha = 0.15f), NuxColors.ForestGreen),
+    RELEASE("Release", NuxColors.YellowPale, NuxColors.ForestGreen),
     SNAPSHOT("Snapshot / Beta", Color(0xFF8B5CF6).copy(alpha = 0.15f), Color(0xFFA78BFA)),
     OLD_BETA("Old Beta", NuxColors.Amber.copy(alpha = 0.15f), NuxColors.Amber),
     OLD_ALPHA("Old Alpha", Color(0xFFEC4899).copy(alpha = 0.15f), Color(0xFFF472B6)),
@@ -258,7 +258,7 @@ fun NuxAddInstanceDialog(
                                                 fontSize = 11.5.sp,
                                                 fontWeight = FontWeight.SemiBold
                                             ),
-                                            cursorBrush = SolidColor(NuxColors.ForestGreen),
+                                            cursorBrush = SolidColor(NuxColors.Ink),
                                             modifier = Modifier.fillMaxWidth()
                                         )
                                     }
@@ -288,7 +288,7 @@ fun NuxAddInstanceDialog(
                                         listOf("vanilla" to "Vanilla", "fabric" to "Fabric").forEach { (type, label) ->
                                             val isSelected = selectedLoader == type
                                             val btnBg by animateColorAsState(
-                                                targetValue = if (isSelected) NuxColors.ForestGreen.copy(alpha = 0.16f) else NuxColors.SurfaceInput,
+                                                targetValue = if (isSelected) NuxColors.YellowPale else NuxColors.SurfaceInput,
                                                 animationSpec = tween(200)
                                             )
                                             val btnBorder by animateColorAsState(
@@ -436,7 +436,7 @@ fun NuxAddInstanceDialog(
                                         .fillMaxWidth()
                                         .clip(innerBezelShape)
                                         .background(NuxColors.SoftLime)
-                                        .border(1.dp, NuxColors.ForestGreen.copy(alpha = 0.4f), innerBezelShape)
+                                        .border(1.dp, NuxColors.Ink, innerBezelShape)
                                         .padding(horizontal = 8.dp, vertical = 5.dp),
                                     horizontalArrangement = Arrangement.SpaceBetween,
                                     verticalAlignment = Alignment.CenterVertically
@@ -463,12 +463,12 @@ fun NuxAddInstanceDialog(
                                             .clip(RoundedCornerShape(5.dp))
                                             .background(
                                                 if (selectedLoader == "fabric") Color(0xFF8B5CF6).copy(alpha = 0.2f)
-                                                else NuxColors.ForestGreen.copy(alpha = 0.2f)
+                                                else NuxColors.YellowPale
                                             )
                                             .border(
                                                 1.dp,
                                                 if (selectedLoader == "fabric") Color(0xFF8B5CF6).copy(alpha = 0.5f)
-                                                else NuxColors.ForestGreen.copy(alpha = 0.5f),
+                                                else NuxColors.Yellow,
                                                 RoundedCornerShape(5.dp)
                                             )
                                             .padding(horizontal = 7.dp, vertical = 3.dp)
@@ -500,7 +500,7 @@ fun NuxAddInstanceDialog(
                                     )
                                     .border(
                                         1.dp,
-                                        if (canCreate) NuxColors.ForestGreen.copy(alpha = 0.40f) else NuxColors.DarkGray.copy(alpha = 0.20f),
+                                        if (canCreate) NuxColors.Ink else NuxColors.DarkGray.copy(alpha = 0.20f),
                                         RoundedCornerShape(10.dp)
                                     )
                                     .clickable(enabled = canCreate) {
@@ -639,7 +639,7 @@ fun NuxAddInstanceDialog(
                                             fontSize = 10.5.sp,
                                             fontWeight = FontWeight.Medium
                                         ),
-                                        cursorBrush = SolidColor(NuxColors.ForestGreen),
+                                        cursorBrush = SolidColor(NuxColors.Ink),
                                         modifier = Modifier.weight(1f),
                                         decorationBox = { innerTextField ->
                                             if (searchQuery.isEmpty()) {
@@ -736,7 +736,7 @@ fun NuxAddInstanceDialog(
 
                                             // Determine Badge Color & Label based on item type
                                             val (badgeText, badgeBg, badgeTextColor) = when {
-                                                item.type == "release" -> Triple("RELEASE", NuxColors.ForestGreen.copy(alpha = 0.15f), NuxColors.ForestGreen)
+                                                item.type == "release" -> Triple("RELEASE", NuxColors.YellowPale, NuxColors.ForestGreen)
                                                 item.type == "snapshot" -> Triple("SNAPSHOT", Color(0xFF8B5CF6).copy(alpha = 0.15f), Color(0xFFA78BFA))
                                                 item.type == "old_beta" || item.id.startsWith("b") -> Triple("BETA", NuxColors.Amber.copy(alpha = 0.15f), NuxColors.Amber)
                                                 item.type == "old_alpha" || item.id.startsWith("a") -> Triple("ALPHA", Color(0xFFEC4899).copy(alpha = 0.15f), Color(0xFFF472B6))
@@ -748,7 +748,7 @@ fun NuxAddInstanceDialog(
                                                     .fillMaxWidth()
                                                     .clip(itemShape)
                                                     .background(
-                                                        if (isSelected) NuxColors.ForestGreen.copy(alpha = 0.14f)
+                                                        if (isSelected) NuxColors.YellowPale
                                                         else NuxColors.SurfaceWhite,
                                                         itemShape
                                                     )

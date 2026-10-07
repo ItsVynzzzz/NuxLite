@@ -524,10 +524,10 @@ fun ModsScreen(
                         modifier = Modifier
                             .fillMaxHeight()
                             .clip(RoundedCornerShape(4.dp))
-                            .background(if (isInstalled) NuxColors.ForestGreen.copy(alpha = 0.2f) else Color.Transparent)
+                            .background(if (isInstalled) NuxColors.YellowPale else Color.Transparent)
                             .border(
                                 1.dp,
-                                if (isInstalled) NuxColors.ForestGreen.copy(alpha = 0.45f) else Color.Transparent,
+                                if (isInstalled) NuxColors.Ink else Color.Transparent,
                                 RoundedCornerShape(4.dp)
                             )
                             .clickable { mainMode = "installed" }
@@ -547,10 +547,10 @@ fun ModsScreen(
                         modifier = Modifier
                             .fillMaxHeight()
                             .clip(RoundedCornerShape(4.dp))
-                            .background(if (isBrowse) NuxColors.ForestGreen.copy(alpha = 0.2f) else Color.Transparent)
+                            .background(if (isBrowse) NuxColors.YellowPale else Color.Transparent)
                             .border(
                                 1.dp,
-                                if (isBrowse) NuxColors.ForestGreen.copy(alpha = 0.45f) else Color.Transparent,
+                                if (isBrowse) NuxColors.Ink else Color.Transparent,
                                 RoundedCornerShape(4.dp)
                             )
                             .clickable { mainMode = "browse" }
@@ -659,12 +659,12 @@ fun ModsScreen(
                             .height(25.dp)
                             .clip(RoundedCornerShape(5.dp))
                             .background(
-                                if (isSelected) NuxColors.ForestGreen.copy(alpha = 0.18f) else NuxColors.SurfaceElevated.copy(alpha = 0.7f),
+                                if (isSelected) NuxColors.YellowPale else NuxColors.SurfaceElevated.copy(alpha = 0.7f),
                                 RoundedCornerShape(5.dp)
                             )
                             .border(
                                 width = 1.dp,
-                                color = if (isSelected) NuxColors.ForestGreen.copy(alpha = 0.5f) else NuxColors.CardBorder,
+                                color = if (isSelected) NuxColors.Ink else NuxColors.CardBorder,
                                 shape = RoundedCornerShape(5.dp)
                             )
                             .clickable {
@@ -769,12 +769,12 @@ fun ModsScreen(
                             .height(25.dp)
                             .clip(RoundedCornerShape(5.dp))
                             .background(
-                                if (filterByGameVersion) NuxColors.ForestGreen.copy(alpha = 0.15f) else NuxColors.SurfaceElevated,
+                                if (filterByGameVersion) NuxColors.YellowPale else NuxColors.SurfaceElevated,
                                 RoundedCornerShape(5.dp)
                             )
                             .border(
                                 1.dp,
-                                if (filterByGameVersion) NuxColors.ForestGreen.copy(alpha = 0.4f) else NuxColors.CardBorder,
+                                if (filterByGameVersion) NuxColors.Ink else NuxColors.CardBorder,
                                 RoundedCornerShape(5.dp)
                             )
                             .clickable {
@@ -877,8 +877,8 @@ fun ModsScreen(
                         modifier = Modifier
                             .height(25.dp)
                             .clip(RoundedCornerShape(5.dp))
-                            .background(NuxColors.ForestGreen.copy(alpha = 0.12f), RoundedCornerShape(5.dp))
-                            .border(1.dp, NuxColors.ForestGreen.copy(alpha = 0.35f), RoundedCornerShape(5.dp))
+                            .background(NuxColors.YellowPale, RoundedCornerShape(5.dp))
+                            .border(1.dp, NuxColors.Ink, RoundedCornerShape(5.dp))
                             .clickable {
                                 if (selectedInstance == null) {
                                     Toast.makeText(context, "Pilih instance terlebih dahulu!", Toast.LENGTH_SHORT).show()
@@ -929,12 +929,12 @@ fun ModsScreen(
                             .height(22.dp)
                             .clip(RoundedCornerShape(4.dp))
                             .background(
-                                if (isSelected) NuxColors.ForestGreen.copy(alpha = 0.2f) else NuxColors.DarkGray.copy(alpha = 0.03f),
+                                if (isSelected) NuxColors.YellowPale else NuxColors.DarkGray.copy(alpha = 0.03f),
                                 RoundedCornerShape(4.dp)
                             )
                             .border(
                                 1.dp,
-                                if (isSelected) NuxColors.ForestGreen.copy(alpha = 0.5f) else NuxColors.CardBorder.copy(alpha = 0.4f),
+                                if (isSelected) NuxColors.Ink else NuxColors.CardBorder.copy(alpha = 0.4f),
                                 RoundedCornerShape(4.dp)
                             )
                             .clickable {
@@ -1037,7 +1037,7 @@ fun ModsScreen(
                                             .size(32.dp)
                                             .clip(RoundedCornerShape(6.dp))
                                             .background(
-                                                if (item.isEnabled) NuxColors.ForestGreen.copy(alpha = 0.15f) else NuxColors.DarkGray.copy(alpha = 0.05f),
+                                                if (item.isEnabled) NuxColors.YellowPale else NuxColors.DarkGray.copy(alpha = 0.05f),
                                                 RoundedCornerShape(6.dp)
                                             )
                                             .border(NuxSizes.BorderWidth, NuxColors.CardBorder, RoundedCornerShape(6.dp)),
@@ -1101,7 +1101,7 @@ fun ModsScreen(
                                         },
                                         modifier = Modifier.scale(0.75f),
                                         colors = SwitchDefaults.colors(
-                                            checkedThumbColor = Color.White,
+                                            checkedThumbColor = NuxColors.Ink,
                                             checkedTrackColor = NuxColors.ForestGreen,
                                             uncheckedThumbColor = NuxColors.GrayNeutral,
                                             uncheckedTrackColor = NuxColors.DarkGray.copy(alpha = 0.15f)
@@ -1309,8 +1309,8 @@ fun ModsScreen(
                                             Spacer(modifier = Modifier.width(5.dp))
                                             Box(
                                                 modifier = Modifier
-                                                    .background(NuxColors.ForestGreen.copy(alpha = 0.15f), RoundedCornerShape(3.dp))
-                                                    .border(1.dp, NuxColors.ForestGreen.copy(alpha = 0.35f), RoundedCornerShape(3.dp))
+                                                    .background(NuxColors.YellowPale, RoundedCornerShape(3.dp))
+                                                    .border(1.dp, NuxColors.Ink, RoundedCornerShape(3.dp))
                                                     .padding(horizontal = 4.dp, vertical = 1.dp)
                                             ) {
                                                 Text("PACK", fontSize = 8.sp, fontWeight = FontWeight.Bold, color = NuxColors.SageGreen)
@@ -1389,8 +1389,8 @@ fun ModsScreen(
                                         modifier = Modifier
                                             .height(26.dp)
                                             .clip(RoundedCornerShape(5.dp))
-                                            .background(NuxColors.ForestGreen.copy(alpha = 0.12f), RoundedCornerShape(5.dp))
-                                            .border(1.dp, NuxColors.ForestGreen.copy(alpha = 0.35f), RoundedCornerShape(5.dp))
+                                            .background(NuxColors.YellowPale, RoundedCornerShape(5.dp))
+                                            .border(1.dp, NuxColors.Ink, RoundedCornerShape(5.dp))
                                             .padding(horizontal = 8.dp),
                                         contentAlignment = Alignment.Center
                                     ) {
@@ -1417,7 +1417,7 @@ fun ModsScreen(
                                             .height(26.dp)
                                             .clip(RoundedCornerShape(5.dp))
                                             .background(NuxColors.ForestGreen, RoundedCornerShape(5.dp))
-                                            .border(1.dp, NuxColors.MintGreen.copy(alpha = 0.4f), RoundedCornerShape(5.dp))
+                                            .border(1.dp, NuxColors.Ink, RoundedCornerShape(5.dp))
                                             .clickable {
                                                 scope.launch {
                                                     downloadingProjectIds = downloadingProjectIds + (hit.projectId to "Mencari versi...")
@@ -1617,8 +1617,8 @@ fun ModsScreen(
                     modifier = Modifier
                         .size(46.dp)
                         .clip(CircleShape)
-                        .background(NuxColors.ForestGreen.copy(alpha = 0.15f))
-                        .border(1.dp, NuxColors.ForestGreen.copy(alpha = 0.4f), CircleShape),
+                        .background(NuxColors.YellowPale)
+                        .border(1.dp, NuxColors.Ink, CircleShape),
                     contentAlignment = Alignment.Center
                 ) {
                     CircularProgressIndicator(
@@ -1779,7 +1779,7 @@ fun ModsScreen(
                                             .clip(RoundedCornerShape(6.dp))
                                             .background(
                                                 when (hit.projectType) {
-                                                    "mod" -> NuxColors.ForestGreen.copy(alpha = 0.18f)
+                                                    "mod" -> NuxColors.YellowPale
                                                     "modpack" -> Color(0xFF8B5CF6).copy(alpha = 0.18f)
                                                     "resourcepack" -> NuxColors.SkyBlue.copy(alpha = 0.18f)
                                                     else -> NuxColors.Amber.copy(alpha = 0.18f)
@@ -1788,7 +1788,7 @@ fun ModsScreen(
                                             .border(
                                                 1.dp,
                                                 when (hit.projectType) {
-                                                    "mod" -> NuxColors.ForestGreen.copy(alpha = 0.5f)
+                                                    "mod" -> NuxColors.Yellow
                                                     "modpack" -> Color(0xFF8B5CF6).copy(alpha = 0.5f)
                                                     "resourcepack" -> NuxColors.SkyBlue.copy(alpha = 0.5f)
                                                     else -> NuxColors.Amber.copy(alpha = 0.5f)
@@ -2076,7 +2076,7 @@ fun ModsScreen(
                                                     .fillMaxWidth()
                                                     .clip(RoundedCornerShape(8.dp))
                                                     .background(
-                                                        if (isPicked) NuxColors.ForestGreen.copy(alpha = 0.14f) else NuxColors.SurfaceWhite,
+                                                        if (isPicked) NuxColors.YellowPale else NuxColors.SurfaceWhite,
                                                         RoundedCornerShape(8.dp)
                                                     )
                                                     .border(
@@ -2125,7 +2125,7 @@ fun ModsScreen(
                                                         modifier = Modifier
                                                             .background(
                                                                 when (ver.versionType) {
-                                                                    "release" -> NuxColors.ForestGreen.copy(alpha = 0.2f)
+                                                                    "release" -> NuxColors.YellowPale
                                                                     "beta" -> NuxColors.Amber.copy(alpha = 0.2f)
                                                                     else -> NuxColors.ErrorRed.copy(alpha = 0.15f)
                                                                 },
@@ -2218,8 +2218,8 @@ fun ModsScreen(
                                         .weight(2f)
                                         .height(38.dp)
                                         .clip(RoundedCornerShape(10.dp))
-                                        .background(NuxColors.ForestGreen.copy(alpha = 0.15f))
-                                        .border(1.dp, NuxColors.ForestGreen.copy(alpha = 0.5f), RoundedCornerShape(10.dp)),
+                                        .background(NuxColors.YellowPale)
+                                        .border(1.dp, NuxColors.Ink, RoundedCornerShape(10.dp)),
                                     contentAlignment = Alignment.Center
                                 ) {
                                     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -2254,7 +2254,7 @@ fun ModsScreen(
                                         )
                                         .border(
                                             1.dp,
-                                            if (canInstall) NuxColors.ForestGreen.copy(alpha = 0.40f) else NuxColors.DarkGray.copy(alpha = 0.20f),
+                                            if (canInstall) NuxColors.Ink else NuxColors.DarkGray.copy(alpha = 0.20f),
                                             RoundedCornerShape(10.dp)
                                         )
                                         .clickable(enabled = canInstall) {
@@ -2416,7 +2416,7 @@ private fun CompactSearchBar(
                     fontSize = 9.5.sp,
                     fontWeight = FontWeight.Normal
                 ),
-                cursorBrush = SolidColor(NuxColors.ForestGreen),
+                cursorBrush = SolidColor(NuxColors.Ink),
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth()
             )

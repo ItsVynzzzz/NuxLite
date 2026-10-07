@@ -572,8 +572,8 @@ private fun ActionButtonsGrid(
         NuxButton(
             onClick = onUploadClick,
             modifier = Modifier.fillMaxWidth(),
-            backgroundColor = if (uploadSuccessUrl != null) NuxColors.ForestGreen else Color(0xFF2E7D32),
-            contentColor = Color.White
+            backgroundColor = if (uploadSuccessUrl != null) NuxColors.SuccessGreen else NuxColors.Yellow,
+            contentColor = if (uploadSuccessUrl != null) Color.White else NuxColors.Ink
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -582,7 +582,7 @@ private fun ActionButtonsGrid(
                 if (isUploading) {
                     CircularProgressIndicator(
                         modifier = Modifier.size(14.dp),
-                        color = Color.White,
+                        color = NuxColors.Ink,
                         strokeWidth = 2.dp
                     )
                     Spacer(modifier = Modifier.width(6.dp))
@@ -660,8 +660,8 @@ private fun ActionButtonsGrid(
             NuxButton(
                 onClick = onRestartClick,
                 modifier = Modifier.weight(1f),
-                backgroundColor = NuxColors.ForestGreen,
-                contentColor = Color.White
+                backgroundColor = NuxColors.Yellow,
+                contentColor = NuxColors.Ink
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Icon(imageVector = Icons.Default.Refresh, contentDescription = null, modifier = Modifier.size(14.dp))

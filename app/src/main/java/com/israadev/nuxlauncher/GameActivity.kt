@@ -789,11 +789,6 @@ class GameActivity : ComponentActivity(), SurfaceHolder.Callback {
                     }
                 }
 
-                // VirGL socket path
-                if (rendererId == "gallium_virgl") {
-                    Os.setenv("VTEST_SOCKET_NAME", File(cacheDir, ".virgl_test").absolutePath, true)
-                }
-
                 // Mesa GLSL Cache Directory
                 if (rendererId.startsWith("gallium") || rendererId.contains("zink")) {
                     Os.setenv("MESA_GLSL_CACHE_DIR", cacheDir.absolutePath, true)
