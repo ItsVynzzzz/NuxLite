@@ -179,8 +179,9 @@ object NuxRendererRegistry {
         nativeLibDir: File,
         context: android.content.Context? = null
     ): NuxRendererInfo {
-        if (context != null && pluginRenderers.isEmpty()) {
-            NuxRendererPluginManager.scanPlugins(context)
+        if (context != null) {
+            // Hanya memindai bila belum pernah (bukan tiap kali daftar plugin kebetulan kosong).
+            NuxRendererPluginManager.scanPluginsIfStale(context)
         }
 
         val hasNgGl4es = File(nativeLibDir, "libng_gl4es.so").exists()

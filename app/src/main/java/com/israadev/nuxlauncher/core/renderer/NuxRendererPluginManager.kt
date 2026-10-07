@@ -15,6 +15,22 @@ object NuxRendererPluginManager {
         pluginRenderers.toList()
     }
 
+    /** Waktu (ms) pemindaian terakhir selesai; 0 = belum pernah dipindai di proses ini. */
+    @Volatile
+    var lastScanMs: Long = 0L
+        private set
+
+    /** Pindai hanya bila belum pernah atau hasilnya sudah lebih tua dari [maxAgeMs]. */
+    fun scanPluginsIfStale(context: Context, maxAgeMs: Long = 5 * 60_000L) {
+        val age = System.currentTimeMillis() - lastScanMs
+        if (lastScanMs == 0L || age > maxAgeMs) scanPlugins(context)
+    }
+
+    /**
+     * Memindai plugin renderer dari aplikasi terpasang. Pekerjaan berat (membaca semua aplikasi),
+     * JANGAN dipanggil dari thread utama: pakai Dispatchers.IO / thread latar.
+     */
+    @Synchronized
     fun scanPlugins(context: Context): List<NuxRendererInfo> {
         val detected = mutableListOf<NuxRendererInfo>()
         val pm = context.packageManager
@@ -25,16 +41,24 @@ object NuxRendererPluginManager {
             if (pkg == context.packageName || !processedPackages.add(pkg)) return
 
             try {
-                val metaData = info.metaData ?: run {
-                    try {
-                        pm.getApplicationInfo(pkg, PackageManager.GET_META_DATA).metaData
-                    } catch (_: Exception) {
-                        null
-                    }
-                }
-
+                // Metadata sudah ikut terambil lewat GET_META_DATA: tidak perlu panggilan IPC lagi per aplikasi.
+                val metaData = info.metaData
                 val nativeLibDir = info.nativeLibraryDir
-                val appLabel = runCatching { info.loadLabel(pm).toString() }.getOrDefault(pkg)
+
+                // Aplikasi sistem tanpa penanda plugin tidak mungkin renderer: lewati
+                // supaya folder native dan label-nya tidak dibuka sia-sia.
+                val isSystemApp = (info.flags and ApplicationInfo.FLAG_SYSTEM) != 0
+                val hasPluginMeta = metaData != null && (
+                    metaData.getBoolean("fclPlugin", false) ||
+                    metaData.getBoolean("zalithRendererPlugin", false) ||
+                    metaData.containsKey("renderer")
+                )
+                if (!hasPluginMeta && isSystemApp) return
+
+                // Label (butuh membuka resource aplikasi, mahal) hanya dimuat bila benar-benar dipakai.
+                val appLabel by lazy(LazyThreadSafetyMode.NONE) {
+                    runCatching { info.loadLabel(pm).toString() }.getOrDefault(pkg)
+                }
 
                 // 1. Check FCL / Zalith Plugin metadata
                 if (metaData != null && (
@@ -159,21 +183,11 @@ object NuxRendererPluginManager {
             }
         }
 
-        // Method 1: queryIntentActivities
+        // Satu kali mengambil daftar aplikasi terpasang; dipakai juga oleh pemindai V2.
+        // (Cara queryIntentActivities dibuang karena hasilnya hanya bagian dari daftar ini.)
+        var installed: List<ApplicationInfo> = emptyList()
         try {
-            val intent = Intent(Intent.ACTION_MAIN)
-            val activities = pm.queryIntentActivities(intent, PackageManager.GET_META_DATA)
-            for (resolve in activities) {
-                val appInfo = resolve.activityInfo?.applicationInfo ?: continue
-                processAppInfo(appInfo)
-            }
-        } catch (e: Exception) {
-            Log.w(TAG, "queryIntentActivities failed", e)
-        }
-
-        // Method 2: getInstalledApplications
-        try {
-            val installed = pm.getInstalledApplications(PackageManager.GET_META_DATA)
+            installed = pm.getInstalledApplications(PackageManager.GET_META_DATA)
             for (appInfo in installed) {
                 processAppInfo(appInfo)
             }
@@ -187,10 +201,11 @@ object NuxRendererPluginManager {
         }
         NuxRendererRegistry.setPluginRenderers(detected)
         try {
-            com.israadev.nuxlauncher.core.renderer.v2.NuxRendererV2Manager.scanV2Plugins(context)
+            com.israadev.nuxlauncher.core.renderer.v2.NuxRendererV2Manager.scanV2Plugins(context, installed)
         } catch (e: Exception) {
             Log.w(TAG, "scanV2Plugins failed", e)
         }
+        lastScanMs = System.currentTimeMillis()
         return detected
     }
 }

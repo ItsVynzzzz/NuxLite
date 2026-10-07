@@ -135,8 +135,9 @@ fun DashboardScreen() {
     // Download progress state
     var isDownloading by remember { mutableStateOf(false) }
     var downloadTargetName by remember { mutableStateOf("") }
-    var downloadProgress by remember { mutableFloatStateOf(0f) }
-    var downloadMessage by remember { mutableStateOf("") }
+    // Kemajuan unduhan disimpan di objek tersendiri yang hanya dibaca dialog,
+    // sehingga tiap kemajuan tidak menggambar ulang seluruh layar Home.
+    val dl = remember { DownloadUiState() }
 
     val downloader = remember { MinecraftDownloader(context) }
 
@@ -180,18 +181,18 @@ fun DashboardScreen() {
             val targetRuntime = JavaRuntimeManager.getRecommendedRuntime(inst.mcVersion)
             isDownloading = true
             downloadTargetName = inst.name
-            downloadProgress = 0f
-            downloadMessage = "Menyiapkan OpenJDK (${JavaRuntimeManager.getRuntimeDisplayName(targetRuntime)})..."
+            dl.progress = 0f
+            dl.message = "Menyiapkan OpenJDK (${JavaRuntimeManager.getRuntimeDisplayName(targetRuntime)})..."
 
             scope.launch {
                 JavaRuntimeManager.extractRuntime(context, targetRuntime) { p, msg ->
-                    downloadProgress = p
-                    downloadMessage = msg
+                    dl.progress = p
+                    dl.message = msg
                 }
 
                 val res = downloader.downloadInstance(inst) { p, msg ->
-                    downloadProgress = p
-                    downloadMessage = msg
+                    dl.progress = p
+                    dl.message = msg
                 }
                 isDownloading = false
                 if (res.isSuccess) {
@@ -205,12 +206,12 @@ fun DashboardScreen() {
             if (!JavaRuntimeManager.isRuntimeInstalled(context, targetRuntime)) {
                 isDownloading = true
                 downloadTargetName = inst.name
-                downloadProgress = 0f
-                downloadMessage = "Menyiapkan OpenJDK (${JavaRuntimeManager.getRuntimeDisplayName(targetRuntime)})..."
+                dl.progress = 0f
+                dl.message = "Menyiapkan OpenJDK (${JavaRuntimeManager.getRuntimeDisplayName(targetRuntime)})..."
                 scope.launch {
                     val extRes = JavaRuntimeManager.extractRuntime(context, targetRuntime) { p, msg ->
-                        downloadProgress = p
-                        downloadMessage = msg
+                        dl.progress = p
+                        dl.message = msg
                     }
                     isDownloading = false
                     if (extRes.isSuccess) {
@@ -414,11 +415,7 @@ fun DashboardScreen() {
 
         // Download Progress Dialog
         if (isDownloading) {
-            NuxDownloadProgressDialog(
-                instanceName = downloadTargetName,
-                progress = downloadProgress,
-                message = downloadMessage
-            )
+            DownloadDialogHost(name = downloadTargetName, state = dl)
         }
 
         // Unsupported Renderer Warning Dialog (Persis seperti Zalith)
@@ -772,6 +769,22 @@ private fun HomeScene(
 private const val BG_FILE_NAME = "home_bg"
 private const val BG_MAX_BYTES = 30L * 1024 * 1024
 private const val BG_MAX_SIDE = 1600
+private const val BG_MAX_SIDE_ANIM = 960   // GIF/WebP bergerak: lebih kecil agar CPU HP kentang kuat
+
+/** Status unduhan; hanya dibaca oleh dialog unduhan. */
+private class DownloadUiState {
+    var progress by mutableFloatStateOf(0f)
+    var message by mutableStateOf("")
+}
+
+@Composable
+private fun DownloadDialogHost(name: String, state: DownloadUiState) {
+    NuxDownloadProgressDialog(
+        instanceName = name,
+        progress = state.progress,
+        message = state.message
+    )
+}
 
 /** Hasil muat latar: drawable null berarti gagal. */
 private class BgState(val drawable: Drawable?)
@@ -786,8 +799,12 @@ private fun decodeBackground(file: File): Drawable? = try {
             val w = info.size.width
             val h = info.size.height
             val longSide = maxOf(w, h)
-            if (longSide > BG_MAX_SIDE) {
-                val scale = BG_MAX_SIDE.toFloat() / longSide
+            val mime = info.mimeType
+            val maybeAnimated = mime.equals("image/gif", ignoreCase = true) ||
+                mime.equals("image/webp", ignoreCase = true)
+            val cap = if (maybeAnimated) BG_MAX_SIDE_ANIM else BG_MAX_SIDE
+            if (longSide > cap) {
+                val scale = cap.toFloat() / longSide
                 decoder.setTargetSize(maxOf(1, (w * scale).toInt()), maxOf(1, (h * scale).toInt()))
             }
         }

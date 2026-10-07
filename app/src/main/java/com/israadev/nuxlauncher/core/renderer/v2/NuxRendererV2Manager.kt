@@ -49,10 +49,10 @@ object NuxRendererV2Manager {
     /**
      * Memindai plugin renderer V2 dari seluruh aplikasi yang terpasang di Android (fclPlugin_V2 & MobileGL)
      */
-    fun scanV2Plugins(context: Context): List<RendererV2Data> {
+    fun scanV2Plugins(context: Context, preloaded: List<ApplicationInfo>? = null): List<RendererV2Data> {
         val result = mutableListOf<RendererV2Data>()
         val pm = context.packageManager
-        val installedApps = try {
+        val installedApps = preloaded?.takeIf { it.isNotEmpty() } ?: try {
             pm.getInstalledApplications(PackageManager.GET_META_DATA)
         } catch (e: Exception) {
             Log.e(TAG, "Gagal mengambil daftar aplikasi terpasang", e)
@@ -65,7 +65,10 @@ object NuxRendererV2Manager {
 
             val metaData = info.metaData ?: continue
             val nativeLibDir = info.nativeLibraryDir
-            val appLabel = runCatching { info.loadLabel(pm).toString() }.getOrDefault(pkg)
+            // Label mahal (membuka resource aplikasi): hanya dimuat bila plugin ditemukan.
+            val appLabel by lazy(LazyThreadSafetyMode.NONE) {
+                runCatching { info.loadLabel(pm).toString() }.getOrDefault(pkg)
+            }
 
             // 1. Coba baca fclPlugin_V2 jika tersedia (MobileGL, NGG V2, dsb)
             val configResId = runCatching { metaData.getInt("fclPlugin_V2", -1).takeIf { it > 0 } }.getOrNull()

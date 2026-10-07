@@ -105,9 +105,9 @@ fun InGameSettingsDialog(
                     .fillMaxWidth(0.92f)
                     .wrapContentHeight()
                     .clip(cardShape)
-                    .border(1.2.dp, Color(0x3810B981), cardShape),
+                    .border(1.2.dp, Color(0x38FFD60A), cardShape),
                 colors = CardDefaults.cardColors(
-                    containerColor = Color(0xF20F1522)
+                    containerColor = Color(0xF2111111)
                 ),
                 shape = cardShape
             ) {
@@ -150,7 +150,7 @@ fun InGameSettingsDialog(
                                 )
                                 Text(
                                     text = "$instanceName · v$mcVersion",
-                                    color = Color(0xFF94A3B8),
+                                    color = Color(0xFFB8B4A4),
                                     fontSize = 10.sp,
                                     fontWeight = FontWeight.Medium
                                 )
@@ -162,7 +162,7 @@ fun InGameSettingsDialog(
                             Surface(
                                 shape = RoundedCornerShape(12.dp),
                                 color = Color(0x66000000),
-                                border = androidx.compose.foundation.BorderStroke(1.dp, Color(0x3310B981))
+                                border = androidx.compose.foundation.BorderStroke(1.dp, Color(0x33FFD60A))
                             ) {
                                 Row(
                                     verticalAlignment = Alignment.CenterVertically,
@@ -176,7 +176,7 @@ fun InGameSettingsDialog(
                                                     currentFps >= 50 -> Color(0xFF10B981)
                                                     currentFps >= 25 -> Color(0xFFF59E0B)
                                                     currentFps > 0 -> Color(0xFFEF4444)
-                                                    else -> Color(0xFF6B7280)
+                                                    else -> Color(0xFF8C8774)
                                                 },
                                                 CircleShape
                                             )
@@ -236,7 +236,7 @@ fun InGameSettingsDialog(
                             ) {
                                 Text(
                                     text = title,
-                                    color = if (isSelected) Color.White else Color(0xFF94A3B8),
+                                    color = if (isSelected) NuxColors.Ink else Color(0xFFB8B4A4),
                                     fontSize = 11.sp,
                                     fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium
                                 )
@@ -266,7 +266,7 @@ fun InGameSettingsDialog(
                                         ) {
                                             Text(
                                                 text = "Resolusi Render:",
-                                                color = Color(0xFF94A3B8),
+                                                color = Color(0xFFB8B4A4),
                                                 fontSize = 11.sp
                                             )
                                             Text(
@@ -303,7 +303,7 @@ fun InGameSettingsDialog(
                                                     modifier = Modifier
                                                         .weight(1f)
                                                         .clip(RoundedCornerShape(6.dp))
-                                                        .background(if (isCur) NuxColors.ForestGreen.copy(alpha = 0.5f) else Color(0x22FFFFFF))
+                                                        .background(if (isCur) NuxColors.ForestGreen.copy(alpha = 0.22f) else Color(0x22FFFFFF))
                                                         .border(1.dp, if (isCur) NuxColors.MintGreen else Color.Transparent, RoundedCornerShape(6.dp))
                                                         .clickable {
                                                             tempResolution = preset.toFloat()
@@ -324,7 +324,7 @@ fun InGameSettingsDialog(
                                         Spacer(modifier = Modifier.height(4.dp))
                                         Text(
                                             text = "💡 Resolusi langsung berubah secara dinamis di engine tanpa perlu restart.",
-                                            color = Color(0xFF64748B),
+                                            color = Color(0xFF8C8774),
                                             fontSize = 9.5.sp
                                         )
                                     }
@@ -348,7 +348,7 @@ fun InGameSettingsDialog(
                                             )
                                             Text(
                                                 text = "Tetap tampil meski kontrol tombol layar disembunyikan (Hide GUI)",
-                                                color = Color(0xFF94A3B8),
+                                                color = Color(0xFFB8B4A4),
                                                 fontSize = 10.sp
                                             )
                                         }
@@ -358,7 +358,7 @@ fun InGameSettingsDialog(
                                                 onFpsModeChange(if (checked) FpsMode.PINNED else FpsMode.NORMAL)
                                             },
                                             colors = SwitchDefaults.colors(
-                                                checkedThumbColor = Color.White,
+                                                checkedThumbColor = NuxColors.Ink,
                                                 checkedTrackColor = NuxColors.ForestGreen
                                             )
                                         )
@@ -373,8 +373,8 @@ fun InGameSettingsDialog(
                                         modifier = Modifier
                                             .fillMaxWidth()
                                             .clip(RoundedCornerShape(8.dp))
-                                            .background(Color(0x3310B981))
-                                            .border(1.dp, Color(0x4D10B981), RoundedCornerShape(8.dp))
+                                            .background(Color(0x33FFD60A))
+                                            .border(1.dp, Color(0x4DFFD60A), RoundedCornerShape(8.dp))
                                             .clickable {
                                                 onDismissRequest()
                                                 onOpenConsoleLog()
@@ -417,7 +417,7 @@ fun InGameSettingsDialog(
                                             modifier = Modifier.fillMaxWidth(),
                                             horizontalArrangement = Arrangement.SpaceBetween
                                         ) {
-                                            Text("Kecepatan Pointer:", color = Color(0xFF94A3B8), fontSize = 11.sp)
+                                            Text("Kecepatan Pointer:", color = Color(0xFFB8B4A4), fontSize = 11.sp)
                                             Text("${tempCursorSens.roundToInt()}%", color = NuxColors.MintGreen, fontWeight = FontWeight.Black, fontSize = 12.sp)
                                         }
                                         Slider(
@@ -445,7 +445,7 @@ fun InGameSettingsDialog(
                                             modifier = Modifier.fillMaxWidth(),
                                             horizontalArrangement = Arrangement.SpaceBetween
                                         ) {
-                                            Text("Kecepatan Putar Pandangan:", color = Color(0xFF94A3B8), fontSize = 11.sp)
+                                            Text("Kecepatan Putar Pandangan:", color = Color(0xFFB8B4A4), fontSize = 11.sp)
                                             Text("${tempCaptureSens.roundToInt()}%", color = NuxColors.MintGreen, fontWeight = FontWeight.Black, fontSize = 12.sp)
                                         }
                                         Slider(
@@ -495,7 +495,7 @@ fun InGameSettingsDialog(
                                                     ) {
                                                         Text(
                                                             text = label,
-                                                            color = if (isSelected) Color.White else Color(0xFF94A3B8),
+                                                            color = if (isSelected) NuxColors.Ink else Color(0xFFB8B4A4),
                                                             fontSize = 10.sp,
                                                             fontWeight = FontWeight.Medium
                                                         )
@@ -520,7 +520,7 @@ fun InGameSettingsDialog(
                                                 )
                                                 Text(
                                                     text = "Tombol virtual di layar on-screen",
-                                                    color = Color(0xFF94A3B8),
+                                                    color = Color(0xFFB8B4A4),
                                                     fontSize = 9.5.sp
                                                 )
                                             }
@@ -528,7 +528,7 @@ fun InGameSettingsDialog(
                                                 checked = isControlVisible,
                                                 onCheckedChange = { onToggleControlVisibility() },
                                                 colors = SwitchDefaults.colors(
-                                                    checkedThumbColor = Color.White,
+                                                    checkedThumbColor = NuxColors.Ink,
                                                     checkedTrackColor = NuxColors.ForestGreen
                                                 )
                                             )
@@ -545,8 +545,8 @@ fun InGameSettingsDialog(
                                         modifier = Modifier
                                             .fillMaxWidth()
                                             .clip(RoundedCornerShape(8.dp))
-                                            .background(Color(0x3310B981))
-                                            .border(1.dp, Color(0x6610B981), RoundedCornerShape(8.dp))
+                                            .background(Color(0x33FFD60A))
+                                            .border(1.dp, Color(0x66FFD60A), RoundedCornerShape(8.dp))
                                             .clickable {
                                                 onDismissRequest()
                                                 onOpenCustomGui()
@@ -585,7 +585,7 @@ fun InGameSettingsDialog(
                                     Column {
                                         Text(
                                             text = "Kirim input tombol keyboard langsung ke Minecraft:",
-                                            color = Color(0xFF94A3B8),
+                                            color = Color(0xFFB8B4A4),
                                             fontSize = 10.sp
                                         )
                                         Spacer(modifier = Modifier.height(8.dp))
@@ -641,7 +641,7 @@ fun InGameSettingsDialog(
                                             },
                                             modifier = Modifier.fillMaxWidth(),
                                             colors = ButtonDefaults.buttonColors(
-                                                containerColor = Color(0x3338BDF8)
+                                                containerColor = Color(0x33FFD60A)
                                             ),
                                             shape = RoundedCornerShape(8.dp),
                                             contentPadding = PaddingValues(vertical = 8.dp)
@@ -649,13 +649,13 @@ fun InGameSettingsDialog(
                                             Icon(
                                                 imageVector = Icons.Outlined.Keyboard,
                                                 contentDescription = null,
-                                                tint = Color(0xFF38BDF8),
+                                                tint = Color(0xFFFFD60A),
                                                 modifier = Modifier.size(16.dp)
                                             )
                                             Spacer(modifier = Modifier.width(6.dp))
                                             Text(
                                                 text = "Buka Keyboard Virtual (IME)",
-                                                color = Color(0xFFBAE6FD),
+                                                color = Color(0xFFFFE566),
                                                 fontSize = 11.sp,
                                                 fontWeight = FontWeight.Bold
                                             )
@@ -698,7 +698,7 @@ fun InGameSettingsDialog(
                                                 )
                                                 Text(
                                                     text = "Hentikan JVM seketika jika Minecraft macet",
-                                                    color = Color(0xFF94A3B8),
+                                                    color = Color(0xFFB8B4A4),
                                                     fontSize = 9.sp
                                                 )
                                             }
@@ -776,7 +776,7 @@ private fun QuickKeyButton(
             )
             Text(
                 text = desc,
-                color = Color(0xFF94A3B8),
+                color = Color(0xFFB8B4A4),
                 fontSize = 8.5.sp
             )
         }

@@ -22,6 +22,28 @@
             display: block;
         }
     </style>
+    <script>
+        // Batasi render ke ~30 fps agar HP kelas menengah tidak terbebani
+        // (animasi karakter tetap halus, tapi GPU/CPU jauh lebih santai).
+        (function () {
+            var raf = window.requestAnimationFrame.bind(window);
+            var caf = window.cancelAnimationFrame.bind(window);
+            var seq = 0, pending = {};
+            window.requestAnimationFrame = function (cb) {
+                var id = ++seq;
+                var h = { t: 0, r: 0 };
+                h.t = setTimeout(function () {
+                    h.r = raf(function (ts) { delete pending[id]; cb(ts); });
+                }, 16);
+                pending[id] = h;
+                return id;
+            };
+            window.cancelAnimationFrame = function (id) {
+                var h = pending[id];
+                if (h) { clearTimeout(h.t); if (h.r) caf(h.r); delete pending[id]; }
+            };
+        })();
+    </script>
     <script src="skinview3d.bundle.js"></script>
 </head>
 <body>

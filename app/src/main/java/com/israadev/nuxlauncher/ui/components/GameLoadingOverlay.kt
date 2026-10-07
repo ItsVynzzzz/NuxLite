@@ -121,8 +121,8 @@ fun GameLoadingOverlay(
                 .background(
                     Brush.radialGradient(
                         colors = listOf(
-                            Color(0xFF0F1522),
-                            Color(0xFF07090E),
+                            Color(0xFF1A1A1A),
+                            Color(0xFF0B0B0B),
                             Color.Black
                         )
                     )
@@ -134,8 +134,8 @@ fun GameLoadingOverlay(
                 modifier = Modifier
                     .width(480.dp)
                     .clip(cardShape)
-                    .background(Color(0xE610141E), cardShape)
-                    .border(1.2.dp, Color(0x3810B981), cardShape)
+                    .background(Color(0xE6111111), cardShape)
+                    .border(1.2.dp, Color(0x38FFD60A), cardShape)
                     .padding(20.dp)
             ) {
                 Column(
@@ -188,14 +188,14 @@ fun GameLoadingOverlay(
                             modifier = Modifier
                                 .size(28.dp)
                                 .clip(CircleShape)
-                                .background(Color(0xFF1E222D))
+                                .background(Color(0xFF262626))
                                 .clickable { onClose() },
                             contentAlignment = Alignment.Center
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Close,
                                 contentDescription = "Tutup Loading",
-                                tint = Color(0xFFA1A1AA),
+                                tint = Color(0xFFB8B4A4),
                                 modifier = Modifier.size(16.dp)
                             )
                         }
@@ -210,7 +210,7 @@ fun GameLoadingOverlay(
                             .height(4.dp)
                             .clip(RoundedCornerShape(2.dp)),
                         color = NuxColors.ForestGreen,
-                        trackColor = Color(0xFF1E2A27)
+                        trackColor = Color(0xFF2A2A2A)
                     )
 
                     Spacer(modifier = Modifier.height(10.dp))
@@ -228,7 +228,7 @@ fun GameLoadingOverlay(
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
                             text = if (latestLog.isNotBlank()) latestLog else "Menyiapkan mesin Java & Grafis...",
-                            color = Color(0xFF94A3B8),
+                            color = Color(0xFFB8B4A4),
                             fontSize = 10.5.sp,
                             fontFamily = FontFamily.Monospace,
                             maxLines = 1,
@@ -245,8 +245,8 @@ fun GameLoadingOverlay(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clip(tipBoxShape)
-                            .background(Color(0xFF161B26), tipBoxShape)
-                            .border(1.dp, Color(0x2838BDF8), tipBoxShape)
+                            .background(Color(0xFF1C1C1C), tipBoxShape)
+                            .border(1.dp, Color(0x28FFD60A), tipBoxShape)
                             .padding(horizontal = 14.dp, vertical = 12.dp)
                     ) {
                         Column {
@@ -254,13 +254,13 @@ fun GameLoadingOverlay(
                                 Icon(
                                     imageVector = Icons.Default.Lightbulb,
                                     contentDescription = null,
-                                    tint = Color(0xFFFBBF24),
+                                    tint = Color(0xFFFFD60A),
                                     modifier = Modifier.size(15.dp)
                                 )
                                 Spacer(modifier = Modifier.width(6.dp))
                                 Text(
                                     text = "TIPS NUX LAUNCHER",
-                                    color = Color(0xFFFBBF24),
+                                    color = Color(0xFFFFD60A),
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 10.sp,
                                     letterSpacing = 0.5.sp
@@ -278,7 +278,7 @@ fun GameLoadingOverlay(
                             ) { tipText ->
                                 Text(
                                     text = "“$tipText”",
-                                    color = Color(0xFFE2E8F0),
+                                    color = Color(0xFFF5F1E0),
                                     fontSize = 11.5.sp,
                                     lineHeight = 16.sp,
                                     textAlign = TextAlign.Start
@@ -297,7 +297,7 @@ fun GameLoadingOverlay(
                     ) {
                         Text(
                             text = "Menunggu logo Mojang muncul...",
-                            color = Color(0xFF64748B),
+                            color = Color(0xFF8C8774),
                             fontSize = 10.sp,
                             modifier = Modifier.alpha(pulseAlpha)
                         )
@@ -305,7 +305,7 @@ fun GameLoadingOverlay(
                         Row(
                             modifier = Modifier
                                 .clip(RoundedCornerShape(6.dp))
-                                .background(Color(0xFF1E2430))
+                                .background(Color(0xFF262626))
                                 .clickable { onViewLog() }
                                 .padding(horizontal = 10.dp, vertical = 5.dp),
                             verticalAlignment = Alignment.CenterVertically

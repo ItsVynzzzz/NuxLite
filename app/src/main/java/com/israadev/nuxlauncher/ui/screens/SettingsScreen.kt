@@ -52,7 +52,9 @@ import com.israadev.nuxlauncher.ui.dialogs.NuxRendererV2ConfigDialog
 import com.israadev.nuxlauncher.ui.dialogs.NuxAboutDialog
 import com.israadev.nuxlauncher.ui.theme.NuxColors
 import com.israadev.nuxlauncher.ui.theme.NuxSizes
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlin.math.roundToInt
 
 @Composable
@@ -88,6 +90,7 @@ fun SettingsScreen(
     var zinkPreferSystemDriver by remember(currentSettings.zinkPreferSystemDriver) { mutableStateOf(currentSettings.zinkPreferSystemDriver) }
     var vsyncInZink by remember(currentSettings.vsyncInZink) { mutableStateOf(currentSettings.vsyncInZink) }
     var showRendererDialog by remember { mutableStateOf(false) }
+    var rendererListTick by remember { mutableIntStateOf(0) }
     var showRendererConfigDialog by remember { mutableStateOf(false) }
     var selectedConfigRenderer by remember { mutableStateOf<NuxRendererInfo?>(null) }
     var showAdrenoWarningDialog by remember { mutableStateOf(false) }
@@ -482,10 +485,7 @@ fun SettingsScreen(
                                             .clip(RoundedCornerShape(4.dp))
                                             .background(NuxColors.SurfaceElevated)
                                             .border(NuxSizes.BorderWidth, NuxColors.CardBorder, RoundedCornerShape(4.dp))
-                                            .clickable {
-                                                NuxRendererPluginManager.scanPlugins(context)
-                                                showRendererDialog = true
-                                            }
+                                            .clickable { showRendererDialog = true }
                                             .padding(horizontal = 8.dp),
                                         contentAlignment = Alignment.Center
                                     ) {
@@ -1257,9 +1257,14 @@ fun SettingsScreen(
 
         // Renderer Selection Dialog (Landscape Optimized with NuxDialog)
         if (showRendererDialog) {
+            // Pindai plugin di thread latar; daftar langsung tampil dan diperbarui setelah selesai.
             LaunchedEffect(Unit) {
-                NuxRendererPluginManager.scanPlugins(context)
+                withContext(Dispatchers.IO) {
+                    try { NuxRendererPluginManager.scanPlugins(context) } catch (_: Throwable) {}
+                }
+                rendererListTick++
             }
+            val rendererList = remember(rendererListTick) { NuxRendererRegistry.availableRenderers }
             NuxDialog(
                 onDismissRequest = { showRendererDialog = false },
                 modifier = Modifier.fillMaxWidth(0.72f),
@@ -1320,7 +1325,7 @@ fun SettingsScreen(
                             .fillMaxWidth(),
                         verticalArrangement = Arrangement.spacedBy(6.dp)
                     ) {
-                        items(NuxRendererRegistry.availableRenderers) { rendererItem ->
+                        items(rendererList) { rendererItem ->
                             val isSelected = selectedRenderer.equals(rendererItem.id, ignoreCase = true)
                             Box(
                                 modifier = Modifier

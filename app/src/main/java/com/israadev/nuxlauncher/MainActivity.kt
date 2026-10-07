@@ -32,11 +32,26 @@ import com.israadev.nuxlauncher.ui.theme.NuxResponsiveTheme
 
 class MainActivity : ComponentActivity() {
 
+    // Pekerjaan berat (baca file, pindai aplikasi) dijalankan di thread latar satu per satu,
+    // supaya layar tidak membeku saat dibuka atau saat kembali dari pemilih foto.
+    private val bgExecutor: java.util.concurrent.ExecutorService =
+        java.util.concurrent.Executors.newSingleThreadExecutor()
+    private var storageWasGranted = false
+
+    private fun storageAccessGranted(): Boolean =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            Environment.isExternalStorageManager()
+        } else {
+            ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
+                PackageManager.PERMISSION_GRANTED
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         hideSystemBars()
         checkAndRequestStoragePermissions()
+        storageWasGranted = storageAccessGranted()
 
         handleIncomingAddonIntent(intent)
 
@@ -46,8 +61,15 @@ class MainActivity : ComponentActivity() {
         SettingsManager.init(this)
         com.israadev.nuxlauncher.core.device.PhysicalMouseChecker.initChecker(this)
         com.israadev.nuxlauncher.core.controls.ControlLayoutManager.init(this)
-        com.israadev.nuxlauncher.core.renderer.NuxRendererPluginManager.scanPlugins(this)
-        com.israadev.nuxlauncher.core.crash.CrashManager.checkAndNotify(this)
+        val appCtx = applicationContext
+        bgExecutor.execute {
+            try {
+                com.israadev.nuxlauncher.core.renderer.NuxRendererPluginManager.scanPlugins(appCtx)
+            } catch (_: Throwable) {}
+            try {
+                com.israadev.nuxlauncher.core.crash.CrashManager.checkAndNotify(appCtx)
+            } catch (_: Throwable) {}
+        }
 
         setContent {
             NuxResponsiveTheme {
@@ -66,10 +88,22 @@ class MainActivity : ComponentActivity() {
     override fun onResume() {
         super.onResume()
         hideSystemBars()
-        // Re-init instances in case storage permission was just granted
-        InstanceManager.init(this)
-        com.israadev.nuxlauncher.core.renderer.NuxRendererPluginManager.scanPlugins(this)
-        com.israadev.nuxlauncher.core.crash.CrashManager.checkAndNotify(this)
+        val appCtx = applicationContext
+        // Muat ulang instance hanya bila izin penyimpanan baru saja berubah (bukan tiap kali
+        // kembali ke aplikasi, mis. setelah memilih foto) dan tidak di thread utama.
+        val granted = storageAccessGranted()
+        if (granted != storageWasGranted) {
+            storageWasGranted = granted
+            bgExecutor.execute {
+                try { InstanceManager.init(appCtx) } catch (_: Throwable) {}
+            }
+        }
+        // Cek apakah game sebelumnya crash (membaca file log, jadi di thread latar)
+        bgExecutor.execute {
+            try {
+                com.israadev.nuxlauncher.core.crash.CrashManager.checkAndNotify(appCtx)
+            } catch (_: Throwable) {}
+        }
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
@@ -81,6 +115,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        bgExecutor.shutdown()
         com.israadev.nuxlauncher.core.skin.OfflineSkinServerManager.stopServer()
     }
 
