@@ -1,6 +1,17 @@
 package com.israadev.nuxlauncher.ui.screens
 
+import android.content.Context
+import android.graphics.BitmapFactory
+import android.graphics.ImageDecoder
+import android.graphics.drawable.AnimatedImageDrawable
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
+import android.net.Uri
+import android.os.Build
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -10,8 +21,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,7 +36,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -35,15 +48,18 @@ import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.outlined.DeleteOutline
 import androidx.compose.material.icons.outlined.Folder
+import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material.icons.outlined.Info
-import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Tune
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -51,18 +67,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
 import com.israadev.nuxlauncher.R
 import com.israadev.nuxlauncher.core.account.AccountManager
 import com.israadev.nuxlauncher.core.crash.CrashManager
@@ -89,7 +104,10 @@ import com.israadev.nuxlauncher.ui.dialogs.NuxEditInstanceDialog
 import com.israadev.nuxlauncher.ui.dialogs.NuxRendererWarningDialog
 import com.israadev.nuxlauncher.ui.theme.NuxColors
 import com.israadev.nuxlauncher.ui.theme.NuxSizes
+import java.io.File
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @Composable
 fun DashboardScreen() {
@@ -121,6 +139,26 @@ fun DashboardScreen() {
     var downloadMessage by remember { mutableStateOf("") }
 
     val downloader = remember { MinecraftDownloader(context) }
+
+    // Latar belakang Home yang bisa diganti (foto atau GIF dari galeri)
+    val bgFile = remember { File(context.filesDir, BG_FILE_NAME) }
+    var hasCustomBg by remember { mutableStateOf(bgFile.exists()) }
+    var bgVersion by remember { mutableIntStateOf(0) }
+    var showBgDialog by remember { mutableStateOf(false) }
+    val pickBackground = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+        if (uri != null) {
+            scope.launch {
+                val ok = withContext(Dispatchers.IO) { importBackground(context, uri, bgFile) }
+                if (ok) {
+                    hasCustomBg = true
+                    bgVersion++
+                    Toast.makeText(context, "Latar belakang diganti", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(context, "Gambar tidak bisa dipakai (maksimal 30 MB, format foto atau GIF)", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
 
     // Status unduhan instance terpilih: dihitung ulang hanya saat instance berganti
     // atau saat proses unduh selesai (hindari cek file di tiap recomposition).
@@ -203,61 +241,102 @@ fun DashboardScreen() {
             modifier = Modifier.fillMaxSize()
         )
     } else {
-        // Bingkai kuning di tepi layar + panel putih bersudut bulat + sidebar pil.
+        // Area poni/kamera di sisi layar diisi rel hitam (kiri) atau penutup hitam (kanan),
+        // jadi tidak ada ruang kosong. Sisanya: bingkai kuning + kartu panel bersudut bulat.
+        val cutout = WindowInsets.displayCutout.asPaddingValues()
+        val layoutDir = LocalLayoutDirection.current
+        val leftInset = cutout.calculateLeftPadding(layoutDir)
+        val rightInset = cutout.calculateRightPadding(layoutDir)
+
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .background(NuxColors.Yellow)
-                .windowInsetsPadding(WindowInsets.displayCutout)
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxSize()
-                    // Kanan & bawah lebih lebar 3dp untuk ruang bayangan keras kartu.
-                    .padding(start = 8.dp, top = 8.dp, end = 11.dp, bottom = 11.dp),
-                horizontalArrangement = Arrangement.spacedBy(11.dp)
-            ) {
+            Row(modifier = Modifier.fillMaxSize()) {
                 NuxSidebar(
                     activeTab = currentTab,
-                    onTabSelected = { tabId -> currentTab = tabId }
+                    onTabSelected = { tabId -> currentTab = tabId },
+                    startInset = leftInset,
+                    onOpenAbout = { showAboutDialog = true }
                 )
 
-                NuxCard(
+                Box(
                     modifier = Modifier
                         .weight(1f)
-                        .fillMaxHeight(),
-                    backgroundColor = NuxColors.Background,
-                    cornerRadius = 26.dp,
-                    fillMaxHeight = true
+                        .fillMaxHeight()
+                        // Kanan & bawah lebih lebar 3dp untuk ruang bayangan keras kartu.
+                        .padding(start = 8.dp, top = 8.dp, end = 11.dp, bottom = 11.dp)
                 ) {
-                    when (currentTab) {
-                        "accounts" -> AccountsScreen(
-                            onNavigateBack = { currentTab = "home" },
-                            modifier = Modifier.fillMaxSize()
-                        )
-                        "mods" -> ModsScreen(
-                            onNavigateBack = { currentTab = "home" },
-                            modifier = Modifier.fillMaxSize()
-                        )
-                        "settings" -> SettingsScreen(
-                            onNavigateBack = { currentTab = "home" },
-                            onOpenGuiEditor = { currentTab = "gui_editor" },
-                            modifier = Modifier.fillMaxSize()
-                        )
-                        else -> HomeScene(
-                            instance = selectedInstance,
-                            isReady = isInstanceReady,
-                            accountName = currentAccount?.username,
-                            onOpenAccounts = { currentTab = "accounts" },
-                            onOpenAbout = { showAboutDialog = true },
-                            onPickInstance = { showInstancePicker = true },
-                            onPlay = { selectedInstance?.let { startInstance(it) } },
-                            onCreateInstance = { showAddDialog = true },
-                            modifier = Modifier.fillMaxSize()
-                        )
+                    NuxCard(
+                        modifier = Modifier.fillMaxSize(),
+                        backgroundColor = NuxColors.Background,
+                        cornerRadius = 26.dp,
+                        fillMaxHeight = true
+                    ) {
+                        when (currentTab) {
+                            "accounts" -> AccountsScreen(
+                                onNavigateBack = { currentTab = "home" },
+                                modifier = Modifier.fillMaxSize()
+                            )
+                            "mods" -> ModsScreen(
+                                onNavigateBack = { currentTab = "home" },
+                                modifier = Modifier.fillMaxSize()
+                            )
+                            "settings" -> SettingsScreen(
+                                onNavigateBack = { currentTab = "home" },
+                                onOpenGuiEditor = { currentTab = "gui_editor" },
+                                modifier = Modifier.fillMaxSize()
+                            )
+                            else -> HomeScene(
+                                instance = selectedInstance,
+                                isReady = isInstanceReady,
+                                accountName = currentAccount?.username,
+                                onOpenAccounts = { currentTab = "accounts" },
+                                onOpenAbout = { showAboutDialog = true },
+                                onPickInstance = { showInstancePicker = true },
+                                onPlay = { selectedInstance?.let { startInstance(it) } },
+                                onCreateInstance = { showAddDialog = true },
+                                backgroundFile = if (hasCustomBg) bgFile else null,
+                                backgroundVersion = bgVersion,
+                                onChangeBackground = { showBgDialog = true },
+                                modifier = Modifier.fillMaxSize()
+                            )
+                        }
                     }
                 }
+
+                if (rightInset > 0.dp) {
+                    Box(
+                        modifier = Modifier
+                            .width(rightInset)
+                            .fillMaxHeight()
+                            .background(
+                                NuxColors.Ink,
+                                RoundedCornerShape(topStart = 26.dp, bottomStart = 26.dp)
+                            )
+                    )
+                }
             }
+        }
+
+        // Dialog ganti latar belakang
+        if (showBgDialog) {
+            BackgroundDialog(
+                hasCustom = hasCustomBg,
+                onPick = {
+                    showBgDialog = false
+                    pickBackground.launch("image/*")
+                },
+                onReset = {
+                    showBgDialog = false
+                    bgFile.delete()
+                    hasCustomBg = false
+                    bgVersion++
+                    Toast.makeText(context, "Latar belakang dikembalikan ke bawaan", Toast.LENGTH_SHORT).show()
+                },
+                onDismiss = { showBgDialog = false }
+            )
         }
 
         // Pemilih instance (ganti, tambah, ubah, hapus, buka folder)
@@ -395,14 +474,9 @@ fun DashboardScreen() {
     }
 }
 
-/** Bayangan teks keras ala kartun supaya teks putih terbaca di atas gambar apa pun. */
-private val HardTextShadow = TextStyle(
-    shadow = Shadow(color = NuxColors.Ink, offset = Offset(5f, 5f), blurRadius = 0f)
-)
-
 /**
- * Layar Home: gambar latar penuh, pil akun (kiri atas), pil versi (kanan atas),
- * nama instance + loader (kiri bawah), tombol PLAY besar (kanan bawah).
+ * Layar Home: gambar latar penuh + dua chip kaca di atas (akun, label lisensi)
+ * + "dock" kaca hitam di bawah berisi instance aktif dan tombol PLAY kuning.
  */
 @Composable
 private fun HomeScene(
@@ -414,26 +488,29 @@ private fun HomeScene(
     onPickInstance: () -> Unit,
     onPlay: () -> Unit,
     onCreateInstance: () -> Unit,
+    backgroundFile: File?,
+    backgroundVersion: Int,
+    onChangeBackground: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(modifier = modifier) {
-        // Latar gambar memenuhi panel
-        Image(
-            painter = painterResource(id = R.drawable.mc_hero_bg),
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
+        // Latar gambar/GIF memenuhi panel
+        HomeBackground(
+            customFile = backgroundFile,
+            version = backgroundVersion,
             modifier = Modifier.fillMaxSize()
         )
 
-        // Peredup bagian bawah supaya teks putih terbaca
+        // Peredup lembut di atas dan bawah supaya chip dan dock terbaca
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .background(
                     Brush.verticalGradient(
-                        0f to Color.Transparent,
-                        0.4f to Color.Transparent,
-                        1f to NuxColors.Ink.copy(alpha = 0.80f)
+                        0f to NuxColors.Ink.copy(alpha = 0.40f),
+                        0.28f to Color.Transparent,
+                        0.55f to Color.Transparent,
+                        1f to NuxColors.Ink.copy(alpha = 0.60f)
                     )
                 )
         )
@@ -443,27 +520,31 @@ private fun HomeScene(
             modifier = Modifier
                 .align(Alignment.TopStart)
                 .fillMaxWidth()
-                .padding(start = 14.dp, end = 17.dp, top = 14.dp),
+                .padding(start = 14.dp, end = 14.dp, top = 14.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Pil akun (ketuk = ganti / tambah akun)
-            NuxButton(
-                onClick = onOpenAccounts,
-                backgroundColor = NuxColors.Yellow,
-                contentColor = NuxColors.Ink,
-                cornerRadius = 22.dp,
-                contentPadding = PaddingValues(horizontal = 14.dp, vertical = 8.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Outlined.Person,
-                    contentDescription = null,
-                    modifier = Modifier.size(20.dp)
-                )
-                Spacer(modifier = Modifier.width(6.dp))
+            // Chip akun (ketuk = ganti / tambah akun)
+            GlassChip(onClick = onOpenAccounts, minHeight = 42.dp) {
+                Box(
+                    modifier = Modifier
+                        .padding(start = 6.dp)
+                        .size(30.dp)
+                        .background(NuxColors.Yellow, CircleShape),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = accountName?.firstOrNull()?.uppercase() ?: "+",
+                        color = NuxColors.Ink,
+                        fontWeight = FontWeight.Black,
+                        fontSize = 15.sp
+                    )
+                }
+                Spacer(modifier = Modifier.width(8.dp))
                 Text(
                     text = accountName ?: "Tambah akun",
-                    fontWeight = FontWeight.Black,
-                    fontSize = 15.sp,
+                    color = Color.White,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 14.sp,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier.widthIn(max = 150.dp)
@@ -472,204 +553,213 @@ private fun HomeScene(
                 Icon(
                     imageVector = Icons.Default.KeyboardArrowDown,
                     contentDescription = "Ganti akun",
+                    tint = Color.White,
                     modifier = Modifier.size(20.dp)
                 )
+                Spacer(modifier = Modifier.width(10.dp))
             }
+
+            Spacer(modifier = Modifier.weight(1f))
 
             // Label wajib GPL-3.0 (ketuk = Tentang & Lisensi)
-            Box(
-                modifier = Modifier.weight(1f),
-                contentAlignment = Alignment.Center
-            ) {
-                val chipShape = RoundedCornerShape(12.dp)
-                Row(
-                    modifier = Modifier
-                        .clip(chipShape)
-                        .background(NuxColors.Ink.copy(alpha = 0.72f), chipShape)
-                        .clickable { onOpenAbout() }
-                        .padding(horizontal = 10.dp, vertical = 6.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(6.dp)
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .size(6.dp)
-                            .background(NuxColors.Amber, CircleShape)
-                    )
-                    Text(
-                        text = "UNOFFICIAL MODIFIED VERSION",
-                        color = Color.White,
-                        fontSize = 9.sp,
-                        fontWeight = FontWeight.Bold,
-                        letterSpacing = 0.6.sp,
-                        maxLines = 1
-                    )
-                    Icon(
-                        imageVector = Icons.Outlined.Info,
-                        contentDescription = "Tentang & Lisensi",
-                        tint = Color.White,
-                        modifier = Modifier.size(13.dp)
-                    )
-                }
-            }
-
-            // Pil versi Minecraft (lencana, bukan tombol)
-            if (instance != null) {
-                val versionShape = RoundedCornerShape(22.dp)
+            GlassChip(onClick = onOpenAbout, minHeight = 30.dp) {
+                Spacer(modifier = Modifier.width(10.dp))
                 Box(
                     modifier = Modifier
-                        .background(NuxColors.Yellow, versionShape)
-                        .border(NuxSizes.BorderWidth, NuxColors.CardBorder, versionShape)
-                        .padding(horizontal = 16.dp, vertical = 9.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = instance.mcVersion,
-                        color = NuxColors.Ink,
-                        fontWeight = FontWeight.Black,
-                        fontSize = 15.sp,
-                        maxLines = 1
-                    )
-                }
+                        .size(6.dp)
+                        .background(NuxColors.Amber, CircleShape)
+                )
+                Spacer(modifier = Modifier.width(6.dp))
+                Text(
+                    text = "UNOFFICIAL MODIFIED VERSION",
+                    color = Color.White,
+                    fontSize = 9.sp,
+                    fontWeight = FontWeight.Bold,
+                    letterSpacing = 0.6.sp,
+                    maxLines = 1
+                )
+                Spacer(modifier = Modifier.width(6.dp))
+                Icon(
+                    imageVector = Icons.Outlined.Info,
+                    contentDescription = "Tentang & Lisensi",
+                    tint = Color.White,
+                    modifier = Modifier.size(13.dp)
+                )
+                Spacer(modifier = Modifier.width(10.dp))
+            }
+
+            Spacer(modifier = Modifier.width(8.dp))
+
+            // Tombol ganti latar belakang
+            GlassChip(onClick = onChangeBackground, minHeight = 42.dp) {
+                Spacer(modifier = Modifier.width(10.dp))
+                Icon(
+                    imageVector = Icons.Outlined.Image,
+                    contentDescription = "Ganti latar belakang",
+                    tint = Color.White,
+                    modifier = Modifier.size(22.dp)
+                )
+                Spacer(modifier = Modifier.width(10.dp))
             }
         }
 
-        // ---- BARIS BAWAH ----
+        // ---- DOCK BAWAH ----
+        val dockShape = RoundedCornerShape(28.dp)
         Row(
             modifier = Modifier
-                .align(Alignment.BottomStart)
+                .align(Alignment.BottomCenter)
                 .fillMaxWidth()
-                .padding(start = 20.dp, end = 25.dp, bottom = 25.dp),
-            verticalAlignment = Alignment.Bottom,
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
+                .padding(start = 12.dp, end = 12.dp, bottom = 12.dp)
+                .clip(dockShape)
+                .background(NuxColors.Ink.copy(alpha = 0.76f), dockShape)
+                .border(1.5.dp, Color.White.copy(alpha = 0.16f), dockShape)
+                .padding(start = 10.dp, end = 16.dp, top = 10.dp, bottom = 14.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             if (instance != null) {
-                Column(modifier = Modifier.weight(1f)) {
-                    // Pil loader
-                    val loaderShape = RoundedCornerShape(14.dp)
-                    Box(
-                        modifier = Modifier
-                            .background(NuxColors.Yellow, loaderShape)
-                            .border(NuxSizes.BorderWidth, NuxColors.CardBorder, loaderShape)
-                            .padding(horizontal = 12.dp, vertical = 4.dp)
-                    ) {
-                        Text(
-                            text = instance.loader.replaceFirstChar { it.uppercase() },
-                            color = NuxColors.Ink,
-                            fontWeight = FontWeight.Black,
-                            fontSize = 13.sp,
-                            maxLines = 1
-                        )
-                    }
-
-                    Spacer(modifier = Modifier.height(6.dp))
-
-                    // Nama instance besar (ketuk = ganti instance)
-                    Row(
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(12.dp))
-                            .clickable { onPickInstance() }
-                            .padding(vertical = 2.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            text = instance.name,
-                            color = Color.White,
-                            fontWeight = FontWeight.Black,
-                            fontSize = 34.sp,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                            style = HardTextShadow,
-                            modifier = Modifier.weight(1f, fill = false)
-                        )
-                        Icon(
-                            imageVector = Icons.Default.KeyboardArrowDown,
-                            contentDescription = "Ganti instance",
-                            tint = Color.White,
-                            modifier = Modifier.size(32.dp)
-                        )
-                    }
-
-                    Spacer(modifier = Modifier.height(4.dp))
-
-                    Text(
-                        text = "Ketuk nama untuk ganti instance",
-                        color = Color.White.copy(alpha = 0.85f),
-                        fontSize = 11.sp,
-                        maxLines = 1
-                    )
-                    Text(
-                        text = if (isReady) "Tekan PLAY untuk menjalankan instance ini"
-                        else "Tekan UNDUH untuk memasang instance ini",
-                        color = Color.White.copy(alpha = 0.85f),
-                        fontSize = 11.sp,
-                        maxLines = 1
-                    )
+                val javaLabel = remember(instance.id, instance.mcVersion, instance.javaRuntime) {
+                    val rt = if (instance.javaRuntime != "auto") instance.javaRuntime
+                    else JavaRuntimeManager.getRecommendedRuntime(instance.mcVersion)
+                    rt.replace("jre-", "Java ")
                 }
 
-                // Tombol PLAY besar
+                // Kiri: ubin inisial + nama + tag (ketuk = ganti instance)
+                Row(
+                    modifier = Modifier
+                        .weight(1f)
+                        .clip(RoundedCornerShape(20.dp))
+                        .clickable { onPickInstance() },
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    val tileShape = RoundedCornerShape(18.dp)
+                    Box(
+                        modifier = Modifier
+                            .size(58.dp)
+                            .background(NuxColors.Yellow, tileShape)
+                            .border(NuxSizes.BorderWidth, NuxColors.CardBorder, tileShape),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = instance.name.firstOrNull()?.uppercase() ?: "?",
+                            color = NuxColors.Ink,
+                            fontWeight = FontWeight.Black,
+                            fontSize = 28.sp
+                        )
+                    }
+
+                    Column(modifier = Modifier.weight(1f)) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text(
+                                text = instance.name,
+                                color = Color.White,
+                                fontWeight = FontWeight.Black,
+                                fontSize = 24.sp,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                                modifier = Modifier.weight(1f, fill = false)
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Box(
+                                modifier = Modifier
+                                    .size(28.dp)
+                                    .background(Color.White.copy(alpha = 0.16f), CircleShape),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.KeyboardArrowDown,
+                                    contentDescription = "Ganti instance",
+                                    tint = Color.White,
+                                    modifier = Modifier.size(22.dp)
+                                )
+                            }
+                        }
+                        Spacer(modifier = Modifier.height(5.dp))
+                        Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                            MetaTag(text = instance.loader.replaceFirstChar { it.uppercase() }, filled = true)
+                            MetaTag(text = instance.mcVersion)
+                            MetaTag(text = javaLabel)
+                        }
+                    }
+                }
+
+                // Kanan: tombol PLAY / UNDUH
                 NuxButton(
                     onClick = onPlay,
                     backgroundColor = NuxColors.Yellow,
                     contentColor = NuxColors.Ink,
-                    cornerRadius = 36.dp,
-                    shadowOffset = 5.dp,
-                    contentPadding = PaddingValues(horizontal = 30.dp, vertical = 14.dp),
-                    modifier = Modifier.padding(end = 5.dp, bottom = 5.dp)
+                    cornerRadius = 32.dp,
+                    shadowOffset = 4.dp,
+                    contentPadding = PaddingValues(horizontal = 26.dp, vertical = 12.dp),
+                    modifier = Modifier.padding(end = 4.dp)
                 ) {
                     Icon(
                         imageVector = if (isReady) Icons.Default.PlayArrow else Icons.Default.Download,
                         contentDescription = null,
-                        modifier = Modifier.size(32.dp)
+                        modifier = Modifier.size(30.dp)
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
                         text = if (isReady) "PLAY" else "UNDUH",
                         fontWeight = FontWeight.Black,
-                        fontSize = 26.sp,
+                        fontSize = 24.sp,
                         letterSpacing = 1.sp,
                         maxLines = 1
                     )
                 }
             } else {
                 // Belum ada instance
+                val tileShape = RoundedCornerShape(18.dp)
+                Box(
+                    modifier = Modifier
+                        .size(58.dp)
+                        .background(NuxColors.Yellow, tileShape)
+                        .border(NuxSizes.BorderWidth, NuxColors.CardBorder, tileShape),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = null,
+                        tint = NuxColors.Ink,
+                        modifier = Modifier.size(30.dp)
+                    )
+                }
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
                         text = "Belum ada instance",
                         color = Color.White,
                         fontWeight = FontWeight.Black,
-                        fontSize = 30.sp,
-                        maxLines = 1,
-                        style = HardTextShadow
+                        fontSize = 22.sp,
+                        maxLines = 1
                     )
-                    Spacer(modifier = Modifier.height(4.dp))
+                    Spacer(modifier = Modifier.height(2.dp))
                     Text(
                         text = "Buat instance Minecraft pertamamu untuk mulai bermain.",
-                        color = Color.White.copy(alpha = 0.85f),
+                        color = Color.White.copy(alpha = 0.8f),
                         fontSize = 12.sp,
                         maxLines = 2
                     )
                 }
-
                 NuxButton(
                     onClick = onCreateInstance,
                     backgroundColor = NuxColors.Yellow,
                     contentColor = NuxColors.Ink,
-                    cornerRadius = 36.dp,
-                    shadowOffset = 5.dp,
-                    contentPadding = PaddingValues(horizontal = 24.dp, vertical = 14.dp),
-                    modifier = Modifier.padding(end = 5.dp, bottom = 5.dp)
+                    cornerRadius = 32.dp,
+                    shadowOffset = 4.dp,
+                    contentPadding = PaddingValues(horizontal = 22.dp, vertical = 12.dp),
+                    modifier = Modifier.padding(end = 4.dp)
                 ) {
                     Icon(
                         imageVector = Icons.Default.Add,
                         contentDescription = null,
-                        modifier = Modifier.size(28.dp)
+                        modifier = Modifier.size(26.dp)
                     )
                     Spacer(modifier = Modifier.width(6.dp))
                     Text(
-                        text = "TAMBAH INSTANCE",
+                        text = "TAMBAH",
                         fontWeight = FontWeight.Black,
-                        fontSize = 17.sp,
+                        fontSize = 20.sp,
                         letterSpacing = 0.5.sp,
                         maxLines = 1
                     )
@@ -677,6 +767,246 @@ private fun HomeScene(
             }
         }
     }
+}
+
+private const val BG_FILE_NAME = "home_bg"
+private const val BG_MAX_BYTES = 30L * 1024 * 1024
+private const val BG_MAX_SIDE = 1600
+
+/** Hasil muat latar: drawable null berarti gagal. */
+private class BgState(val drawable: Drawable?)
+
+/**
+ * Decode foto/GIF/WebP jadi Drawable. Gambar dikecilkan (sisi terpanjang <= 1600 px)
+ * supaya hemat RAM; GIF/WebP animasi menjadi AnimatedImageDrawable (Android 9 ke atas).
+ */
+private fun decodeBackground(file: File): Drawable? = try {
+    if (Build.VERSION.SDK_INT >= 28) {
+        ImageDecoder.decodeDrawable(ImageDecoder.createSource(file)) { decoder, info, _ ->
+            val w = info.size.width
+            val h = info.size.height
+            val longSide = maxOf(w, h)
+            if (longSide > BG_MAX_SIDE) {
+                val scale = BG_MAX_SIDE.toFloat() / longSide
+                decoder.setTargetSize(maxOf(1, (w * scale).toInt()), maxOf(1, (h * scale).toInt()))
+            }
+        }
+    } else {
+        val opts = BitmapFactory.Options().apply { inSampleSize = 2 }
+        BitmapFactory.decodeFile(file.absolutePath, opts)?.let {
+            BitmapDrawable(android.content.res.Resources.getSystem(), it)
+        }
+    }
+} catch (e: Throwable) {
+    null
+}
+
+/** Salin gambar pilihan ke penyimpanan aplikasi, uji decode, lalu pasang sebagai latar. */
+private fun importBackground(context: Context, uri: Uri, target: File): Boolean {
+    val tmp = File(target.parentFile, "$BG_FILE_NAME.tmp")
+    return try {
+        val input = context.contentResolver.openInputStream(uri) ?: return false
+        input.use { ins ->
+            tmp.outputStream().use { out ->
+                val buf = ByteArray(64 * 1024)
+                var total = 0L
+                while (true) {
+                    val n = ins.read(buf)
+                    if (n < 0) break
+                    total += n
+                    if (total > BG_MAX_BYTES) throw java.io.IOException("terlalu besar")
+                    out.write(buf, 0, n)
+                }
+            }
+        }
+        if (decodeBackground(tmp) == null) {
+            tmp.delete()
+            return false
+        }
+        if (target.exists()) target.delete()
+        tmp.renameTo(target)
+    } catch (e: Throwable) {
+        tmp.delete()
+        false
+    }
+}
+
+/** Latar Home: gambar bawaan, atau foto/GIF pilihan pengguna bila ada. */
+@Composable
+private fun HomeBackground(customFile: File?, version: Int, modifier: Modifier = Modifier) {
+    if (customFile == null) {
+        Image(
+            painter = painterResource(id = R.drawable.mc_hero_bg),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = modifier
+        )
+        return
+    }
+
+    val state by produceState<BgState?>(initialValue = null, customFile, version) {
+        value = BgState(withContext(Dispatchers.IO) { decodeBackground(customFile) })
+    }
+    val st = state
+    val drawable = st?.drawable
+    when {
+        st == null -> Box(modifier = modifier.background(NuxColors.Ink))
+        drawable == null -> Image(
+            painter = painterResource(id = R.drawable.mc_hero_bg),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = modifier
+        )
+        else -> {
+            // GIF: berhenti otomatis saat keluar dari layar Home
+            DisposableEffect(drawable) {
+                onDispose {
+                    if (Build.VERSION.SDK_INT >= 28 && drawable is AnimatedImageDrawable) drawable.stop()
+                }
+            }
+            AndroidView(
+                factory = { ctx -> ImageView(ctx).apply { scaleType = ImageView.ScaleType.CENTER_CROP } },
+                update = { iv ->
+                    iv.setImageDrawable(drawable)
+                    if (Build.VERSION.SDK_INT >= 28 && drawable is AnimatedImageDrawable) {
+                        drawable.repeatCount = AnimatedImageDrawable.REPEAT_INFINITE
+                        drawable.start()
+                    }
+                },
+                modifier = modifier
+            )
+        }
+    }
+}
+
+/** Dialog kecil: pilih foto/GIF dari galeri atau kembali ke latar bawaan. */
+@Composable
+private fun BackgroundDialog(
+    hasCustom: Boolean,
+    onPick: () -> Unit,
+    onReset: () -> Unit,
+    onDismiss: () -> Unit
+) {
+    NuxDialog(
+        onDismissRequest = onDismiss,
+        modifier = Modifier.widthIn(max = 460.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "LATAR BELAKANG",
+                    color = NuxColors.Ink,
+                    fontWeight = FontWeight.Black,
+                    fontSize = 17.sp,
+                    letterSpacing = 0.5.sp,
+                    modifier = Modifier.weight(1f)
+                )
+                PickerIconButton(
+                    icon = Icons.Default.Close,
+                    description = "Tutup",
+                    tint = NuxColors.Ink,
+                    onClick = onDismiss
+                )
+            }
+
+            Spacer(modifier = Modifier.height(4.dp))
+
+            Text(
+                text = "Pilih foto atau GIF dari galeri untuk jadi latar Home. " +
+                    "Gambar dikecilkan otomatis agar ringan. GIF yang bergerak memakai baterai sedikit lebih banyak.",
+                color = NuxColors.GrayNeutral,
+                fontSize = 12.sp,
+                lineHeight = 17.sp
+            )
+
+            Spacer(modifier = Modifier.height(14.dp))
+
+            NuxButton(
+                onClick = onPick,
+                backgroundColor = NuxColors.Yellow,
+                contentColor = NuxColors.Ink,
+                modifier = Modifier.fillMaxWidth(),
+                contentPadding = PaddingValues(horizontal = 14.dp, vertical = 10.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.Image,
+                    contentDescription = null,
+                    modifier = Modifier.size(22.dp)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = "PILIH FOTO / GIF",
+                    fontWeight = FontWeight.Black,
+                    fontSize = 15.sp,
+                    letterSpacing = 0.5.sp
+                )
+            }
+
+            if (hasCustom) {
+                Spacer(modifier = Modifier.height(10.dp))
+                NuxButton(
+                    onClick = onReset,
+                    backgroundColor = NuxColors.SurfaceWhite,
+                    contentColor = NuxColors.Ink,
+                    modifier = Modifier.fillMaxWidth(),
+                    contentPadding = PaddingValues(horizontal = 14.dp, vertical = 10.dp)
+                ) {
+                    Text(
+                        text = "KEMBALI KE BAWAAN",
+                        fontWeight = FontWeight.Black,
+                        fontSize = 14.sp,
+                        letterSpacing = 0.5.sp
+                    )
+                }
+            }
+        }
+    }
+}
+
+/** Chip kaca: latar hitam transparan, tepi putih tipis, isi di dalam Row. */
+@Composable
+private fun GlassChip(
+    onClick: () -> Unit,
+    minHeight: androidx.compose.ui.unit.Dp,
+    content: @Composable RowScope.() -> Unit
+) {
+    val shape = RoundedCornerShape(22.dp)
+    Row(
+        modifier = Modifier
+            .clip(shape)
+            .background(NuxColors.Ink.copy(alpha = 0.62f), shape)
+            .border(1.5.dp, Color.White.copy(alpha = 0.18f), shape)
+            .clickable { onClick() }
+            .defaultMinSize(minHeight = minHeight),
+        verticalAlignment = Alignment.CenterVertically,
+        content = content
+    )
+}
+
+/** Tag kecil di dock: terisi kuning (loader) atau hanya garis putih (versi, Java). */
+@Composable
+private fun MetaTag(text: String, filled: Boolean = false) {
+    val shape = RoundedCornerShape(10.dp)
+    Text(
+        text = text,
+        color = if (filled) NuxColors.Ink else Color.White,
+        fontWeight = FontWeight.Bold,
+        fontSize = 11.sp,
+        maxLines = 1,
+        modifier = Modifier
+            .then(
+                if (filled) Modifier.background(NuxColors.Yellow, shape)
+                else Modifier.border(1.dp, Color.White.copy(alpha = 0.4f), shape)
+            )
+            .padding(horizontal = 8.dp, vertical = 2.dp)
+    )
 }
 
 /**
