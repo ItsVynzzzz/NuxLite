@@ -1,0 +1,497 @@
+diff --git a/app/src/main/java/com/israadev/nuxlauncher/GameActivity.kt b/app/src/main/java/com/israadev/nuxlauncher/GameActivity.kt
+index 5aef65cc8bced01aba5d477a12304c0d7821ff16..8b159537ba5202691df38cb596627fc2bc4a829a 100644
+GIT binary patch
+delta 18
+acmbR9f$h{gwhhTMnoVbJH=W7&Tn+$R3kcW%
+
+diff --git a/app/src/main/java/com/israadev/nuxlauncher/core/models/LauncherSettings.kt b/app/src/main/java/com/israadev/nuxlauncher/core/models/LauncherSettings.kt
+index 98dee3c03c9da7324d34a4be8cf1e9d62acde28e..baf46adef2056360de3208f7ad8ea79a7511b799 100644
+GIT binary patch
+delta 11
+Scmcb|b&_jCG|S`ymUjRg@&v#D
+
+diff --git a/app/src/main/java/com/israadev/nuxlauncher/core/renderer/NuxRendererRegistry.kt b/app/src/main/java/com/israadev/nuxlauncher/core/renderer/NuxRendererRegistry.kt
+index 32aaa8e5c263f861e4a9d4fa2065ea963689efbc..a9fbe35fe71b988b9edc3b7f4ca3add844c012e5 100644
+GIT binary patch
+delta 16
+XcmeB3KN`Mazwl&#>C2l#WsJoELGuR8
+
+diff --git a/app/src/main/java/com/israadev/nuxlauncher/ui/activities/ErrorActivity.kt b/app/src/main/java/com/israadev/nuxlauncher/ui/activities/ErrorActivity.kt
+index 704ea14b7920df028dbdbe23c37590cdd2503993..d2a19fa47c9012168e07fcd99293dc075d06134a 100644
+GIT binary patch
+delta 152
+zcmccqg0cN2;|9?fmEh9k<kaF~_oCF)JcZPp;#38{(hBGNocy9<y~xy@ocwYfuF3b)
+zq$j_PmXiaE>xE}zmZYMq^~}qjoTw~2d7h5o<n?x(lWmk$C-08=F}XgHi^(%@a$|z@
+j<{Pp3JZum%Co}qsOiB@F2I+cWr#RUmC3`bhwl60DnoT)&
+
+diff --git a/app/src/main/java/com/israadev/nuxlauncher/ui/components/NuxComponents.kt b/app/src/main/java/com/israadev/nuxlauncher/ui/components/NuxComponents.kt
+index 0cec4d80bb18dd767d124e7f5c51b9dc71bdc55a..5d59210dbfa0a8e0f11b139331ff6f42e95c24b8 100644
+GIT binary patch
+delta 16
+XcmZql`{}#kraZG}UiRiE^0MpzK$Zr*
+
+diff --git a/app/src/main/java/com/israadev/nuxlauncher/ui/components/NuxSidebar.kt b/app/src/main/java/com/israadev/nuxlauncher/ui/components/NuxSidebar.kt
+index 023bb83398a45f7d6b2f95996c2755167b4d9332..2d2e43644c5cffc24f962372db79cec7b1144477 100644
+GIT binary patch
+delta 946
+zcmY*XO-~a+7|tT}W4EPggC7tib5Lw`vjVA&9|6UN2r(*Y{fIZG-RbVw{mSetv>3#A
+zFdn=#?_K`^A?e9q;Kg6TS-f!8I8&BV=de5T%rnpX%=^sI)uZ`?l#*O!40{%V4`Y{m
+z-!#?1T|eT+L%-8IxRQ-mRo{tRPXJmB)C1h??avqDWs5q_6WpoO9U@3m|D)@KS~ee1
+zvrmD^m>6Kwq@FdRAD$>>V!}2xxeX7L7w|(_ORse}@j~hgL(>AtWrbmfdc-u=eODM5
+zfVm;KNmw}K=7(^da4w35g5RGXJ5>6W@lVQLgRlnic+^G#bx;s-YNH}20Y!q$F}i^o
+zxGVaFJ=7))ho!s7@hu;j6k(1-T}9VX8M(xZB-Fs$*!H^EK+h=-PT+Fc3{V&aLI$~!
+ziETj)Wl0;oCF5@3JMd@X^Zln$r;3?bR8c%!-=r-{7+OZB)8U?^7=tDiZ&eI4D5>zJ
+zFuNz*#G`?mZHxJlXNo9&sUh{{G&JfFYvCq&Wm8VhPBeYy5mv({jY2_Rx-DeScH_WL
+zq7~bmMPyK{gx(E{!g1n`Hu5y!O>$}`&bqio7^h9_h{IC4q^q!*c?8c=7iUnhO=JSg
+zqQ!0lJ5>CUjJ5==)PlBH9^6pg42;4w>|}NLok}Fi3lfK3_B>ol-<#O*+B$-{H0u9M
+zUsEQQWM4qhZi25RXLZCxTrwi@lq``!NJA_mwk!%;nwJ@|U4*~d%D|+KRvl`2B3*7&
+z#fPw$@hzM#Y-Em;i*fU%he{z2U$Yr_pRFXy1IxnN9IT`@_?4|DUK7Xhx8ZT_WB>bP
+eZ|t0~3$=VLv2;qEhW*?HILzxQdDC5WSN#XtkU3od
+
+diff --git a/app/src/main/java/com/israadev/nuxlauncher/ui/dialogs/NuxAboutDialog.kt b/app/src/main/java/com/israadev/nuxlauncher/ui/dialogs/NuxAboutDialog.kt
+index b38982b9c8792849748fa508d4c13729d9524ddc..7462811c9982aff99a7175e7d20ee1ff64164285 100644
+GIT binary patch
+delta 137
+zcmdlxi|Nk{rVX+(T#>0cIr-%Qi8-m0ZDe*Zd*)?NPL$K0{7!;%vzx3V8?t<(rPAaR
+z%8_6-6P3&-JETcXK474^d56kQb7XajF*cJMQp7;&HZ#U<R7aM(*kT6O&lqd5Ij;3S
+FI{>*{Gco`G
+
+diff --git a/app/src/main/java/com/israadev/nuxlauncher/ui/dialogs/NuxAddInstanceDialog.kt b/app/src/main/java/com/israadev/nuxlauncher/ui/dialogs/NuxAddInstanceDialog.kt
+index e921e140ca88696611b8ed3aa5b4f6531e1463c5..4be68a04370047d31c3ec572cb4982546d1f7673 100644
+GIT binary patch
+delta 271
+zcmdnh#QeE|d4mQAcVuc#PJVenVos{gWW{W;&2b!28qA(~*^>i{wI@H2W|{n8rtl<X
+zj>!U|Y?JT1XieU*Uu|-MlhS1WM77PU4J+8V5C%+^+bBMHz8LG~IEy)2tUxn#6ecGo
+zSxx?sEjl?sn`QEUHQvot$!;iG8ka;*Zjj-a{9&Wv<O4-|lNFRWCd*G_o4hWojtye+
+z<V0Pg%{AHG>|j?-h?baqVWH^csU4b|Yl^QbBAhx?c=N2O8^zE)G&!qK3v8<QTE5K(
+S*RZi5J6O@(a<lwKX#oIbr)MYt
+
+diff --git a/app/src/main/java/com/israadev/nuxlauncher/ui/dialogs/NuxAddonImportDialog.kt b/app/src/main/java/com/israadev/nuxlauncher/ui/dialogs/NuxAddonImportDialog.kt
+index 0a8938d80e35e129a3c5fe710c7c9c8201ecd3f4..6a828e3ae053b37233d83c21ada481a4bd4441fb 100644
+GIT binary patch
+delta 90
+zcmccdknzL=#tni3%$|AKn+*h7m^mX;b8_;_0}^v4CrW8dR!|TJOX-UwNOHlYQYYWD
+Z@!kAO_b4Bd*yejSpZUOw-+RAQ0RY^zBF+E+
+
+diff --git a/app/src/main/java/com/israadev/nuxlauncher/ui/dialogs/NuxCrashDialog.kt b/app/src/main/java/com/israadev/nuxlauncher/ui/dialogs/NuxCrashDialog.kt
+index c69c5deb626d85693bd39d90eb34935315b25441..8fa7ca4a50e8774929c7f35d27ade21edba6ebd2 100644
+GIT binary patch
+delta 27
+icmeC|XL{Smv_aa7!!s{iAvLEsbuy!+%I0J*HCq6S<Ox&&
+
+diff --git a/app/src/main/java/com/israadev/nuxlauncher/ui/dialogs/NuxDownloadProgressDialog.kt b/app/src/main/java/com/israadev/nuxlauncher/ui/dialogs/NuxDownloadProgressDialog.kt
+index 12c23ba2aacd36f946accdc6d5c4a2c2a2ea7c2d..c1e505f4d83156376e1c025546f5978e86dab3c0 100644
+GIT binary patch
+delta 76
+zcmdn*e%Nh84hOSmUiRj0jx|hNk*PU3`Q-tLIjNHkh2$nTh_X(eAR`WzU&sB86;)my
+KE+;OuLJ$BXNE&4T
+
+diff --git a/app/src/main/java/com/israadev/nuxlauncher/ui/dialogs/NuxEditInstanceDialog.kt b/app/src/main/java/com/israadev/nuxlauncher/ui/dialogs/NuxEditInstanceDialog.kt
+index c26e309290db7de09806c54dc69b58e4bff46d62..bec5b8224a4d9684407da26b4ad7c998c69b556b 100644
+GIT binary patch
+delta 134
+zcmeBv%-HpaaYKd>S7d5VPJVenVovJhcA*>0o_X1uYlTzAK#a+Wx$=`Q2y#q*peQ`~
+zKR^HE`^Jis9i+o1*C=vq-mEp96<PB_F}2AFp)8Xp8$>dB=1qPW=`i_!hV<kO0xXmL
+agQX`cxUg^TG~8tkHg}<z+~$T{ZWaKSPBLu(
+
+diff --git a/app/src/main/java/com/israadev/nuxlauncher/ui/dialogs/NuxRendererV2ConfigDialog.kt b/app/src/main/java/com/israadev/nuxlauncher/ui/dialogs/NuxRendererV2ConfigDialog.kt
+index 5ab0684f858beecc165e853596786c38e0742e76..ff3416fd22e354a1f063bbb04f58e336557fdd8b 100644
+GIT binary patch
+delta 248
+zcmeCV&$#(6<AzXSX3xCr$rCa~CTqL$Zk{Tf%*+{?nv;`X9*~$bIZ;`2@&jctR-h6c
+zg~@)}lAHU)GkCx{4kk!WE>M=7d_K}(vVbVd=4usVc5b-NRL#i?CDbNQ5aXD<LEHgI
+z^GyCAt^%fQ9ksypgAkd`Cv}o#K&EZ>_UvZn^((D#&d<p&D%JxDJ@i@5isBUI$@{~_
+wHs1@H!N!HKXY<s^LUyo&ygh9v?^EX3oRxTz1=T2^Q^Y14c(ZSgPBY{L05KC;p8x;=
+
+diff --git a/app/src/main/java/com/israadev/nuxlauncher/ui/dialogs/NuxWardrobeDialog.kt b/app/src/main/java/com/israadev/nuxlauncher/ui/dialogs/NuxWardrobeDialog.kt
+index 933cab84dca5ececd40ceec6abd2459c8449252b..0ebb58ebbbbe0bf2df1c04d173a6d991e44da31f 100644
+GIT binary patch
+delta 134
+zcmeCa$GrG1^M)#AuE^A!oc!{D#GKU0g?6Ho4ZK(<*H|e{wmq#r`M**2=5&=9dt@~a
+zW3(pU-zGWPZng2`%3U`$8>AYrBgt>B&w0gx$~R-&ysvD%5t1OtqRk6dX1f9ab@n$p
+
+diff --git a/app/src/main/java/com/israadev/nuxlauncher/ui/screens/AccountsScreen.kt b/app/src/main/java/com/israadev/nuxlauncher/ui/screens/AccountsScreen.kt
+index d3332cd2809f50bdab751e259653025941e6f00c..6785e00ab4baf435e535ab71bd7f1dab4fc1941b 100644
+GIT binary patch
+delta 87
+zcmezIi22V$<_+(qxFS<?a`MXq5_3`~JBk=gwv(1%_RPx$v*puyHgA+(ppT?xbAh)R
+YBUr(OB8km+d;)@@szo=)FOUob0N~po#sB~S
+
+diff --git a/app/src/main/java/com/israadev/nuxlauncher/ui/screens/DashboardScreen.kt b/app/src/main/java/com/israadev/nuxlauncher/ui/screens/DashboardScreen.kt
+index ba05ee03680e551e231067ddd51947da492202d9..eea77202f17a0e9d3040ad79cca8021a3f823506 100644
+GIT binary patch
+literal 35623
+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
+
+diff --git a/app/src/main/java/com/israadev/nuxlauncher/ui/screens/ModsScreen.kt b/app/src/main/java/com/israadev/nuxlauncher/ui/screens/ModsScreen.kt
+index 5aad35016e125a44538d2dfb5fc45c44d632d108..6ecc3b10cf49d5c059258d644b3739923ad8c437 100644
+GIT binary patch
+delta 713
+zcmaF<m;L?^_6;*axgt|@a`MXq5_3|gFRWq|pMGHzquk{8e>f%=Ecc!45GKm(nU@Wc
+zv7BtTB7QSZcq}u1E#Xl@C|V}-g!68G9=%2gS)0LXpiTZoj2x3QcL+>=nD-H+W%Gyp
+z7a~|yP4BW{l$vZ1$N_YN@N@$~M%Kvzt!qJgCV$AcK^C-`Z2v}Q^YylHQ6z&VCze|P
+zy(9tF0Ax=J=h-xOB`1=K>1T8pbtivWb{A@<)bs=Fj3S$5SJ)t%15%~AdEwq>fyt-N
+zae<Xi{I0(_?wpbyl3768M5nJ~W;CB<$AV-lTx@!RF{9Yzdq<t8e-LEU0r_hBhI5Q;
+zn>qiLAcqmq7zePI5e^6QA==;1lb@b&kud~l$9AAGQEX7Zft3LLH)*coWQ8Wd>GpRR
+zown;qG9K08gh%vr#+!`NAeRXM15ii7IkPA^Cp9=Du^@H&!Ox81lMn1OnS8-dVsh6y
+zsqJsv80%yZS|@LOt2SAoR$%+SWX32aHi(gv9sin62MXwIpP9y3;er$t+kx@i&5x>m
+z`iJd|3ftv&GfosmNPwKAjS^V?;f!qCJufou;Q;vz6!IF|eQq&2D}cE`cM5M``-{<v
+F1pxR$7qb8W
+
+diff --git a/app/src/main/java/com/israadev/nuxlauncher/ui/screens/SettingsScreen.kt b/app/src/main/java/com/israadev/nuxlauncher/ui/screens/SettingsScreen.kt
+index 93576d5edd53d23c4204e444178fc6c85513e624..45e8b4b62baa311834501af62ab1e10c5c45cce6 100644
+GIT binary patch
+delta 441
+zcmaDlhxNcL)(zXNxgt|@a`MXq5_3`~J9_C&Za6AD`9ZJVWP?*$le|nPue+c(`G6J6
+z<O%gGlW*7rFni`@V<=M-n;vh-Xg=wF{N_%(c6pGR=^r&2eI`5f*@84rzc0hcF}X^F
+zfAfVnPaY%-L8@FPH)wE7iW7k8a+w4*ZnHy<8`osnZ(Jam%@fNC^^rKzjGHx<-(rJ_
+zOrBWwfAWO6BAXS~{}x5EV6uUy_+*D4Y}4(m7-c74u;<y_aMY9wp8}x&PfT8NUU2fB
+zN1U7gT)0cLb2r_e%ZX$#Uaw8MpRifwmAMEwG$)qTPyV)4X!F;9@1&6ofI6LZyPP!R
+Oc0Q2G?ZD6~Q2_vDx~=m7
+
+diff --git a/app/src/main/java/com/israadev/nuxlauncher/ui/theme/NuxDesignTokens.kt b/app/src/main/java/com/israadev/nuxlauncher/ui/theme/NuxDesignTokens.kt
+index d0576de21b33db109ade4a03ddbdf0e71b4439d1..a79469267414a2b4bb1e4827caaa3bf7d763d3ef 100644
+GIT binary patch
+literal 3002
+zcma)8$!_B~5WV{=c$t9{7_uE_2m0VOX-tw1;s8M(%NA`hl1PCfv&>-reIBXJTe?RF
+zCsI|t+8>$GGNv_WOO*y9*F+(I3#9!>$jW8JbzntcBA)VAOQf07hLH@l65&SxlT772
+zSSc$*GD68<q;$yj+-Mc^|D&Hrl=0xn0q}6Fw1lzy^rbDLS!>E7vCM<9N|gSUrj^13
+zVb*GOkB?jIm_68!J7GBc$&*CAvp?A=LH6vC5^fB48h^n=uGx}nidfDUv?jscNlRiW
+z*F5g9NEk|MkrC1mYa1Tt9kwPda%OlYI&49oB-bQa45<95<G?enQyUXLX4Z&^MNY#6
+zmDAhd!_OfLMMg24R?bB(V9+)yU8tnPGLhhSfgqt&z`hoab`6WDU1Y#yWGH6|el-Hr
+zuwXH1j<jMW4I-4E#PA+c6!=O}N-Wa~AsYcZya69CgrH*tRE0;00B~+I<O{5jLs>{>
+zL`bnqII%FaivqUWQj1r<G_Dc8c{%&1#qe~yRT0`g-y{F^jgqQW-<a2L_daHLCg;83
+zk+Z`C)0d_{*X&@SSYk=<V9wRbux;Gw+4;G{ZNf=yNY{+woJ-VRtF`9&4vw3i9h})<
+zbh(X_*(I54Ohvfn9flc9T^rC$5p__uM5W9pzJq-)^4%C`SCi2;cJ9XrGX)nd4}kb@
+z{g`%{<mhfv!+w|XR;+#hRJANpe|9sCLb}PZ7<M{5*)`?}JG9nrg}0#5r}1=FhWbd7
+zCj}a7Z%%*H>ABS_TJjex*j_z>b>zE3+SuB0X)#Us8yUXmy)v2zO4OQ#ZW*0@xd1V$
+z<p#)2S&8&rA~YmX@Plux)4<~<;y{-sq~jY+pRjS2-G5;BT-UL7=S&{Bb)DHN+1cpq
+z;?zw}WtL$hZEUfv?Q&1q#dW{lXJ5#sf_GvanKGPeT?T`V76bOib5zDtk%Qsd1%I9N
+z{%BCfq{D*7zsRaaaZJaSD5+Ai&TXo-(oZ|xnD+Y<pIA}Kdrz-x0w2|O!*s#*RyAg`
+z%VDoq&nDdd0C9bCM=Rhza2a?p6blZj!M`CgW2lwmZ_m|DN*>$wY72jKdN$}?HCprd
+zbCg)Vr`H>tUk&?>-lNr7vafbAJvkXq8?|TtVIH+eNtfeMr#iRGCC~F4&AHr)sDC~j
+zoPybq>aBPs%i_r97W8V!;13EEQ7)3Ml8KNwklnmNcj!6TlXSa23~-8CoJlDRBFEkS
+zP{Bb^b958wOo7!fI7K++;kY@=@G-Gq^2i5Oazf6rP5vO+sCk{^JxF95(eZ69p5w|<
+zi4Shhwo7A)S!rxsuu{p#bp(Ej8*Dhb6R9JSW|3=Yxg?vpI+m^FF7U&aPErm>fxDGa
+zQN&V?lxo02;N1duWA%45?rp(ghcw2T<I?esHB?(0<I?0=q}sb$;O6gFnB}+wwc?7|
+z>|{8+n)Qxa|F$+x>bdxvR|mBt%YqzUL}(%ypSTN_8x|)jZg5Y8BR_Yt-dDmq(ztU%
+z<MJzwc}j_6$NuT21}=x8djGLn<=k~?uqi9zn(!6b#0fX=qV0{KJI(bYXvnTv2Y&%=
+eVD>Mk?aefI?5f0mW98L$OskB4W9rphi~a-F9=inq
+
+diff --git a/app/src/main/assets/runtimes/jre-8/bin-arm.tar.xz b/app/src/main/assets/runtimes/jre-8/bin-arm.tar.xz
+deleted file mode 100644
+index 560b8359f19d59047681cc6f48cc97dc89d0bb79..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+diff --git a/app/src/main/assets/runtimes/jre-17/bin-arm.tar.xz b/app/src/main/assets/runtimes/jre-17/bin-arm.tar.xz
+deleted file mode 100644
+index c019506d55aefd6e3997c97adde42aab0e5382b5..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+diff --git a/app/src/main/assets/runtimes/jre-21/bin-arm.tar.xz b/app/src/main/assets/runtimes/jre-21/bin-arm.tar.xz
+deleted file mode 100644
+index 514e080e0cb3870b2e315a07e41aaa3b0fade899..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+diff --git a/app/src/main/assets/runtimes/jre-8/bin-x86.tar.xz b/app/src/main/assets/runtimes/jre-8/bin-x86.tar.xz
+deleted file mode 100644
+index 0fbb131b1b18757621745e63a6bc982eed15fa24..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+diff --git a/app/src/main/assets/runtimes/jre-17/bin-x86.tar.xz b/app/src/main/assets/runtimes/jre-17/bin-x86.tar.xz
+deleted file mode 100644
+index cb8e04e367534c421256a61044b4a6f2a652fcfa..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+diff --git a/app/src/main/assets/runtimes/jre-21/bin-x86.tar.xz b/app/src/main/assets/runtimes/jre-21/bin-x86.tar.xz
+deleted file mode 100644
+index fb07b0b9e0dfbc22bbcc8eb92046e88f0f26c155..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+diff --git a/app/src/main/assets/runtimes/jre-8/bin-x86_64.tar.xz b/app/src/main/assets/runtimes/jre-8/bin-x86_64.tar.xz
+deleted file mode 100644
+index 7a6ef2870488aa5380a5b9bdca1351560954db27..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+diff --git a/app/src/main/assets/runtimes/jre-17/bin-x86_64.tar.xz b/app/src/main/assets/runtimes/jre-17/bin-x86_64.tar.xz
+deleted file mode 100644
+index 32752b96d5effa66b7c48b9b855ccee206277f5d..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+diff --git a/app/src/main/assets/runtimes/jre-21/bin-x86_64.tar.xz b/app/src/main/assets/runtimes/jre-21/bin-x86_64.tar.xz
+deleted file mode 100644
+index dfa7c8fd57d9b494e02eb3db7a9ffb821b5c84fb..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+diff --git a/app/src/main/assets/runtimes/jre-25/bin-arm.tar.xz b/app/src/main/assets/runtimes/jre-25/bin-arm.tar.xz
+deleted file mode 100644
+index 7c171a9c91f5beec677d192da7677f086c9d67cf..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+diff --git a/app/src/main/assets/runtimes/jre-25/bin-x86_64.tar.xz b/app/src/main/assets/runtimes/jre-25/bin-x86_64.tar.xz
+deleted file mode 100644
+index faff34a16dbaa77b5431a3463761be8e17e0c799..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+diff --git a/app/src/main/jniLibs/arm64-v8a/libOSMesa_2121.so b/app/src/main/jniLibs/arm64-v8a/libOSMesa_2121.so
+deleted file mode 100644
+index 7ae4f894813d672c31f85b18f750ec933e6f3314..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+diff --git a/app/src/main/jniLibs/arm64-v8a/libOSMesa_2300d.so b/app/src/main/jniLibs/arm64-v8a/libOSMesa_2300d.so
+deleted file mode 100644
+index 02ab3826a07ac7265d27bd0233d9a04211e8db04..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+diff --git a/app/src/main/jniLibs/arm64-v8a/libvirgl_test_server.so b/app/src/main/jniLibs/arm64-v8a/libvirgl_test_server.so
+deleted file mode 100644
+index 7fa43b7d9dee9bb2686e7d60ab2833847881ab01..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+diff --git a/app/src/main/jniLibs/arm64-v8a/libterracotta.so b/app/src/main/jniLibs/arm64-v8a/libterracotta.so
+deleted file mode 100644
+index 9ae7483f03285d4e2b0d406292e50365cb0683aa..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+diff --git a/app/src/main/jniLibs/arm64-v8a/libsqlcipher.so b/app/src/main/jniLibs/arm64-v8a/libsqlcipher.so
+deleted file mode 100644
+index b45667359e588728f39dcad5f5f61bc91f72ebb6..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+diff --git a/app/src/main/jniLibs/arm64-v8a/libmmkv.so b/app/src/main/jniLibs/arm64-v8a/libmmkv.so
+deleted file mode 100644
+index d3f4284c2ad3c1b0facab6d5f64df1d343f7a50e..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+diff --git a/app/src/main/jniLibs/arm64-v8a/libfishnet.so b/app/src/main/jniLibs/arm64-v8a/libfishnet.so
+deleted file mode 100644
+index d8aa60b12cf81aac2a2b9c07b5ee2c3747b712e0..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+diff --git a/app/src/main/assets/livekit/livekit-client.umd.min.js b/app/src/main/assets/livekit/livekit-client.umd.min.js
+deleted file mode 100644
+index 1863d59670274d58bceebe4b5e60daf1d4420929..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+diff --git a/app/src/main/assets/livekit/livekit_bridge.html b/app/src/main/assets/livekit/livekit_bridge.html
+deleted file mode 100644
+index 39c78f7b48bcd9297d82c5b92707af9a35847934..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+diff --git a/app/src/main/res/drawable/nux_badge_android.png b/app/src/main/res/drawable/nux_badge_android.png
+deleted file mode 100644
+index 69a2e6b751ed0472a24ddd0afd0601187eded82d..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+diff --git a/app/src/main/res/drawable/nux_badge_premium.png b/app/src/main/res/drawable/nux_badge_premium.png
+deleted file mode 100644
+index 51047f501cab88eedc79a612dc2bb3c581de646f..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+diff --git a/app/src/main/res/drawable/nux_badge_verified.png b/app/src/main/res/drawable/nux_badge_verified.png
+deleted file mode 100644
+index b954af3ff9ee79aba49a5d3593641d4ebeec0e11..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+diff --git a/app/src/main/res/drawable/nux_platform_windows.xml b/app/src/main/res/drawable/nux_platform_windows.xml
+deleted file mode 100644
+index cb17ed2d41a0748496670f82b3ab905819885535..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+# FIN part=1/1 files=43
