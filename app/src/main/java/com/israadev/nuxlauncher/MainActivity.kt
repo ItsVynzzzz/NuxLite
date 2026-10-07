@@ -96,6 +96,8 @@ class MainActivity : ComponentActivity() {
             storageWasGranted = granted
             bgExecutor.execute {
                 try { InstanceManager.init(appCtx) } catch (_: Throwable) {}
+                // Izin baru diberikan: coba pulihkan layout kontrol dari cadangan (jika ada)
+                try { com.israadev.nuxlauncher.core.controls.ControlLayoutManager.init(appCtx) } catch (_: Throwable) {}
             }
         }
         // Cek apakah game sebelumnya crash (membaca file log, jadi di thread latar)
