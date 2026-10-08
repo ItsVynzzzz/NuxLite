@@ -1279,7 +1279,8 @@ fun ModsScreen(
                                         .size(38.dp)
                                         .border(NuxSizes.BorderWidth, NuxColors.CardBorder, RoundedCornerShape(6.dp)),
                                     fallbackInitials = hit.title.take(2).uppercase(),
-                                    shape = RoundedCornerShape(6.dp)
+                                    shape = RoundedCornerShape(6.dp),
+                                    maxSidePx = 192
                                 )
 
                                 Spacer(modifier = Modifier.width(10.dp))
@@ -1759,7 +1760,8 @@ fun ModsScreen(
                                     contentDescription = hit.title,
                                     modifier = Modifier.fillMaxSize(),
                                     fallbackInitials = hit.title.take(2).uppercase(),
-                                    shape = subCardShape
+                                    shape = subCardShape,
+                                    maxSidePx = 192
                                 )
                             }
                             Spacer(modifier = Modifier.width(12.dp))
@@ -1992,7 +1994,9 @@ fun ModsScreen(
                                                     model = gal.url,
                                                     contentDescription = gal.title ?: "Screenshot",
                                                     modifier = Modifier.fillMaxSize(),
-                                                    shape = RoundedCornerShape(8.dp)
+                                                    shape = RoundedCornerShape(8.dp),
+                                                    maxSidePx = 400,
+                                                    showSpinner = true
                                                 )
                                             }
                                         }
@@ -2364,7 +2368,9 @@ fun ModsScreen(
                         .height(240.dp)
                         .clip(RoundedCornerShape(8.dp))
                         .border(NuxSizes.BorderWidth, NuxColors.CardBorder, RoundedCornerShape(8.dp)),
-                    shape = RoundedCornerShape(8.dp)
+                    shape = RoundedCornerShape(8.dp),
+                    maxSidePx = 1280,
+                    showSpinner = true
                 )
             }
         }

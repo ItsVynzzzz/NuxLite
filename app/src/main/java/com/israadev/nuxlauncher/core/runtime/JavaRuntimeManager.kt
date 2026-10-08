@@ -71,6 +71,22 @@ object JavaRuntimeManager {
         } catch (_: Throwable) {}
     }
 
+    private const val PERM_APPLIED_MARKER = ".nux_perm_applied"
+
+    /**
+     * Versi hemat dari [ensureExecutablePermissions]: izin diterapkan penuh SATU KALI per
+     * instalasi runtime (ditandai file kecil). Peluncuran berikutnya cukup memeriksa satu file,
+     * tanpa menyusuri ratusan file dan tanpa membuat proses `chmod -R` baru.
+     * Jika runtime diekstrak ulang, folder (beserta penanda) dihapus sehingga izin diterapkan lagi.
+     */
+    fun ensureExecutablePermissionsOnce(home: File) {
+        if (!home.exists() || !home.isDirectory) return
+        val marker = File(home, PERM_APPLIED_MARKER)
+        if (marker.exists() && File(home, "bin/java").canExecute()) return
+        ensureExecutablePermissions(home)
+        runCatching { marker.writeText("1") }
+    }
+
     fun isRuntimeInstalled(context: Context, runtimeName: String): Boolean {
         val home = getRuntimeHome(context, runtimeName)
         if (!home.exists() || !home.isDirectory) return false
@@ -80,7 +96,7 @@ object JavaRuntimeManager {
 
         val javaBin = File(home, "bin/java")
         if (!javaBin.exists() || javaBin.length() == 0L) return false
-        ensureExecutablePermissions(home)
+        ensureExecutablePermissionsOnce(home)
 
         // Verify libjli.so exists
         val hasJli = File(home, "lib/jli/libjli.so").exists() ||
@@ -153,7 +169,7 @@ object JavaRuntimeManager {
         try {
             val destDir = getRuntimeHome(context, runtimeName)
             if (isRuntimeInstalled(context, runtimeName)) {
-                ensureExecutablePermissions(destDir)
+                ensureExecutablePermissionsOnce(destDir)
                 return@withContext Result.success(destDir)
             }
 

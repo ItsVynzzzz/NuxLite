@@ -856,7 +856,8 @@ private fun AddAccountModal(
                                         .size(38.dp)
                                         .clip(RoundedCornerShape(8.dp)),
                                     fallbackInitials = offlineName.trim().take(2).uppercase(),
-                                    shape = RoundedCornerShape(8.dp)
+                                    shape = RoundedCornerShape(8.dp),
+                                    maxSidePx = 128
                                 )
                             } else {
                                 Icon(

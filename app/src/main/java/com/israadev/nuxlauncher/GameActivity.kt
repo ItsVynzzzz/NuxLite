@@ -594,18 +594,6 @@ class GameActivity : ComponentActivity(), SurfaceHolder.Callback {
                     .filter { it.exists() }
                     .map { it.absolutePath }
 
-                // Ensure native libraries have executable permissions
-                try {
-                    javaLibDir.walkTopDown().filter { it.extension == "so" }.forEach {
-                        it.setReadable(true, false)
-                        it.setExecutable(true, false)
-                    }
-                    File(runtimeHome, "bin").walkTopDown().forEach {
-                        it.setReadable(true, false)
-                        it.setExecutable(true, false)
-                    }
-                } catch (_: Throwable) {}
-
                 // Resolve Selected Graphics Renderer
                 try {
                     com.israadev.nuxlauncher.core.renderer.NuxRendererPluginManager.scanPlugins(this)
@@ -973,7 +961,8 @@ class GameActivity : ComponentActivity(), SurfaceHolder.Callback {
                 }
 
                 // Pastikan permission executable (0755) pada bin/java dan runtime native libraries
-                com.israadev.nuxlauncher.core.runtime.JavaRuntimeManager.ensureExecutablePermissions(runtimeHome)
+                // (hanya dikerjakan penuh sekali per instalasi runtime; selanjutnya cukup cek satu penanda)
+                com.israadev.nuxlauncher.core.runtime.JavaRuntimeManager.ensureExecutablePermissionsOnce(runtimeHome)
 
                 val jvmArgs = mutableListOf<String>()
                 jvmArgs.add("${runtimeHome.absolutePath}/bin/java")
@@ -1020,8 +1009,14 @@ class GameActivity : ComponentActivity(), SurfaceHolder.Callback {
                 jvmArgs.add("-Dio.netty.tryReflectionSetAccessible=true")
 
                 jvmArgs.add("-XX:ActiveProcessorCount=${Runtime.getRuntime().availableProcessors()}")
-                jvmArgs.add("-Xms${activeSettings.initialHeapMb}M")
-                jvmArgs.add("-Xmx${activeSettings.ramMb}M")
+                // Heap awal = heap maksimum (sama seperti Pojav/Zalith): JVM tidak perlu berkali-kali
+                // menumbuhkan heap + GC di awal permainan (penyebab stutter saat loading dunia).
+                // Memori fisik baru terpakai saat benar-benar dialokasikan. Nilai awal kustom
+                // (di atas bawaan 256 MB dan di bawah batas) tetap dihormati.
+                val heapMaxMb = activeSettings.ramMb
+                val heapInitMb = if (activeSettings.initialHeapMb in 257 until heapMaxMb) activeSettings.initialHeapMb else heapMaxMb
+                jvmArgs.add("-Xms${heapInitMb}M")
+                jvmArgs.add("-Xmx${heapMaxMb}M")
                 if (activeSettings.customJvmArgs.isNotBlank()) {
                     activeSettings.customJvmArgs.split(" ")
                         .map { it.trim() }
@@ -1365,8 +1360,8 @@ fun GameScreen(
                     .align(Alignment.TopStart)
                     .padding(16.dp)
                     .width(if (isConsoleExpanded) 420.dp else 300.dp)
-                    .background(Color(0xF2090D14), RoundedCornerShape(12.dp))
-                    .border(1.5.dp, Color(0x3834D399), RoundedCornerShape(12.dp))
+                    .background(Color(0xF2111111), RoundedCornerShape(12.dp))
+                    .border(1.5.dp, Color(0x38E9E4CC), RoundedCornerShape(12.dp))
                     .padding(12.dp)
             ) {
                 Row(
@@ -1384,7 +1379,7 @@ fun GameScreen(
                                 currentFps >= 50 -> Color(0xFF10B981)
                                 currentFps >= 25 -> Color(0xFFF59E0B)
                                 currentFps > 0 -> Color(0xFFEF4444)
-                                else -> Color(0xFF4B5563)
+                                else -> Color(0xFF8C8774)
                             },
                             textColor = Color.White
                         )
@@ -1397,7 +1392,7 @@ fun GameScreen(
                         ) {
                             Text(
                                 text = if (isConsoleExpanded) "▲ KECILKAN" else "▼ LOG LENGKAP",
-                                color = Color(0xFF34D399),
+                                color = Color(0xFFE9E4CC),
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 9.sp
                             )
@@ -1413,7 +1408,7 @@ fun GameScreen(
                         ) {
                             Text(
                                 text = "✕",
-                                color = Color(0xFFA1A1AA),
+                                color = Color(0xFFB8B4A4),
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 12.sp
                             )
@@ -1433,7 +1428,7 @@ fun GameScreen(
                         items(liveLogs) { log ->
                             Text(
                                 text = log,
-                                color = Color(0xFFA7F3D0),
+                                color = Color(0xFFE9E4CC),
                                 fontFamily = FontFamily.Monospace,
                                 fontSize = 9.sp,
                                 lineHeight = 12.sp
@@ -1444,7 +1439,7 @@ fun GameScreen(
                     liveLogs.takeLast(4).forEach { log ->
                         Text(
                             text = log,
-                            color = Color(0xFFA7F3D0),
+                            color = Color(0xFFE9E4CC),
                             fontFamily = FontFamily.Monospace,
                             fontSize = 9.sp,
                             maxLines = 1,
@@ -1490,12 +1485,12 @@ fun GameScreen(
                                     .defaultMinSize(minWidth = btn.widthDp.dp, minHeight = btn.heightDp.dp)
                                     .alpha(btn.opacity)
                                     .background(
-                                        if (isPinned) Color(0xCC091E2A) else Color(0x800A0E17),
+                                        if (isPinned) Color(0xCC111111) else Color(0x80000000),
                                         RoundedCornerShape(btn.cornerRadiusDp.dp)
                                     )
                                     .border(
                                         1.5.dp,
-                                        if (isPinned) Color(0xFF38BDF8) else Color(0x3834D399),
+                                        if (isPinned) Color(0xFFFFD60A) else Color(0x38E9E4CC),
                                         RoundedCornerShape(btn.cornerRadiusDp.dp)
                                     )
                                     .clickable { showInGameSettingsDialog = true },
@@ -1521,7 +1516,7 @@ fun GameScreen(
                                                     currentFps >= 50 -> Color(0xFF10B981)
                                                     currentFps >= 25 -> Color(0xFFF59E0B)
                                                     currentFps > 0 -> Color(0xFFEF4444)
-                                                    else -> Color(0xFF6B7280)
+                                                    else -> Color(0xFF8C8774)
                                                 },
                                                 CircleShape
                                             )
@@ -1529,7 +1524,7 @@ fun GameScreen(
                                     Spacer(modifier = Modifier.width(5.dp))
                                     Text(
                                         text = if (currentFps > 0) "$currentFps FPS" else "FPS: --",
-                                        color = if (isPinned) Color(0xFFBAE6FD) else Color.White,
+                                        color = if (isPinned) Color(0xFFFFE566) else Color.White,
                                         fontWeight = FontWeight.Black,
                                         fontSize = 11.sp,
                                         maxLines = 1
@@ -1547,12 +1542,12 @@ fun GameScreen(
                                     .size(width = btn.widthDp.dp, height = btn.heightDp.dp)
                                     .alpha(btn.opacity)
                                     .background(
-                                        if (active) Color(0xCC10B981) else Color(0x730A0E17),
+                                        if (active) Color(0xCCFFD60A) else Color(0x73000000),
                                         RoundedCornerShape(btn.cornerRadiusDp.dp)
                                     )
                                     .border(
                                         1.5.dp,
-                                        if (active) Color(0xFF34D399) else Color(0x3834D399),
+                                        if (active) Color(0xFFE9E4CC) else Color(0x38E9E4CC),
                                         RoundedCornerShape(btn.cornerRadiusDp.dp)
                                     )
                                     .clickable { isKeyboardRequested = !isKeyboardRequested },
@@ -1560,7 +1555,7 @@ fun GameScreen(
                             ) {
                                 Text(
                                     text = "KEYBOARD",
-                                    color = if (active) Color(0xFF022C22) else Color.White,
+                                    color = if (active) Color(0xFF111111) else Color.White,
                                     fontWeight = FontWeight.Black,
                                     fontSize = 10.sp,
                                     maxLines = 1
@@ -1574,14 +1569,14 @@ fun GameScreen(
                             modifier = buttonModifier
                                 .size(width = btn.widthDp.dp, height = btn.heightDp.dp)
                                 .alpha(btn.opacity)
-                                .background(Color(0x730A0E17), RoundedCornerShape(btn.cornerRadiusDp.dp))
-                                .border(1.5.dp, Color(0x3834D399), RoundedCornerShape(btn.cornerRadiusDp.dp))
+                                .background(Color(0x73000000), RoundedCornerShape(btn.cornerRadiusDp.dp))
+                                .border(1.5.dp, Color(0x38E9E4CC), RoundedCornerShape(btn.cornerRadiusDp.dp))
                                 .clickable { isControlVisible = !isControlVisible },
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
                                 text = if (isControlVisible) "HIDE GUI" else "SHOW GUI",
-                                color = Color(0xFF34D399),
+                                color = Color(0xFFE9E4CC),
                                 fontWeight = FontWeight.Black,
                                 fontSize = 10.sp,
                                 maxLines = 1
@@ -1855,12 +1850,12 @@ fun CustomVirtualButton(
                 .size(width = button.widthDp.dp, height = button.heightDp.dp)
                 .alpha(button.opacity)
                 .background(
-                    if (isPressed) Color(0xCC10B981) else Color(0x730A0E17),
+                    if (isPressed) Color(0xCCFFD60A) else Color(0x73000000),
                     RoundedCornerShape(button.cornerRadiusDp.dp)
                 )
                 .border(
                     1.5.dp,
-                    if (isPressed) Color(0xFF34D399) else Color(0x3834D399),
+                    if (isPressed) Color(0xFFE9E4CC) else Color(0x38E9E4CC),
                     RoundedCornerShape(button.cornerRadiusDp.dp)
                 )
                 .pointerInput(button.id) {
@@ -1920,20 +1915,20 @@ fun CustomVirtualButton(
             ) {
                 Text(
                     text = "▲",
-                    color = if (isPressed) Color(0xFF022C22) else Color(0xFF34D399),
+                    color = if (isPressed) Color(0xFF111111) else Color(0xFFE9E4CC),
                     fontSize = 9.sp,
                     fontWeight = FontWeight.Black
                 )
                 Text(
                     text = button.name,
-                    color = if (isPressed) Color(0xFF022C22) else Color.White,
+                    color = if (isPressed) Color(0xFF111111) else Color.White,
                     fontWeight = FontWeight.Black,
                     fontSize = 9.sp,
                     maxLines = 1
                 )
                 Text(
                     text = "▼",
-                    color = if (isPressed) Color(0xFF022C22) else Color(0xFF34D399),
+                    color = if (isPressed) Color(0xFF111111) else Color(0xFFE9E4CC),
                     fontSize = 9.sp,
                     fontWeight = FontWeight.Black
                 )
@@ -1955,12 +1950,12 @@ fun CustomVirtualButton(
             .size(width = button.widthDp.dp, height = button.heightDp.dp)
             .alpha(button.opacity)
             .background(
-                if (isPressed) Color(0xCC10B981) else Color(0x730A0E17),
+                if (isPressed) Color(0xCCFFD60A) else Color(0x73000000),
                 RoundedCornerShape(button.cornerRadiusDp.dp)
             )
             .border(
                 1.5.dp,
-                if (isPressed) Color(0xFF34D399) else Color(0x3834D399),
+                if (isPressed) Color(0xFFE9E4CC) else Color(0x38E9E4CC),
                 RoundedCornerShape(button.cornerRadiusDp.dp)
             )
             .pointerInput(button.id, button.isToggle, button.isMacro, button.macroType, button.macroCommand, button.macroComboKey, button.macroComboKeys, button.macroTurboIntervalMs) {
@@ -2117,7 +2112,7 @@ fun CustomVirtualButton(
         ) {
             Text(
                 text = button.name,
-                color = if (isPressed) Color(0xFF022C22) else Color.White,
+                color = if (isPressed) Color(0xFF111111) else Color.White,
                 fontWeight = FontWeight.Black,
                 fontSize = if (button.name.length > 5) 10.sp else 12.sp,
                 maxLines = 1
@@ -2130,7 +2125,7 @@ fun CustomVirtualButton(
                         "TURBO" -> "⚡TRB"
                         else -> "⚡MAC"
                     },
-                    color = if (isPressed) Color(0xFF022C22) else Color(0xFFFFD166),
+                    color = if (isPressed) Color(0xFF111111) else Color(0xFFFFD60A),
                     fontWeight = FontWeight.Black,
                     fontSize = 7.sp
                 )
@@ -2140,7 +2135,7 @@ fun CustomVirtualButton(
                 Box(
                     modifier = Modifier
                         .size(4.dp)
-                        .background(Color(0xFF022C22), CircleShape)
+                        .background(Color(0xFF111111), CircleShape)
                 )
             }
         }
@@ -2260,13 +2255,13 @@ fun CustomVirtualJoystick(
 
             // Base plate
             drawCircle(
-                color = if (isTouching) Color(0xCC0E1813) else Color(0x990A0E17),
+                color = if (isTouching) Color(0xCC111111) else Color(0x99000000),
                 radius = r,
                 center = c
             )
             // Outer glowing border
             drawCircle(
-                color = if (isTouching) Color(0xFF34D399) else Color(0x4034D399),
+                color = if (isTouching) Color(0xFFE9E4CC) else Color(0x40E9E4CC),
                 radius = r - 1.5.dp.toPx(),
                 center = c,
                 style = Stroke(width = if (isTouching) 2.dp.toPx() else 1.5.dp.toPx())
@@ -2274,29 +2269,29 @@ fun CustomVirtualJoystick(
 
             // Crosshairs
             drawLine(
-                color = if (isTouching) Color(0x5534D399) else Color(0x2534D399),
+                color = if (isTouching) Color(0x55E9E4CC) else Color(0x25E9E4CC),
                 start = Offset(c.x, c.y - r * 0.7f),
                 end = Offset(c.x, c.y + r * 0.7f),
                 strokeWidth = 1.dp.toPx()
             )
             drawLine(
-                color = if (isTouching) Color(0x5534D399) else Color(0x2534D399),
+                color = if (isTouching) Color(0x55E9E4CC) else Color(0x25E9E4CC),
                 start = Offset(c.x - r * 0.7f, c.y),
                 end = Offset(c.x + r * 0.7f, c.y),
                 strokeWidth = 1.dp.toPx()
             )
 
             // Active directional indicators
-            if (isWDown) drawCircle(Color(0xFF69F0AE), radius = 3.dp.toPx(), center = Offset(c.x, c.y - r * 0.8f))
-            if (isSDown) drawCircle(Color(0xFF69F0AE), radius = 3.dp.toPx(), center = Offset(c.x, c.y + r * 0.8f))
-            if (isADown) drawCircle(Color(0xFF69F0AE), radius = 3.dp.toPx(), center = Offset(c.x - r * 0.8f, c.y))
-            if (isDDown) drawCircle(Color(0xFF69F0AE), radius = 3.dp.toPx(), center = Offset(c.x + r * 0.8f, c.y))
+            if (isWDown) drawCircle(Color(0xFFFFE566), radius = 3.dp.toPx(), center = Offset(c.x, c.y - r * 0.8f))
+            if (isSDown) drawCircle(Color(0xFFFFE566), radius = 3.dp.toPx(), center = Offset(c.x, c.y + r * 0.8f))
+            if (isADown) drawCircle(Color(0xFFFFE566), radius = 3.dp.toPx(), center = Offset(c.x - r * 0.8f, c.y))
+            if (isDDown) drawCircle(Color(0xFFFFE566), radius = 3.dp.toPx(), center = Offset(c.x + r * 0.8f, c.y))
 
             // Knob
             val currentKnobCenter = c + knobOffset
             drawCircle(
                 brush = Brush.radialGradient(
-                    colors = if (isTouching) listOf(Color(0xFF2E7D5B), Color(0xFF143325)) else listOf(Color(0xFF1B2921), Color(0xFF0F1A14)),
+                    colors = if (isTouching) listOf(Color(0xFF3A3A3A), Color(0xFF1A1A1A)) else listOf(Color(0xFF1D1D1D), Color(0xFF0E0E0E)),
                     center = currentKnobCenter,
                     radius = knobRadiusPx
                 ),
@@ -2304,13 +2299,13 @@ fun CustomVirtualJoystick(
                 center = currentKnobCenter
             )
             drawCircle(
-                color = if (isTouching) Color(0xFF69F0AE) else Color(0xFF34D399),
+                color = if (isTouching) Color(0xFFFFE566) else Color(0xFFE9E4CC),
                 radius = knobRadiusPx,
                 center = currentKnobCenter,
                 style = Stroke(width = 2.dp.toPx())
             )
             drawCircle(
-                color = if (isTouching) Color(0xFF69F0AE) else Color(0xFF10B981),
+                color = if (isTouching) Color(0xFFFFE566) else Color(0xFFFFD60A),
                 radius = 4.dp.toPx(),
                 center = currentKnobCenter
             )
@@ -2319,28 +2314,28 @@ fun CustomVirtualJoystick(
         // Direction labels
         Text(
             text = "▲ W",
-            color = if (isWDown) Color(0xFF69F0AE) else Color(0x80A5D6A7),
+            color = if (isWDown) Color(0xFFFFE566) else Color(0x80E9E4CC),
             fontSize = 8.sp,
             fontWeight = FontWeight.Black,
             modifier = Modifier.align(Alignment.TopCenter).padding(top = 4.dp)
         )
         Text(
             text = "S ▼",
-            color = if (isSDown) Color(0xFF69F0AE) else Color(0x80A5D6A7),
+            color = if (isSDown) Color(0xFFFFE566) else Color(0x80E9E4CC),
             fontSize = 8.sp,
             fontWeight = FontWeight.Black,
             modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 4.dp)
         )
         Text(
             text = "◀ A",
-            color = if (isADown) Color(0xFF69F0AE) else Color(0x80A5D6A7),
+            color = if (isADown) Color(0xFFFFE566) else Color(0x80E9E4CC),
             fontSize = 8.sp,
             fontWeight = FontWeight.Black,
             modifier = Modifier.align(Alignment.CenterStart).padding(start = 4.dp)
         )
         Text(
             text = "D ▶",
-            color = if (isDDown) Color(0xFF69F0AE) else Color(0x80A5D6A7),
+            color = if (isDDown) Color(0xFFFFE566) else Color(0x80E9E4CC),
             fontSize = 8.sp,
             fontWeight = FontWeight.Black,
             modifier = Modifier.align(Alignment.CenterEnd).padding(end = 4.dp)
