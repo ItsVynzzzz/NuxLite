@@ -1,9 +1,28 @@
-# Keep data models
--keep class com.israadev.nuxlauncher.core.models.** { *; }
--keep class com.oracle.dalvik.** { *; }
--keep class com.movtery.zalithlauncher.game.input.CriticalNativeTest { *; }
--keep class org.lwjgl.glfw.CallbackBridge { *; }
+# ==== Aturan R8 untuk NuxLite ====
+# Tujuan: memangkas kode pustaka yang tidak terpakai (terutama ribuan ikon
+# material-icons-extended) supaya APK lebih kecil dan aplikasi lebih ringan dimuat.
+# Kode aplikasi sendiri TIDAK diubah/dibuang/diganti namanya, karena kode native
+# (JNI) memanggil Java lewat nama dan Gson membaca field lewat refleksi.
 
-# SDL Keep rules (JNI native methods and callbacks)
--keep class org.libsdl.app.** { *; }
--keep class com.movtery.zalithlauncher.game.sdl.** { *; }
+# Nama kelas & metode tidak diacak (JNI mencarinya lewat nama; log crash tetap terbaca).
+-dontobfuscate
+-dontwarn **
+
+# Info yang dibutuhkan refleksi (Gson, enum, kelas dalam) dan stack trace yang terbaca.
+-keepattributes Signature,InnerClasses,EnclosingMethod,*Annotation*,SourceFile,LineNumberTable,Exceptions
+
+# Seluruh kode aplikasi dibiarkan utuh (model JSON Gson, jembatan JNI, refleksi).
+-keep class com.israadev.nuxlauncher.** { *; }
+
+# Kelas Java yang dipanggil dari pustaka native (libpojavexec, SDL, bytehook, dll.).
+-keep class com.movtery.** { *; }
+-keep class org.lwjgl.** { *; }
+-keep class org.libsdl.** { *; }
+-keep class com.oracle.** { *; }
+-keep class com.bytedance.** { *; }
+-keep class androidx.graphics.path.** { *; }
+
+# Semua metode native tidak boleh dihapus atau diganti namanya.
+-keepclasseswithmembernames,includedescriptorclasses class * {
+    native <methods>;
+}
