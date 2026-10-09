@@ -269,6 +269,10 @@ fun SettingsScreen(
                             .verticalScroll(rememberScrollState()),
                         verticalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
+                        // Profil khusus perangkat: hanya muncul di HP yang terdaftar (Oppo A3x 4G),
+                        // di HP lain tidak menggambar apa pun.
+                        DeviceProfileCard()
+
                         // Section 1: Java Memory (RAM)
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Icon(

@@ -1,0 +1,204 @@
+package com.israadev.nuxlauncher.core.device
+
+import android.content.Context
+import android.os.Build
+import android.view.Display
+import android.view.WindowManager
+import kotlin.math.abs
+import kotlin.math.roundToInt
+
+/**
+ * Profil performa khusus satu model HP.
+ *
+ * Profil HANYA aktif bila HP cocok persis dengan model yang terdaftar. Di HP lain
+ * [DeviceProfiles.detect] mengembalikan null, jadi semua perilaku launcher tetap seperti biasa
+ * (tidak ada flag JVM tambahan, tidak ada batas heap, layar tidak disentuh, kartu profil
+ * tidak muncul di Pengaturan).
+ *
+ * Dasar spek Oppo A3x 4G (CPH2641): Snapdragon 6s 4G Gen 1 (SM6115, 11 nm; 4x Cortex-A73 +
+ * 4x Cortex-A53), GPU Adreno 610, RAM 4 GB LPDDR4X, penyimpanan eMMC 5.1 (lambat), layar
+ * 720x1604 90 Hz. Prosesornya lemah dan RAM-nya sempit, jadi yang dikejar: heap tidak boleh
+ * membengkak (HP mulai menukar memori), jeda GC pendek, dan frame rate stabil 60 Hz.
+ */
+data class DeviceProfile(
+    val id: String,
+    val displayName: String,
+    val specSummary: String,
+    /** Batas atas heap Java (MB) di HP RAM kecil; 0 = tidak dibatasi. */
+    val smallRamHeapCapMb: Int,
+    /** RAM total (MB) di bawah angka ini dianggap RAM kecil (HP 4 GB melapor sekitar 3700 MB). */
+    val smallRamThresholdMb: Int,
+    /** Frekuensi layar yang dikunci selama game berjalan. */
+    val refreshRateHz: Float
+)
+
+object DeviceProfiles {
+    const val GC_BALANCED = "balanced"
+    const val GC_SERIAL = "serial"
+    const val GC_DEFAULT = "default"
+
+    /** Heap awal minimum untuk mode Serial: Serial hanya membesarkan heap lewat Full GC yang mahal. */
+    private const val SERIAL_MIN_INITIAL_MB = 768
+
+    private val OPPO_A3X_4G = DeviceProfile(
+        id = "oppo-a3x-4g",
+        displayName = "Oppo A3x 4G",
+        specSummary = "Snapdragon 6s 4G Gen 1, Adreno 610, RAM 4 GB, layar 90 Hz",
+        smallRamHeapCapMb = 1536,
+        smallRamThresholdMb = 5000,
+        refreshRateHz = 60f
+    )
+
+    private val detected: DeviceProfile? by lazy { matchDevice() }
+
+    /** Profil untuk HP ini, atau null bila HP ini tidak punya profil khusus. */
+    fun detect(): DeviceProfile? = detected
+
+    private fun matchDevice(): DeviceProfile? {
+        return try {
+            val maker = Build.MANUFACTURER.orEmpty().trim()
+            val model = Build.MODEL.orEmpty().trim()
+            val product = Build.PRODUCT.orEmpty().trim()
+            val isOppo = maker.equals("OPPO", ignoreCase = true)
+            val isA3x4g = model.startsWith("CPH2641", ignoreCase = true) ||
+                product.startsWith("CPH2641", ignoreCase = true)
+            if (isOppo && isA3x4g) OPPO_A3X_4G else null
+        } catch (_: Throwable) {
+            null
+        }
+    }
+
+    /** Satu baris identitas HP untuk log, membantu bila profil tidak cocok dengan HP. */
+    fun describeDevice(): String {
+        return try {
+            "${Build.MANUFACTURER} ${Build.MODEL} (product=${Build.PRODUCT}, board=${Build.BOARD})"
+        } catch (_: Throwable) {
+            "tidak diketahui"
+        }
+    }
+
+    fun normalizeGcMode(mode: String?): String {
+        return when (mode) {
+            GC_SERIAL -> GC_SERIAL
+            GC_DEFAULT -> GC_DEFAULT
+            else -> GC_BALANCED
+        }
+    }
+
+    /** True bila batas heap profil berlaku di HP ini (RAM kecil). */
+    fun heapCapApplies(profile: DeviceProfile, totalRamMb: Int): Boolean {
+        return profile.smallRamHeapCapMb > 0 && totalRamMb < profile.smallRamThresholdMb
+    }
+
+    /**
+     * Heap (awal, maksimum) dalam MB yang dipakai game. Heap maksimum dibatasi di HP RAM kecil;
+     * heap awal tidak pernah melebihi heap maksimum (kalau melebihi, JVM menolak berjalan).
+     */
+    fun resolveHeap(
+        profile: DeviceProfile,
+        requestedInitMb: Int,
+        requestedMaxMb: Int,
+        totalRamMb: Int,
+        gcMode: String
+    ): Pair<Int, Int> {
+        var maxMb = requestedMaxMb
+        if (heapCapApplies(profile, totalRamMb)) {
+            maxMb = minOf(maxMb, profile.smallRamHeapCapMb)
+        }
+        var initMb = requestedInitMb
+        if (gcMode == GC_SERIAL) {
+            initMb = maxOf(initMb, minOf(SERIAL_MIN_INITIAL_MB, maxMb))
+        }
+        initMb = minOf(initMb, maxMb)
+        return Pair(initMb, maxMb)
+    }
+
+    /**
+     * Flag JVM tambahan sesuai mode GC. Kosong bila mode Bawaan, atau bila pengguna sudah memilih
+     * GC sendiri lewat argumen JVM kustom (dua GC sekaligus membuat JVM gagal start).
+     * Semua flag valid di OpenJDK 8, 17, 21 dan 25.
+     */
+    fun jvmFlags(gcMode: String, userArgs: String): List<String> {
+        val mode = normalizeGcMode(gcMode)
+        if (mode == GC_DEFAULT) return emptyList()
+        if (userSelectsCollector(userArgs)) return emptyList()
+        return if (mode == GC_SERIAL) {
+            listOf(
+                // Jaring pengaman: flag yang tidak dikenal runtime Java ini diabaikan, tidak membuat game gagal start.
+                "-XX:+IgnoreUnrecognizedVMOptions",
+                // Tanpa thread GC latar dan tanpa barrier G1: paling hemat CPU di prosesor lemah.
+                "-XX:+UseSerialGC",
+                // Generasi muda 25% dari heap: jeda GC pendek dan memori terbatas.
+                "-XX:NewRatio=3"
+            )
+        } else {
+            listOf(
+                "-XX:+IgnoreUnrecognizedVMOptions",
+                "-XX:+UseG1GC",
+                // Target jeda lebih pendek dari bawaan (200 ms): G1 menjaga generasi muda tetap kecil.
+                "-XX:MaxGCPauseMillis=100",
+                "-XX:+UnlockExperimentalVMOptions",
+                // Batas generasi muda 20%..35% heap supaya pemakaian RAM tidak membengkak.
+                "-XX:G1NewSizePercent=20",
+                "-XX:G1MaxNewSizePercent=35",
+                "-XX:+ParallelRefProcEnabled"
+            )
+        }
+    }
+
+    private fun userSelectsCollector(userArgs: String): Boolean {
+        if (userArgs.isBlank()) return false
+        return userArgs.split(" ").any { raw ->
+            val token = raw.trim()
+            token.startsWith("-XX:+Use") && token.endsWith("GC")
+        }
+    }
+
+    @Suppress("DEPRECATION")
+    private fun displayOf(context: Context): Display? {
+        return try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                context.display
+            } else {
+                (context.getSystemService(Context.WINDOW_SERVICE) as? WindowManager)?.defaultDisplay
+            }
+        } catch (_: Throwable) {
+            null
+        }
+    }
+
+    /**
+     * ID mode layar dengan resolusi sekarang dan frekuensi paling dekat [targetHz]
+     * (selisih kurang dari 1 Hz), atau 0 bila tidak ada.
+     */
+    fun findDisplayModeId(context: Context, targetHz: Float): Int {
+        val display = displayOf(context) ?: return 0
+        return try {
+            val current = display.mode
+            var bestId = 0
+            var bestDiff = Float.MAX_VALUE
+            for (mode in display.supportedModes) {
+                if (mode.physicalWidth != current.physicalWidth || mode.physicalHeight != current.physicalHeight) continue
+                val diff = abs(mode.refreshRate - targetHz)
+                if (diff < 1.0f && diff < bestDiff) {
+                    bestId = mode.modeId
+                    bestDiff = diff
+                }
+            }
+            bestId
+        } catch (_: Throwable) {
+            0
+        }
+    }
+
+    /** Frekuensi layar yang sedang aktif, mis. "60Hz"; kosong di HP tanpa profil. */
+    fun refreshRateLabel(context: Context): String {
+        if (detect() == null) return ""
+        val display = displayOf(context) ?: return ""
+        return try {
+            "${display.refreshRate.roundToInt()}Hz"
+        } catch (_: Throwable) {
+            ""
+        }
+    }
+}

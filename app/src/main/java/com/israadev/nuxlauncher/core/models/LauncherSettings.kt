@@ -26,5 +26,11 @@ data class LauncherSettings(
     val vulkanDriver: String = "auto", // "auto", "system", "turnip", etc.
     val graphicsApi: String = "DEFAULT", // "DEFAULT", "OPENGL", "VULKAN"
     val zinkPreferSystemDriver: Boolean = false,
-    val vsyncInZink: Boolean = false
+    val vsyncInZink: Boolean = false,
+
+    // Profil khusus perangkat: hanya berpengaruh di HP yang terdaftar (mis. Oppo A3x 4G);
+    // di HP lain nilai-nilai ini diabaikan sepenuhnya.
+    val deviceProfileEnabled: Boolean = true,
+    val deviceProfileGcMode: String = "balanced", // "balanced", "serial", "default"
+    val deviceProfileLockRefresh: Boolean = true
 )
