@@ -97,24 +97,26 @@ fun GameLoadingOverlay(
         }
     }
 
-    // Animasi pulsing glow halus untuk logo NUX
-    val infiniteTransition = rememberInfiniteTransition(label = "pulse")
-    val pulseAlpha by infiniteTransition.animateFloat(
-        initialValue = 0.5f,
-        targetValue = 1f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(1200),
-            repeatMode = RepeatMode.Reverse
-        ),
-        label = "pulseAlpha"
-    )
-
     AnimatedVisibility(
         visible = visible,
         enter = fadeIn(tween(300)),
         exit = fadeOut(tween(500)),
         modifier = modifier
     ) {
+        // Animasi pulsing glow halus untuk logo NUX. Ditaruh DI DALAM konten supaya hanya
+        // berjalan selama layar loading tampil (dulu terus berdetak di belakang layar
+        // sepanjang sesi game dan memaksa sistem menyiapkan frame UI di setiap vsync).
+        val infiniteTransition = rememberInfiniteTransition(label = "pulse")
+        val pulseAlpha by infiniteTransition.animateFloat(
+            initialValue = 0.5f,
+            targetValue = 1f,
+            animationSpec = infiniteRepeatable(
+                animation = tween(1200),
+                repeatMode = RepeatMode.Reverse
+            ),
+            label = "pulseAlpha"
+        )
+
         Box(
             modifier = Modifier
                 .fillMaxSize()

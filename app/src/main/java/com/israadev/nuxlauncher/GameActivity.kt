@@ -138,6 +138,9 @@ class GameActivity : ComponentActivity(), SurfaceHolder.Callback {
     private var sessionStartTime = System.currentTimeMillis()
 
     private fun handleGameExit(exitCode: Int, isSignal: Boolean, errorDetail: String? = null) {
+        // Pindahkan baris log yang masih mengantre supaya laporan crash memuat baris terakhirnya
+        flushPendingLogs()
+
         // Cek apakah game keluar bersih secara normal atas instruksi user (klik quit game / pause exit)
         val isNormalExit = isManualExit || (exitCode == 0 && !isSignal)
 
@@ -413,25 +416,51 @@ class GameActivity : ComponentActivity(), SurfaceHolder.Callback {
         applyImmersiveFullscreen()
     }
 
+    // Log game dari thread native ditampung dulu, lalu dipindah ke daftar tampilan paling cepat
+    // tiap 250 ms. Sebelumnya SETIAP baris log memicu runOnUiThread + gambar ulang seluruh layar
+    // kontrol; saat game ramai mencatat log (chat server, peringatan renderer, mod) thread utama
+    // kewalahan dan FPS ikut turun. Berkas latestlog.txt tetap menerima semua baris (ditulis native).
+    private val pendingLogs = java.util.concurrent.ArrayBlockingQueue<String>(2000)
+    private val logFlushScheduled = java.util.concurrent.atomic.AtomicBoolean(false)
+    private val logHandler = android.os.Handler(android.os.Looper.getMainLooper())
+    private val logFlushRunnable = Runnable { flushPendingLogs() }
+
+    private fun flushPendingLogs() {
+        logFlushScheduled.set(false)
+        var moved = 0
+        while (moved < 500) {
+            val line = pendingLogs.poll() ?: break
+            moved++
+            liveLogs.add(line)
+            // Deteksi sekunder jika frame grafik atau sistem audio game mulai aktif
+            if (!isGameRenderingState.value) {
+                if (line.contains("OpenAL initialized") ||
+                    line.contains("Reloading ResourceManager") ||
+                    line.contains("Sound engine started") ||
+                    line.contains("Setting user: ")) {
+                    isGameRenderingState.value = true
+                }
+            }
+        }
+        while (liveLogs.size > 200) {
+            liveLogs.removeAt(0)
+        }
+        // Masih ada sisa (lonjakan log): jadwalkan putaran berikutnya.
+        if (!pendingLogs.isEmpty() && logFlushScheduled.compareAndSet(false, true)) {
+            logHandler.postDelayed(logFlushRunnable, 250L)
+        }
+    }
+
     private fun setupLogger() {
         val logFile = File(filesDir, "latestlog.txt")
         if (logFile.exists()) logFile.delete()
         logFile.createNewFile()
 
         LoggerBridge.setListener { text ->
-            runOnUiThread {
-                liveLogs.add(text)
-                if (liveLogs.size > 200) {
-                    liveLogs.removeAt(0)
-                }
-                // Deteksi sekunder jika frame grafik atau sistem audio game mulai aktif
-                if (!isGameRenderingState.value) {
-                    if (text.contains("OpenAL initialized") || 
-                        text.contains("Reloading ResourceManager") || 
-                        text.contains("Sound engine started") ||
-                        text.contains("Setting user: ")) {
-                        isGameRenderingState.value = true
-                    }
+            if (text != null) {
+                pendingLogs.offer(text)
+                if (logFlushScheduled.compareAndSet(false, true)) {
+                    logHandler.postDelayed(logFlushRunnable, 250L)
                 }
             }
         }
@@ -1009,14 +1038,13 @@ class GameActivity : ComponentActivity(), SurfaceHolder.Callback {
                 jvmArgs.add("-Dio.netty.tryReflectionSetAccessible=true")
 
                 jvmArgs.add("-XX:ActiveProcessorCount=${Runtime.getRuntime().availableProcessors()}")
-                // Heap awal = heap maksimum (sama seperti Pojav/Zalith): JVM tidak perlu berkali-kali
-                // menumbuhkan heap + GC di awal permainan (penyebab stutter saat loading dunia).
-                // Memori fisik baru terpakai saat benar-benar dialokasikan. Nilai awal kustom
-                // (di atas bawaan 256 MB dan di bawah batas) tetap dihormati.
-                val heapMaxMb = activeSettings.ramMb
-                val heapInitMb = if (activeSettings.initialHeapMb in 257 until heapMaxMb) activeSettings.initialHeapMb else heapMaxMb
-                jvmArgs.add("-Xms${heapInitMb}M")
-                jvmArgs.add("-Xmx${heapMaxMb}M")
+                jvmArgs.add("-Xms${activeSettings.initialHeapMb}M")
+                jvmArgs.add("-Xmx${activeSettings.ramMb}M")
+                LoggerBridge.append(
+                    "▷ [JVM] Heap awal ${activeSettings.initialHeapMb} MB, maksimum ${activeSettings.ramMb} MB | " +
+                        "RAM HP total ${SettingsManager.getTotalDeviceMemoryMb(this)} MB, " +
+                        "tersedia ${SettingsManager.getAvailableDeviceMemoryMb(this)} MB"
+                )
                 if (activeSettings.customJvmArgs.isNotBlank()) {
                     activeSettings.customJvmArgs.split(" ")
                         .map { it.trim() }
@@ -1135,6 +1163,40 @@ enum class FpsMode {
     SHOW_LOG   // Siklus 2: Memunculkan log in-game (isConsoleVisible = true)
 }
 
+/**
+ * Info kondisi HP yang ditampilkan di samping angka FPS supaya penyebab FPS rendah terbaca
+ * langsung di layar: "sisa RAM xxxMB" (memori kosong HP; kalau tinggal sedikit sistem mulai
+ * menukar memori / menutup aplikasi) dan "PANAS" (prosesor diperlambat karena HP panas).
+ * Pasangan hasil: (teks, peringatan?). Teks kosong = info tidak tersedia.
+ */
+private fun buildPerfHint(context: Context): Pair<String, Boolean> {
+    var text = ""
+    var warn = false
+    try {
+        val am = context.getSystemService(Context.ACTIVITY_SERVICE) as? android.app.ActivityManager
+        if (am != null) {
+            val mi = android.app.ActivityManager.MemoryInfo()
+            am.getMemoryInfo(mi)
+            val availMb = (mi.availMem / (1024L * 1024L)).toInt()
+            // Dibulatkan per 50 MB supaya angka tidak berubah-ubah terus
+            text = "sisa RAM ${(availMb / 50) * 50}MB"
+            if (mi.lowMemory || availMb < 450) warn = true
+        }
+    } catch (_: Throwable) {
+    }
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        try {
+            val pm = context.getSystemService(Context.POWER_SERVICE) as? android.os.PowerManager
+            if (pm != null && pm.currentThermalStatus >= android.os.PowerManager.THERMAL_STATUS_MODERATE) {
+                text = if (text.isEmpty()) "PANAS" else "$text · PANAS"
+                warn = true
+            }
+        } catch (_: Throwable) {
+        }
+    }
+    return Pair(text, warn)
+}
+
 @Composable
 fun GameScreen(
     instanceName: String,
@@ -1186,13 +1248,24 @@ fun GameScreen(
         }
     }
 
+    // Info kondisi HP di samping FPS (sisa RAM / PANAS); amber bila kondisinya mepet
+    var perfText by remember { mutableStateOf("") }
+    var perfWarn by remember { mutableStateOf(false) }
+
     // Periodically update FPS counter from native engine
     LaunchedEffect(Unit) {
+        var tick = 0
         while (isActive) {
             try {
                 currentFps = CallbackBridge.getCurrentFps()
             } catch (_: Throwable) {
             }
+            if (tick % 4 == 0) {
+                val hint = try { buildPerfHint(context) } catch (_: Throwable) { Pair("", false) }
+                if (hint.first != perfText) perfText = hint.first
+                if (hint.second != perfWarn) perfWarn = hint.second
+            }
+            tick++
             delay(500)
         }
     }
@@ -1201,12 +1274,6 @@ fun GameScreen(
     val launcherSettings by SettingsManager.settings.collectAsState()
     val customButtons by ControlLayoutManager.buttons.collectAsState()
     val mouseControlMode = if (launcherSettings.mouseControlMode == "CLICK") MouseControlMode.CLICK else MouseControlMode.SLIDE
-
-    LaunchedEffect(liveLogs.size) {
-        if (liveLogs.isNotEmpty()) {
-            listState.animateScrollToItem(liveLogs.size - 1)
-        }
-    }
 
     BoxWithConstraints(
         modifier = Modifier
@@ -1316,7 +1383,9 @@ fun GameScreen(
             visible = showLoadingOverlay,
             instanceName = instanceName,
             mcVersion = mcVersion,
-            latestLog = liveLogs.lastOrNull() ?: "",
+            // Daftar log hanya dibaca saat layar loading tampil; selebihnya layar tidak ikut
+            // digambar ulang setiap ada log baru.
+            latestLog = if (showLoadingOverlay) (liveLogs.lastOrNull() ?: "") else "",
             onClose = { isManualLoadingDismissed = true },
             onViewLog = {
                 fpsMode = FpsMode.SHOW_LOG
@@ -1419,6 +1488,12 @@ fun GameScreen(
                 Spacer(modifier = Modifier.height(6.dp))
 
                 if (isConsoleExpanded) {
+                    // Gulir otomatis ke baris terbaru (hanya aktif saat log lengkap tampil)
+                    LaunchedEffect(liveLogs.size, liveLogs.lastOrNull()) {
+                        if (liveLogs.isNotEmpty()) {
+                            listState.scrollToItem(liveLogs.size - 1)
+                        }
+                    }
                     LazyColumn(
                         state = listState,
                         modifier = Modifier
@@ -1529,6 +1604,16 @@ fun GameScreen(
                                         fontSize = 11.sp,
                                         maxLines = 1
                                     )
+                                    if (perfText.isNotEmpty()) {
+                                        Spacer(modifier = Modifier.width(6.dp))
+                                        Text(
+                                            text = perfText,
+                                            color = if (perfWarn) Color(0xFFF59E0B) else Color(0xFFB8B4A4),
+                                            fontWeight = FontWeight.Bold,
+                                            fontSize = 9.sp,
+                                            maxLines = 1
+                                        )
+                                    }
                                 }
                             }
                         }
