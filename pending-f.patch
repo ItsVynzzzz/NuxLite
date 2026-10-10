@@ -1,0 +1,27 @@
+diff --git a/app/src/main/java/com/israadev/nuxlauncher/ui/components/NuxSidebar.kt b/app/src/main/java/com/israadev/nuxlauncher/ui/components/NuxSidebar.kt
+index b36fb871d389db9a6b7bc96a13a90a93f99fdaed..7a57676ae3a639f11bc569f64e3feb5de47ad4b8 100644
+GIT binary patch
+delta 197
+zcmXAhF$%&!6hsjOLlnU#U^j)0A{N@&djo6nOFo-#l5g1E6w$&HSj7u?1Hof?2{+iy
+z%$u3#=Cyt&(Y<1=Gk8&B1gXGtCCJ4J3Tnu%uqUku`NdNX$C?JTg%D0`I~{6jT&<=X
+zlP4Er5i(B}nRqJyH%pu;@RGG5Un6BTq{zu8!BwPObaTfiE+`9~b{8E7;sln9&o?^s
+W+Gi~NIc{<LnoQg4X!dyw2jd?)kwoqQ
+
+diff --git a/app/src/main/java/com/israadev/nuxlauncher/ui/screens/DashboardScreen.kt b/app/src/main/java/com/israadev/nuxlauncher/ui/screens/DashboardScreen.kt
+index b9a752d06106b0957206fb9be25fb8d13b757f54..fa5f407af6acd287b6f5fa10e491bd46f29b7ab1 100644
+GIT binary patch
+delta 792
+zcmZWn&rcIk5Dt_eQH&6Q#!zvTOB+j(T5BVbM2Lw5!D!;iggEWK-9C2rb$R<%#Gr<Y
+zH-lzQ#0#8FjLDuzh(Ce{FBm*}G5iVq3C^})Fz#h%-u(FH`(}P_rM_*aKECRUxBJF2
+zFYls34RvYIhoIp#LhywzR8*JX;WCG^s0DIJ$x#=5p%J7T8O~D6Xrf%6)4T{mw!uYh
+zqLXm=jgCTqN_bEeI*cr?sYV_eu!M3@ff0d(;Cf_a9gGZQ2<RcVs9^zSA|;grbz}^%
+zWPmP82t^eg{-YZT6~7zv+EUZXrHflb@#U)%ZI2jlCK;fGdIJ_vqsxQ&Nef__VV>J7
+zRC%x%zluv(hit_Pn8N~cieXGgCXk_6KrV++S`4ZSw0EJuqlVg|eUWJ^(c5eN=_lwx
+z@^ssB1l$D8s`<>6zB=jdNgajtf+v+gO&fTr)03gOXVdDh0XnF3(dOD<s#LUT@%bRZ
+zNJrDZQu)VkFBYly`&l}8F+{-*(3giD)H8XG_E+-sp)^bTKYFvJf)(V!Gy=x2G;N`*
+zzjn1@Ov6uHo_B<c=V;G5L36b<Js$6-->S1k$=@BOz#izC#G32qMx?BKlNfOzQ>Zqy
+zC3JSI+5U*{VZ!V648gN>LLuHQPo28OD|iqgZ|?ZHu(D0rA-jZ{<xli&E~Rw`d=f_o
+zm@ClYN_kLAr*5WIC`_(kOV69dr*}m1md(YhQxn78$7iCAwM=KRZ1WQ7z76qbd*}3j
+i3GKx)&2OHkjrA`2WS@!OnD_Y<YnK#rES}#C$NvCuY8i3>
+
+# FIN part=1/1 files=2
