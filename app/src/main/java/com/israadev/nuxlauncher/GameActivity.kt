@@ -17,6 +17,7 @@ import android.system.Os
 import android.view.InputDevice
 import android.view.KeyEvent
 import android.view.MotionEvent
+import android.view.HapticFeedbackConstants
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.view.View
@@ -1306,6 +1307,7 @@ fun GameScreen(
     var fpsMode by remember { mutableStateOf(FpsMode.NORMAL) }
     val listState = rememberLazyListState()
     val context = LocalContext.current
+    val hapticView = LocalView.current
 
     // Handler siklus 3-klik tombol FPS
     val cycleFpsMode: () -> Unit = {
@@ -1749,15 +1751,33 @@ fun GameScreen(
                         }
                     }
                     "CLOSE" -> {
-                        // Exit Game Button
+                        // Tombol keluar: ketuk = keluar (tetap ada konfirmasi), tahan = pengaturan in-game.
                         if (isControlVisible) {
+                            var closePressed by remember { mutableStateOf(false) }
+                            val closeShape = RoundedCornerShape(btn.cornerRadiusDp.dp)
                             Box(
                                 modifier = buttonModifier
                                     .size(width = btn.widthDp.dp, height = btn.heightDp.dp)
                                     .alpha(btn.opacity)
-                                    .background(Color(0x80EF4444).copy(alpha = 0.35f), RoundedCornerShape(btn.cornerRadiusDp.dp))
-                                    .border(1.5.dp, Color(0x80EF4444), RoundedCornerShape(btn.cornerRadiusDp.dp))
-                                    .clickable { showExitConfirmDialog = true },
+                                    .background(
+                                        Color(0x80EF4444).copy(alpha = if (closePressed) 0.6f else 0.35f),
+                                        closeShape
+                                    )
+                                    .border(1.5.dp, Color(0x80EF4444), closeShape)
+                                    .pointerInput(Unit) {
+                                        detectTapGestures(
+                                            onPress = {
+                                                closePressed = true
+                                                tryAwaitRelease()
+                                                closePressed = false
+                                            },
+                                            onTap = { showExitConfirmDialog = true },
+                                            onLongPress = {
+                                                hapticView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
+                                                showInGameSettingsDialog = true
+                                            }
+                                        )
+                                    },
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
@@ -1864,7 +1884,7 @@ fun GameScreen(
             }
         }
 
-        // In-Game Settings Modal (Pencet tombol FPS untuk membuka)
+        // In-Game Settings Modal (tahan tombol ✕ atau ketuk tombol FPS untuk membuka)
         InGameSettingsDialog(
             visible = showInGameSettingsDialog,
             onDismissRequest = { showInGameSettingsDialog = false },
