@@ -1,0 +1,44 @@
+package com.israadev.nuxlauncher.ui.components
+
+import java.util.Locale
+
+/**
+ * Hitungan kecil untuk layar Home (tanpa Android/Compose): teks RAM, tingkat RAM,
+ * nama renderer singkat, dan kemajuan animasi masuk bertahap.
+ */
+object HomeInfo {
+    const val RAM_GOOD_MB = 1400
+    const val RAM_OK_MB = 800
+
+    /** Bulatkan ke bawah per 100 MB supaya angka di layar tidak berkedip tiap kali RAM bergeser sedikit. */
+    fun ramBucket(freeMb: Int): Int = (freeMb.coerceAtLeast(0) / 100) * 100
+
+    /** 2 = lega, 1 = sedang, 0 = sempit. */
+    fun ramLevel(freeMb: Int): Int = when {
+        freeMb >= RAM_GOOD_MB -> 2
+        freeMb >= RAM_OK_MB -> 1
+        else -> 0
+    }
+
+    /** Contoh: "RAM bebas 1,4 GB" (koma desimal, 1 GB = 1024 MB). */
+    fun ramText(freeMb: Int): String {
+        val gb = freeMb.coerceAtLeast(0) / 1024f
+        return "RAM bebas " + String.format(Locale.forLanguageTag("id-ID"), "%.1f", gb) + " GB"
+    }
+
+    /** Nama renderer singkat untuk Home: "Otomatis" untuk Auto, selain itu kata pertama nama tampilnya. */
+    fun rendererLabel(id: String, displayName: String): String {
+        if (id.equals("auto", ignoreCase = true)) return "Otomatis"
+        val first = displayName.trim().substringBefore(' ')
+        return first.ifBlank { displayName.trim() }.ifBlank { "Otomatis" }
+    }
+
+    /**
+     * Kemajuan satu elemen dalam animasi masuk bertahap: 0 sebelum [start], naik ke 1 saat
+     * animasi induk [progress] (0..1) selesai.
+     */
+    fun stagger(progress: Float, start: Float): Float {
+        if (start >= 1f) return if (progress >= 1f) 1f else 0f
+        return ((progress - start) / (1f - start)).coerceIn(0f, 1f)
+    }
+}
