@@ -50,10 +50,10 @@ val NUX_NAV_ITEMS = listOf(
 )
 
 /**
- * Rel navigasi hitam penuh tinggi, menempel di tepi kiri layar.
+ * Rel navigasi penuh tinggi di tepi kiri layar. Tanpa kotak sendiri: ia berdiri langsung di atas
+ * latar hitam layar, jadi menyatu dengan kartu panel di sebelahnya.
  * [startInset] = lebar area kamera/poni di sisi kiri: rel diperlebar sebesar itu
- * sehingga poni menyatu dengan warna hitam (tidak ada area kosong) dan isi rel
- * tetap berada di luar poni.
+ * sehingga isi rel tetap berada di luar poni.
  *
  * Atas: logo. Tengah: 4 menu (ikon + label, indikator kuning untuk menu aktif).
  * Bawah: tombol info (Tentang & Lisensi).
@@ -66,14 +66,10 @@ fun NuxSidebar(
     startInset: Dp = 0.dp,
     onOpenAbout: () -> Unit = {}
 ) {
-    val railShape = RoundedCornerShape(topEnd = 26.dp, bottomEnd = 26.dp)
-
     Box(
         modifier = modifier
             .width(startInset + 68.dp)
             .fillMaxHeight()
-            .clip(railShape)
-            .background(NuxColors.Ink, railShape)
     ) {
         Box(
             modifier = Modifier

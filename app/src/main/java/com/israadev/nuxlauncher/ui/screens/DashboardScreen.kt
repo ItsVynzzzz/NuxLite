@@ -105,7 +105,6 @@ import com.israadev.nuxlauncher.core.runtime.JavaRuntimeManager
 import com.israadev.nuxlauncher.core.settings.SettingsManager
 import com.israadev.nuxlauncher.ui.components.HomeInfo
 import com.israadev.nuxlauncher.ui.components.NuxButton
-import com.israadev.nuxlauncher.ui.components.NuxCard
 import com.israadev.nuxlauncher.ui.components.NuxDialog
 import com.israadev.nuxlauncher.ui.components.NuxSidebar
 import com.israadev.nuxlauncher.ui.dialogs.NuxAboutDialog
@@ -257,8 +256,8 @@ fun DashboardScreen() {
             modifier = Modifier.fillMaxSize()
         )
     } else {
-        // Area poni/kamera di sisi layar diisi rel hitam (kiri) atau penutup hitam (kanan),
-        // jadi tidak ada ruang kosong. Sisanya: bingkai kuning + kartu panel bersudut bulat.
+        // Latar hitam polos memenuhi layar (area poni/kamera ikut menyatu), lalu satu kartu
+        // panel bersudut bulat dengan tepi putih tipis ala kaca. Kuning hanya dipakai sebagai aksen.
         val cutout = WindowInsets.displayCutout.asPaddingValues()
         val layoutDir = LocalLayoutDirection.current
         val leftInset = cutout.calculateLeftPadding(layoutDir)
@@ -267,7 +266,7 @@ fun DashboardScreen() {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(NuxColors.Yellow)
+                .background(NuxColors.Ink)
         ) {
             Row(modifier = Modifier.fillMaxSize()) {
                 NuxSidebar(
@@ -277,18 +276,29 @@ fun DashboardScreen() {
                     onOpenAbout = { showAboutDialog = true }
                 )
 
+                // Kartu panel: jarak sama di atas, kanan, dan bawah (8dp), jadi tingginya sejajar sidebar.
+                val cardShape = RoundedCornerShape(24.dp)
+                val cardEdge = remember {
+                    Brush.linearGradient(
+                        listOf(
+                            Color.White.copy(alpha = 0.42f),
+                            Color.White.copy(alpha = 0.08f),
+                            Color.White.copy(alpha = 0.22f)
+                        )
+                    )
+                }
                 Box(
                     modifier = Modifier
                         .weight(1f)
                         .fillMaxHeight()
-                        // Kanan & bawah lebih lebar 3dp untuk ruang bayangan keras kartu.
-                        .padding(start = 8.dp, top = 8.dp, end = 11.dp, bottom = 11.dp)
+                        .padding(start = 4.dp, top = 8.dp, end = 8.dp, bottom = 8.dp)
                 ) {
-                    NuxCard(
-                        modifier = Modifier.fillMaxSize(),
-                        backgroundColor = NuxColors.Background,
-                        cornerRadius = 26.dp,
-                        fillMaxHeight = true
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .clip(cardShape)
+                            .background(NuxColors.Background, cardShape)
+                            .border(1.dp, cardEdge, cardShape)
                     ) {
                         when (currentTab) {
                             "accounts" -> AccountsScreen(
@@ -337,15 +347,8 @@ fun DashboardScreen() {
                 }
 
                 if (rightInset > 0.dp) {
-                    Box(
-                        modifier = Modifier
-                            .width(rightInset)
-                            .fillMaxHeight()
-                            .background(
-                                NuxColors.Ink,
-                                RoundedCornerShape(topStart = 26.dp, bottomStart = 26.dp)
-                            )
-                    )
+                    // Ruang poni/kamera di kanan (warnanya sama dengan latar hitam).
+                    Spacer(modifier = Modifier.width(rightInset).fillMaxHeight())
                 }
             }
         }
@@ -590,6 +593,7 @@ private fun HomeScene(
                 modifier = Modifier
                     .clip(chipShape)
                     .background(NuxColors.Ink.copy(alpha = 0.38f), chipShape)
+                    .border(1.dp, Color.White.copy(alpha = 0.26f), chipShape)
                     .clickable { onOpenAccounts() }
                     .defaultMinSize(minHeight = 40.dp)
                     .padding(start = 5.dp, end = 10.dp),
@@ -677,6 +681,7 @@ private fun HomeScene(
                     .size(38.dp)
                     .clip(CircleShape)
                     .background(NuxColors.Ink.copy(alpha = 0.38f), CircleShape)
+                    .border(1.dp, Color.White.copy(alpha = 0.26f), CircleShape)
                     .clickable { onChangeBackground() },
                 contentAlignment = Alignment.Center
             ) {
@@ -949,7 +954,7 @@ private fun HomeRoundButton(
             .size(52.dp)
             .clip(CircleShape)
             .background(Color.White.copy(alpha = 0.12f), CircleShape)
-            .border(1.5.dp, Color.White.copy(alpha = 0.30f), CircleShape)
+            .border(1.dp, Color.White.copy(alpha = 0.26f), CircleShape)
             .clickable { onClick() },
         contentAlignment = Alignment.Center
     ) {
